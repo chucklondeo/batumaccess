@@ -33,10 +33,192 @@ import {
   technologies
 } from "@/data/site";
 
+const uiCopy: Record<
+  LocaleKey,
+  {
+    nav: string[];
+    inquiry: string;
+    sections: {
+      solutions: [string, string, string];
+      products: [string, string, string];
+      software: [string, string, string];
+      technology: [string, string, string];
+      global: [string, string, string];
+      cases: [string, string, string];
+      contact: [string, string, string];
+    };
+    productSupport: string;
+    baziTitle: string;
+    baziBody: string;
+    contactNote: string;
+    formFields: string[];
+    formMessage: string;
+    formPlaceholder: string;
+    submit: string;
+    footer: string;
+  }
+> = {
+  en: {
+    nav: ["Solutions", "Products", "Software", "Technology", "Global", "Contact"],
+    inquiry: "Inquiry",
+    sections: {
+      solutions: ["Solutions", "One technology stack for smart parking, transit access and safety control", "Batum Technology combines field hardware, motion control, radar safety and parking software into modular solutions for international projects."],
+      products: ["Products", "Product modules designed for global project delivery", "Product content is structured for future CMS or admin upload without redesigning the frontend."],
+      software: ["Software", "Local server + cloud platform + global payment integration", "The parking software layer is built for different countries, currencies, languages, payment gateways and deployment policies."],
+      technology: ["Technology", "Motion control and safety logic beneath every project", "The engineering narrative supports control voltage, motion stability, radar safety, APIs and deployment flexibility."],
+      global: ["Global Market", "International-first language, payment and deployment strategy", "The site structure supports market-specific landing pages for Hong Kong, Singapore, Middle East, Europe and Southeast Asia."],
+      cases: ["Case / Industries", "Use cases that convert technical capability into buyer confidence", "Each industry block can become a future landing page with cases, product lists, FAQs, specs and inquiry CTAs."],
+      contact: ["Contact", "Tell us your lane count, deployment market and software requirements", "This form is ready for wiring to an API route, CRM, email provider or headless CMS submission workflow."]
+    },
+    productSupport: "Structured content ready",
+    baziTitle: "BaZi-inspired technology palette",
+    baziBody: "Calibrated from lunar 1986-01-19, 06:30 in Yongding, Longyan: a wood-fire leaning profile is balanced with water blue, metal gold, silver white and restrained fire accents for a steadier international technology brand.",
+    contactNote: "Product, country, industry and technology pages are prepared for search optimization.",
+    formFields: ["Name", "Company", "Email", "WhatsApp", "Country", "Interested Product"],
+    formMessage: "Project Requirements",
+    formPlaceholder: "Tell us about parking spaces, lanes, payment country, deployment mode and integration needs.",
+    submit: "Submit Inquiry",
+    footer: "Global smart parking, access control and parking payment software."
+  },
+  zh: {
+    nav: ["解决方案", "产品", "软件", "技术", "全球市场", "联系"],
+    inquiry: "询盘",
+    sections: {
+      solutions: ["解决方案", "智慧停车、轨道交通门禁与安全控制的一体化技术栈", "巴图姆科技将现场硬件、运动控制、安全雷达和停车软件组合成面向海外项目的模块化方案。"],
+      products: ["产品中心", "面向全球项目交付的产品模块", "产品内容采用结构化方式，后续接入 CMS 或后台上传时不需要重做前端。"],
+      software: ["软件平台", "本地服务器 + 云平台 + 全球支付融合", "停车软件支持不同国家、货币、语言、支付通道和部署政策。"],
+      technology: ["核心技术", "贯穿每个项目的运动控制与安全逻辑", "技术表达围绕低压控制、运动稳定、防砸防夹雷达、API 和部署灵活性展开。"],
+      global: ["全球市场", "优先考虑国际语言、支付和部署策略", "站点结构支持香港、新加坡、中东、欧洲、东南亚等市场的独立落地页。"],
+      cases: ["案例 / 行业", "用行业场景建立海外客户信任", "每个行业模块后续都可以扩展为案例、产品清单、FAQ、规格资料和询盘入口。"],
+      contact: ["联系", "告诉我们车道数量、部署国家和软件需求", "表单后续可以接入 API、CRM、邮件系统或无头 CMS。"]
+    },
+    productSupport: "结构化内容已预留",
+    baziTitle: "基于八字取向的科技配色",
+    baziBody: "根据农历 1986 年正月十九、早上 6:30、福建龙岩永定的资料，整体以木火偏显为参考，用水蓝、金色、银白和克制的火色做平衡，使品牌更稳、更国际化。",
+    contactNote: "产品、国家、行业和技术页面已为搜索优化预留结构。",
+    formFields: ["姓名", "公司", "邮箱", "WhatsApp", "国家", "感兴趣产品"],
+    formMessage: "项目需求",
+    formPlaceholder: "请说明车位数量、车道数量、支付国家、部署方式和集成需求。",
+    submit: "提交询盘",
+    footer: "全球智慧停车、门禁控制与停车支付软件。"
+  },
+  es: {
+    nav: ["Soluciones", "Productos", "Software", "Tecnologia", "Global", "Contacto"],
+    inquiry: "Consulta",
+    sections: {
+      solutions: ["Soluciones", "Una plataforma para parking inteligente, acceso y seguridad", "Batum Technology combina hardware, control de movimiento, radar de seguridad y software de parking para proyectos internacionales."],
+      products: ["Productos", "Modulos de producto para proyectos globales", "El contenido de producto esta estructurado para conectar un CMS o panel de administracion sin redisenar el sitio."],
+      software: ["Software", "Servidor local + nube + pagos globales", "El software soporta paises, monedas, idiomas, pasarelas de pago y politicas de despliegue diferentes."],
+      technology: ["Tecnologia", "Control de movimiento y seguridad para cada proyecto", "La arquitectura comunica control de voltaje, estabilidad, radar de seguridad, APIs y despliegue flexible."],
+      global: ["Mercado global", "Estrategia internacional de idioma, pago y despliegue", "La estructura permite paginas por mercado para Hong Kong, Singapur, Medio Oriente, Europa y Sudeste Asiatico."],
+      cases: ["Casos / Industrias", "Casos que convierten tecnologia en confianza", "Cada industria puede evolucionar a una pagina con casos, productos, FAQs, fichas e inquiry."],
+      contact: ["Contacto", "Comparta carriles, mercado y requisitos de software", "El formulario esta listo para API, CRM, email o CMS headless."]
+    },
+    productSupport: "Contenido estructurado",
+    baziTitle: "Paleta tecnologica inspirada en BaZi",
+    baziBody: "La paleta equilibra un perfil madera-fuego con azul agua, oro metalico, blanco plata y acentos de fuego controlados para una marca tecnologica estable.",
+    contactNote: "Las paginas de producto, pais, industria y tecnologia estan preparadas para busqueda.",
+    formFields: ["Nombre", "Empresa", "Email", "WhatsApp", "Pais", "Producto"],
+    formMessage: "Requisitos del proyecto",
+    formPlaceholder: "Indique plazas, carriles, pais de pago, modo de despliegue e integraciones.",
+    submit: "Enviar consulta",
+    footer: "Parking inteligente global, control de acceso y software de pago."
+  },
+  ar: {
+    nav: ["Solutions", "Products", "Software", "Technology", "Global", "Contact"],
+    inquiry: "Inquiry",
+    sections: {
+      solutions: ["Solutions", "Integrated technology for parking, access and safety", "Hardware, motion control, safety radar and parking software for international projects."],
+      products: ["Products", "Product modules for global delivery", "Structured product content is ready for future CMS or admin upload."],
+      software: ["Software", "Local server + cloud platform + global payments", "Software prepared for countries, currencies, languages and payment gateways."],
+      technology: ["Technology", "Motion control and safety logic", "Control voltage, stable motion, radar safety, APIs and flexible deployment."],
+      global: ["Global Market", "International language, payment and deployment strategy", "Landing page structure for Hong Kong, Singapore, Middle East, Europe and Southeast Asia."],
+      cases: ["Cases / Industries", "Use cases that build buyer trust", "Industry blocks can grow into pages with cases, products, FAQs and inquiry CTAs."],
+      contact: ["Contact", "Share lane count, market and software needs", "Ready for API, CRM, email or headless CMS."]
+    },
+    productSupport: "Structured content ready",
+    baziTitle: "BaZi-inspired technology palette",
+    baziBody: "A wood-fire leaning profile is balanced with water blue, metal gold, silver white and restrained fire accents.",
+    contactNote: "Search-ready product, country, industry and technology page structure.",
+    formFields: ["Name", "Company", "Email", "WhatsApp", "Country", "Product"],
+    formMessage: "Project Requirements",
+    formPlaceholder: "Tell us about spaces, lanes, payment country, deployment mode and integration needs.",
+    submit: "Submit Inquiry",
+    footer: "Global smart parking, access control and parking payment software."
+  },
+  fr: {
+    nav: ["Solutions", "Produits", "Logiciel", "Technologie", "Global", "Contact"],
+    inquiry: "Demande",
+    sections: {
+      solutions: ["Solutions", "Une plateforme pour parking, acces et securite", "Materiel, controle de mouvement, radar de securite et logiciel de parking pour projets internationaux."],
+      products: ["Produits", "Modules produits pour livraison globale", "Le contenu produit est structure pour un futur CMS ou panneau admin."],
+      software: ["Logiciel", "Serveur local + cloud + paiements mondiaux", "Le logiciel prend en charge pays, devises, langues, paiements et modes de deploiement."],
+      technology: ["Technologie", "Controle de mouvement et logique de securite", "Tension de controle, stabilite, radar, API et deploiement flexible."],
+      global: ["Marche global", "Strategie internationale de langue, paiement et deploiement", "Structure prete pour Hong Kong, Singapour, Moyen-Orient, Europe et Asie du Sud-Est."],
+      cases: ["Cas / Industries", "Des cas qui creent la confiance", "Chaque secteur peut devenir une page avec cas, produits, FAQ et CTA."],
+      contact: ["Contact", "Indiquez voies, marche et besoins logiciel", "Formulaire pret pour API, CRM, email ou CMS headless."]
+    },
+    productSupport: "Contenu structure",
+    baziTitle: "Palette technologie inspiree BaZi",
+    baziBody: "Profil bois-feu equilibre par bleu eau, or metal, blanc argent et accents feu contenus.",
+    contactNote: "Structure prete pour pages produit, pays, industrie et technologie.",
+    formFields: ["Nom", "Societe", "Email", "WhatsApp", "Pays", "Produit"],
+    formMessage: "Besoins du projet",
+    formPlaceholder: "Indiquez places, voies, pays de paiement, deploiement et integrations.",
+    submit: "Envoyer",
+    footer: "Parking intelligent, controle d'acces et logiciel de paiement."
+  },
+  pt: {
+    nav: ["Solucoes", "Produtos", "Software", "Tecnologia", "Global", "Contato"],
+    inquiry: "Contato",
+    sections: {
+      solutions: ["Solucoes", "Tecnologia integrada para parking, acesso e seguranca", "Hardware, controle de movimento, radar de seguranca e software para projetos internacionais."],
+      products: ["Produtos", "Modulos para entrega global", "Conteudo estruturado para futuro CMS ou painel administrativo."],
+      software: ["Software", "Servidor local + nuvem + pagamentos globais", "Suporte a paises, moedas, idiomas, gateways e politicas de implantacao."],
+      technology: ["Tecnologia", "Controle de movimento e seguranca", "Baixa tensao, movimento estavel, radar, API e implantacao flexivel."],
+      global: ["Mercado global", "Estrategia internacional de idioma, pagamento e implantacao", "Estrutura para Hong Kong, Singapura, Oriente Medio, Europa e Sudeste Asiatico."],
+      cases: ["Casos / Industrias", "Casos que geram confianca", "Cada industria pode virar uma pagina com casos, produtos, FAQs e CTA."],
+      contact: ["Contato", "Informe faixas, mercado e requisitos", "Formulario pronto para API, CRM, email ou CMS headless."]
+    },
+    productSupport: "Conteudo estruturado",
+    baziTitle: "Paleta tecnologica inspirada em BaZi",
+    baziBody: "Perfil madeira-fogo equilibrado por azul agua, ouro metal, branco prata e acentos de fogo contidos.",
+    contactNote: "Estrutura pronta para busca por produto, pais, industria e tecnologia.",
+    formFields: ["Nome", "Empresa", "Email", "WhatsApp", "Pais", "Produto"],
+    formMessage: "Requisitos do projeto",
+    formPlaceholder: "Informe vagas, faixas, pais de pagamento, implantacao e integracoes.",
+    submit: "Enviar",
+    footer: "Parking inteligente, controle de acesso e software de pagamento."
+  },
+  ru: {
+    nav: ["Solutions", "Products", "Software", "Technology", "Global", "Contact"],
+    inquiry: "Inquiry",
+    sections: {
+      solutions: ["Solutions", "Integrated technology for parking, access and safety", "Hardware, motion control, safety radar and parking software for international projects."],
+      products: ["Products", "Product modules for global delivery", "Structured product content is ready for future CMS or admin upload."],
+      software: ["Software", "Local server + cloud platform + global payments", "Software prepared for countries, currencies, languages and payment gateways."],
+      technology: ["Technology", "Motion control and safety logic", "Control voltage, stable motion, radar safety, APIs and flexible deployment."],
+      global: ["Global Market", "International language, payment and deployment strategy", "Landing page structure for Hong Kong, Singapore, Middle East, Europe and Southeast Asia."],
+      cases: ["Cases / Industries", "Use cases that build buyer trust", "Industry blocks can grow into pages with cases, products, FAQs and inquiry CTAs."],
+      contact: ["Contact", "Share lane count, market and software needs", "Ready for API, CRM, email or headless CMS."]
+    },
+    productSupport: "Structured content ready",
+    baziTitle: "BaZi-inspired technology palette",
+    baziBody: "A wood-fire leaning profile is balanced with water blue, metal gold, silver white and restrained fire accents.",
+    contactNote: "Search-ready product, country, industry and technology page structure.",
+    formFields: ["Name", "Company", "Email", "WhatsApp", "Country", "Product"],
+    formMessage: "Project Requirements",
+    formPlaceholder: "Tell us about spaces, lanes, payment country, deployment mode and integration needs.",
+    submit: "Submit Inquiry",
+    footer: "Global smart parking, access control and parking payment software."
+  }
+};
+
 export function LandingPage() {
   const [locale, setLocale] = useState<LocaleKey>("en");
   const [menuOpen, setMenuOpen] = useState(false);
   const hero = localizedHero[locale];
+  const copy = uiCopy[locale];
 
   const productSchema = useMemo(
     () =>
@@ -56,6 +238,7 @@ export function LandingPage() {
         onLocaleChange={setLocale}
         menuOpen={menuOpen}
         onMenuToggle={() => setMenuOpen((value) => !value)}
+        copy={copy}
       />
 
       <section className="relative min-h-screen px-5 pb-20 pt-28 sm:px-8 lg:px-12">
@@ -112,9 +295,9 @@ export function LandingPage() {
 
       <Section
         id="solutions"
-        eyebrow="Solutions"
-        title="One technology stack for smart parking, transit access and safety control"
-        body="Batum Technology combines field hardware, motion control, radar safety and parking software into modular solutions for international projects."
+        eyebrow={copy.sections.solutions[0]}
+        title={copy.sections.solutions[1]}
+        body={copy.sections.solutions[2]}
       >
         <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-5">
           {solutions.map((solution, index) => (
@@ -129,9 +312,9 @@ export function LandingPage() {
 
       <Section
         id="products"
-        eyebrow="Products"
-        title="Product modules designed for global project delivery"
-        body="Products are data-driven cards. Later you can connect a CMS, WordPress API, Shopify, Strapi, Sanity or your own admin panel without redesigning the frontend."
+        eyebrow={copy.sections.products[0]}
+        title={copy.sections.products[1]}
+        body={copy.sections.products[2]}
         className="light-section"
       >
         <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
@@ -142,7 +325,7 @@ export function LandingPage() {
                   <product.icon className="h-7 w-7 text-water" />
                 </div>
                 <span className="rounded-full border border-gold/20 bg-gold/10 px-3 py-1 text-xs font-semibold text-gold">
-                  SEO: {product.seo}
+                  {copy.productSupport}
                 </span>
               </div>
               <h3 className="text-2xl font-semibold text-white">{product.name}</h3>
@@ -163,9 +346,9 @@ export function LandingPage() {
 
       <Section
         id="software"
-        eyebrow="Software"
-        title="Local server + cloud platform + global payment integration"
-        body="The parking software layer is built for different countries, currencies, languages, payment gateways and deployment policies."
+        eyebrow={copy.sections.software[0]}
+        title={copy.sections.software[1]}
+        body={copy.sections.software[2]}
       >
         <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
           <MotionCard className="p-6 sm:p-8">
@@ -191,16 +374,16 @@ export function LandingPage() {
 
       <Section
         id="technology"
-        eyebrow="Technology"
-        title="Motion control and safety logic beneath every project"
-        body="The engineering narrative is SEO-friendly and sales-friendly: control voltage, motion stability, radar safety, APIs and deployment flexibility."
+        eyebrow={copy.sections.technology[0]}
+        title={copy.sections.technology[1]}
+        body={copy.sections.technology[2]}
         className="light-section"
       >
         <div className="grid gap-5 lg:grid-cols-[0.78fr_1.22fr]">
           <MotionCard className="p-7">
-            <h3 className="text-2xl font-semibold text-white">BaZi-inspired technology palette</h3>
+            <h3 className="text-2xl font-semibold text-white">{copy.baziTitle}</h3>
             <p className="mt-4 text-sm leading-7 text-steel">
-              Calibrated from lunar 1986-01-19, 06:30 in Yongding, Longyan: a wood-fire leaning profile is balanced with water blue, metal gold, silver white and restrained fire accents for a steadier international technology brand.
+              {copy.baziBody}
             </p>
             <div className="mt-6 grid gap-3">
               {baziPalette.map((item) => (
@@ -227,9 +410,9 @@ export function LandingPage() {
 
       <Section
         id="global"
-        eyebrow="Global Market"
-        title="International-first language, payment and deployment strategy"
-        body="The site structure supports market-specific SEO landing pages for Hong Kong, Singapore, Middle East, Europe and Southeast Asia."
+        eyebrow={copy.sections.global[0]}
+        title={copy.sections.global[1]}
+        body={copy.sections.global[2]}
       >
         <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-5">
           {globalMarkets.map((market, index) => (
@@ -246,9 +429,9 @@ export function LandingPage() {
 
       <Section
         id="cases"
-        eyebrow="Case / Industries"
-        title="Use cases that convert technical capability into buyer confidence"
-        body="Each industry block can become a future SEO landing page with cases, product lists, FAQs, downloadable specs and inquiry CTAs."
+        eyebrow={copy.sections.cases[0]}
+        title={copy.sections.cases[1]}
+        body={copy.sections.cases[2]}
         className="light-section"
       >
         <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
@@ -264,9 +447,9 @@ export function LandingPage() {
 
       <Section
         id="contact"
-        eyebrow="Contact"
-        title="Tell us your lane count, deployment market and software requirements"
-        body="This static form is ready for wiring to an API route, CRM, email provider or headless CMS submission workflow."
+        eyebrow={copy.sections.contact[0]}
+        title={copy.sections.contact[1]}
+        body={copy.sections.contact[2]}
       >
         <div className="grid gap-6 lg:grid-cols-[0.82fr_1.18fr]">
           <MotionCard className="p-7">
@@ -284,18 +467,18 @@ export function LandingPage() {
               </div>
               <div className="flex items-center gap-3">
                 <Search className="h-5 w-5 text-water" />
-                <span>SEO-ready pages for product, country, industry and technology keywords.</span>
+                <span>{copy.contactNote}</span>
               </div>
             </div>
           </MotionCard>
-          <InquiryForm />
+          <InquiryForm copy={copy} />
         </div>
       </Section>
 
       <footer className="border-t border-white/10 px-5 py-8 text-sm text-steel sm:px-8 lg:px-12">
         <div className="mx-auto flex max-w-7xl flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <span>Batum Technology / 巴图姆（深圳）科技有限公司</span>
-          <span>Global smart parking, access control and parking payment software.</span>
+          <span>{copy.footer}</span>
         </div>
       </footer>
 
@@ -312,12 +495,14 @@ function Header({
   locale,
   onLocaleChange,
   menuOpen,
-  onMenuToggle
+  onMenuToggle,
+  copy
 }: {
   locale: LocaleKey;
   onLocaleChange: (locale: LocaleKey) => void;
   menuOpen: boolean;
   onMenuToggle: () => void;
+  copy: (typeof uiCopy)[LocaleKey];
 }) {
   return (
     <header className="fixed left-0 right-0 top-0 z-50 border-b border-white/10 bg-void/70 px-5 py-4 backdrop-blur-2xl sm:px-8 lg:px-12">
@@ -332,16 +517,16 @@ function Header({
           </div>
         </a>
         <nav className="hidden items-center gap-6 lg:flex">
-          {navItems.map((item) => (
+          {navItems.map((item, index) => (
             <a key={item.href} href={item.href} className="text-sm font-medium text-steel transition hover:text-white">
-              {item.label}
+              {copy.nav[index] ?? item.label}
             </a>
           ))}
         </nav>
         <div className="hidden items-center gap-3 md:flex">
           <LanguageSwitcher locale={locale} onLocaleChange={onLocaleChange} />
           <a href="#contact" className="rounded-full bg-white px-4 py-2 text-sm font-bold text-void transition hover:bg-gold">
-            Inquiry
+            {copy.inquiry}
           </a>
         </div>
         <button
@@ -355,9 +540,9 @@ function Header({
       </div>
       {menuOpen ? (
         <div className="mx-auto mt-4 grid max-w-7xl gap-3 rounded-3xl border border-white/10 bg-obsidian/95 p-4 lg:hidden">
-          {navItems.map((item) => (
+          {navItems.map((item, index) => (
             <a key={item.href} href={item.href} className="rounded-2xl px-4 py-3 text-steel hover:bg-white/5 hover:text-white">
-              {item.label}
+              {copy.nav[index] ?? item.label}
             </a>
           ))}
           <LanguageSwitcher locale={locale} onLocaleChange={onLocaleChange} />
@@ -451,11 +636,11 @@ function SoftwareDashboard() {
   );
 }
 
-function InquiryForm() {
+function InquiryForm({ copy }: { copy: (typeof uiCopy)[LocaleKey] }) {
   return (
     <MotionCard className="p-6 sm:p-8">
       <form className="grid gap-4 md:grid-cols-2">
-        {["Name", "Company", "Email", "WhatsApp", "Country", "Interested Product"].map((field) => (
+        {copy.formFields.map((field) => (
           <label key={field} className="grid gap-2 text-sm font-semibold text-white">
             {field}
             <input
@@ -466,17 +651,17 @@ function InquiryForm() {
           </label>
         ))}
         <label className="grid gap-2 text-sm font-semibold text-white md:col-span-2">
-          Project Requirements
+          {copy.formMessage}
           <textarea
             className="min-h-36 rounded-2xl border border-white/10 bg-white/[0.06] px-4 py-3 text-sm text-white outline-none transition placeholder:text-steel focus:border-water"
-            placeholder="Tell us about parking spaces, lanes, payment country, deployment mode and integration needs."
+            placeholder={copy.formPlaceholder}
           />
         </label>
         <button
           type="button"
           className="group md:col-span-2 inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-water to-gold px-6 py-4 text-sm font-black text-void transition hover:shadow-gold"
         >
-          Submit Inquiry
+          {copy.submit}
           <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
         </button>
       </form>

@@ -65,9 +65,6 @@ export default function ProductsPage() {
                   </div>
                 ))}
               </div>
-              <div className="mt-7 rounded-2xl border border-gold/20 bg-gold/10 p-4 text-sm text-gold">
-                Google keyword: {product.seo}
-              </div>
             </article>
           ))}
         </div>
@@ -75,4 +72,3 @@ export default function ProductsPage() {
     </main>
   );
 }
-
