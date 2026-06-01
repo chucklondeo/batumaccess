@@ -12,18 +12,20 @@ const config: Config = {
         void: "#04070f",
         obsidian: "#07111f",
         glass: "rgba(255,255,255,0.08)",
-        water: "#22d3ee",
-        wood: "#34d399",
-        gold: "#f6c85f",
-        fire: "#ff7a3d",
-        steel: "#8ea4bf"
+        water: "#16b8d9",
+        wood: "#2fbf8f",
+        gold: "#f3d37a",
+        fire: "#d86b3d",
+        steel: "#8ea4bf",
+        silver: "#dce7f3",
+        pearl: "#f8fbff"
       },
       boxShadow: {
-        glow: "0 0 48px rgba(34, 211, 238, 0.28)",
-        gold: "0 0 38px rgba(246, 200, 95, 0.22)"
+        glow: "0 0 48px rgba(22, 184, 217, 0.26)",
+        gold: "0 0 38px rgba(243, 211, 122, 0.22)"
       },
       backgroundImage: {
-        "radial-grid": "radial-gradient(circle at center, rgba(34,211,238,0.15), transparent 32rem)",
+        "radial-grid": "radial-gradient(circle at center, rgba(22,184,217,0.15), transparent 32rem)",
         "glass-line": "linear-gradient(120deg, rgba(255,255,255,0.2), rgba(255,255,255,0.02))"
       }
     }
@@ -32,4 +34,3 @@ const config: Config = {
 };
 
 export default config;
-

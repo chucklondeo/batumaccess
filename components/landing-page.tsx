@@ -132,7 +132,7 @@ export function LandingPage() {
         eyebrow="Products"
         title="Product modules designed for global project delivery"
         body="Products are data-driven cards. Later you can connect a CMS, WordPress API, Shopify, Strapi, Sanity or your own admin panel without redesigning the frontend."
-        className="bg-white/[0.02]"
+        className="light-section"
       >
         <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           {products.map((product, index) => (
@@ -194,13 +194,13 @@ export function LandingPage() {
         eyebrow="Technology"
         title="Motion control and safety logic beneath every project"
         body="The engineering narrative is SEO-friendly and sales-friendly: control voltage, motion stability, radar safety, APIs and deployment flexibility."
-        className="bg-white/[0.02]"
+        className="light-section"
       >
         <div className="grid gap-5 lg:grid-cols-[0.78fr_1.22fr]">
           <MotionCard className="p-7">
             <h3 className="text-2xl font-semibold text-white">BaZi-inspired technology palette</h3>
             <p className="mt-4 text-sm leading-7 text-steel">
-              The current palette uses a five-element logic until your exact birth data is provided: water for software intelligence, metal for precision, wood for growth and fire for conversion.
+              Calibrated from lunar 1986-01-19, 06:30 in Yongding, Longyan: a wood-fire leaning profile is balanced with water blue, metal gold, silver white and restrained fire accents for a steadier international technology brand.
             </p>
             <div className="mt-6 grid gap-3">
               {baziPalette.map((item) => (
@@ -249,7 +249,7 @@ export function LandingPage() {
         eyebrow="Case / Industries"
         title="Use cases that convert technical capability into buyer confidence"
         body="Each industry block can become a future SEO landing page with cases, product lists, FAQs, downloadable specs and inquiry CTAs."
-        className="bg-white/[0.02]"
+        className="light-section"
       >
         <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
           {industries.map((industry, index) => (
@@ -483,4 +483,3 @@ function InquiryForm() {
     </MotionCard>
   );
 }
-

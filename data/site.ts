@@ -199,10 +199,11 @@ export const industries = [
 ];
 
 export const baziPalette = [
-  { name: "Water", role: "strategy / software intelligence", color: "#22d3ee" },
-  { name: "Metal", role: "precision / high-value technology", color: "#f6c85f" },
-  { name: "Wood", role: "growth / global expansion", color: "#34d399" },
-  { name: "Fire", role: "conversion / inquiry action", color: "#ff7a3d" }
+  { name: "Water", role: "balance / software intelligence / global flow", color: "#16b8d9" },
+  { name: "Metal", role: "precision / premium hardware / trust", color: "#f3d37a" },
+  { name: "Silver White", role: "clarity / international enterprise credibility", color: "#f8fbff" },
+  { name: "Wood", role: "growth / overseas expansion, used in restraint", color: "#2fbf8f" },
+  { name: "Fire", role: "conversion / inquiry action, used sparingly", color: "#d86b3d" }
 ];
 
 export const contact = {
@@ -219,4 +220,3 @@ export const stats = [
 ];
 
 export const IconMap = { Globe2, ShieldCheck, MapPinned };
-
