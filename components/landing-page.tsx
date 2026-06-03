@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { type FormEvent, useState } from "react";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
@@ -55,6 +55,7 @@ const uiCopy: Record<
     formMessage: string;
     formPlaceholder: string;
     submit: string;
+    submitReady: string;
     footer: string;
   }
 > = {
@@ -73,11 +74,12 @@ const uiCopy: Record<
     productSupport: "Structured content ready",
     baziTitle: "BaZi-inspired technology palette",
     baziBody: "Calibrated from lunar 1986-01-19, 06:30 in Yongding, Longyan: a wood-fire leaning profile is balanced with water blue, metal gold, silver white and restrained fire accents for a steadier international technology brand.",
-    contactNote: "Product, country, industry and technology pages are prepared for search optimization.",
+    contactNote: "Product, country, industry and technology pages are prepared for future content growth.",
     formFields: ["Name", "Company", "Email", "WhatsApp", "Country", "Interested Product"],
     formMessage: "Project Requirements",
     formPlaceholder: "Tell us about parking spaces, lanes, payment country, deployment mode and integration needs.",
     submit: "Submit Inquiry",
+    submitReady: "Your email app should open with the project inquiry. Please send it to complete the request.",
     footer: "Global smart parking, access control and parking payment software."
   },
   zh: {
@@ -100,6 +102,7 @@ const uiCopy: Record<
     formMessage: "项目需求",
     formPlaceholder: "请说明车位数量、车道数量、支付国家、部署方式和集成需求。",
     submit: "提交询盘",
+    submitReady: "邮件应用将自动打开询盘内容，请发送邮件完成提交。",
     footer: "全球智慧停车、门禁控制与停车支付软件。"
   },
   es: {
@@ -122,6 +125,7 @@ const uiCopy: Record<
     formMessage: "Requisitos del proyecto",
     formPlaceholder: "Indique plazas, carriles, pais de pago, modo de despliegue e integraciones.",
     submit: "Enviar consulta",
+    submitReady: "Su correo se abrira con la consulta del proyecto. Envie el email para completar la solicitud.",
     footer: "Parking inteligente global, control de acceso y software de pago."
   },
   ar: {
@@ -144,6 +148,7 @@ const uiCopy: Record<
     formMessage: "Project Requirements",
     formPlaceholder: "Tell us about spaces, lanes, payment country, deployment mode and integration needs.",
     submit: "Submit Inquiry",
+    submitReady: "Your email app should open with the project inquiry. Please send it to complete the request.",
     footer: "Global smart parking, access control and parking payment software."
   },
   fr: {
@@ -166,6 +171,7 @@ const uiCopy: Record<
     formMessage: "Besoins du projet",
     formPlaceholder: "Indiquez places, voies, pays de paiement, deploiement et integrations.",
     submit: "Envoyer",
+    submitReady: "Votre application email va s'ouvrir avec la demande. Envoyez l'email pour terminer.",
     footer: "Parking intelligent, controle d'acces et logiciel de paiement."
   },
   pt: {
@@ -188,6 +194,7 @@ const uiCopy: Record<
     formMessage: "Requisitos do projeto",
     formPlaceholder: "Informe vagas, faixas, pais de pagamento, implantacao e integracoes.",
     submit: "Enviar",
+    submitReady: "Seu email sera aberto com a consulta do projeto. Envie o email para concluir.",
     footer: "Parking inteligente, controle de acesso e software de pagamento."
   },
   ru: {
@@ -210,6 +217,7 @@ const uiCopy: Record<
     formMessage: "Project Requirements",
     formPlaceholder: "Tell us about spaces, lanes, payment country, deployment mode and integration needs.",
     submit: "Submit Inquiry",
+    submitReady: "Your email app should open with the project inquiry. Please send it to complete the request.",
     footer: "Global smart parking, access control and parking payment software."
   }
 };
@@ -219,16 +227,6 @@ export function LandingPage() {
   const [menuOpen, setMenuOpen] = useState(false);
   const hero = localizedHero[locale];
   const copy = uiCopy[locale];
-
-  const productSchema = useMemo(
-    () =>
-      products.map((product) => ({
-        name: product.name,
-        seo: product.seo,
-        specs: product.specs
-      })),
-    []
-  );
 
   return (
     <main className="relative overflow-hidden">
@@ -481,12 +479,6 @@ export function LandingPage() {
           <span>{copy.footer}</span>
         </div>
       </footer>
-
-      <script
-        type="application/json"
-        id="batum-product-content-model"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
-      />
     </main>
   );
 }
@@ -637,33 +629,63 @@ function SoftwareDashboard() {
 }
 
 function InquiryForm({ copy }: { copy: (typeof uiCopy)[LocaleKey] }) {
+  const [status, setStatus] = useState<string | null>(null);
+  const fieldNames = ["name", "company", "email", "whatsapp", "country", "product"];
+
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const subject = `Batum Technology project inquiry - ${String(formData.get("company") || "New lead")}`;
+    const body = [
+      "Batum Technology Website Inquiry",
+      "",
+      `Name: ${formData.get("name") || ""}`,
+      `Company: ${formData.get("company") || ""}`,
+      `Email: ${formData.get("email") || ""}`,
+      `WhatsApp: ${formData.get("whatsapp") || ""}`,
+      `Country: ${formData.get("country") || ""}`,
+      `Interested Product: ${formData.get("product") || ""}`,
+      "",
+      "Project Requirements:",
+      String(formData.get("message") || "")
+    ].join("\n");
+
+    setStatus(copy.submitReady);
+    window.location.href = `mailto:${contact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  }
+
   return (
     <MotionCard className="p-6 sm:p-8">
-      <form className="grid gap-4 md:grid-cols-2">
-        {copy.formFields.map((field) => (
+      <form className="grid gap-4 md:grid-cols-2" onSubmit={handleSubmit}>
+        {copy.formFields.map((field, index) => (
           <label key={field} className="grid gap-2 text-sm font-semibold text-white">
             {field}
             <input
+              name={fieldNames[index]}
+              required={fieldNames[index] === "name" || fieldNames[index] === "email"}
               className="rounded-2xl border border-white/10 bg-white/[0.06] px-4 py-3 text-sm text-white outline-none transition placeholder:text-steel focus:border-water"
               placeholder={field}
-              type={field === "Email" ? "email" : "text"}
+              type={fieldNames[index] === "email" ? "email" : "text"}
             />
           </label>
         ))}
         <label className="grid gap-2 text-sm font-semibold text-white md:col-span-2">
           {copy.formMessage}
           <textarea
+            name="message"
+            required
             className="min-h-36 rounded-2xl border border-white/10 bg-white/[0.06] px-4 py-3 text-sm text-white outline-none transition placeholder:text-steel focus:border-water"
             placeholder={copy.formPlaceholder}
           />
         </label>
         <button
-          type="button"
+          type="submit"
           className="group md:col-span-2 inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-water to-gold px-6 py-4 text-sm font-black text-void transition hover:shadow-gold"
         >
           {copy.submit}
           <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
         </button>
+        {status ? <p className="md:col-span-2 rounded-2xl border border-wood/30 bg-wood/10 px-4 py-3 text-sm text-wood">{status}</p> : null}
       </form>
     </MotionCard>
   );
