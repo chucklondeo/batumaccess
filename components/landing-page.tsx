@@ -18,6 +18,7 @@ import { FloatingOrbit } from "@/components/floating-orbit";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { MotionCard } from "@/components/motion-card";
 import { Section } from "@/components/section";
+import { ScreenshotTool } from "@/components/screenshot-tool";
 import {
   baziPalette,
   contact,
@@ -516,6 +517,7 @@ function Header({
           ))}
         </nav>
         <div className="hidden items-center gap-3 md:flex">
+          <ScreenshotTool />
           <LanguageSwitcher locale={locale} onLocaleChange={onLocaleChange} />
           <a href="#contact" className="rounded-full bg-white px-4 py-2 text-sm font-bold text-void transition hover:bg-gold">
             {copy.inquiry}
