@@ -17,6 +17,12 @@ yarn-error.log*
 pnpm-debug.log*
 dev-*.err
 
+# local screenshots
+screenshots/
+screenshots-check/
+homepage-screenshot.png
+edge-shot-profile*/
+
 # environment
 .env
 .env.local
@@ -31,4 +37,3 @@ Thumbs.db
 # editor
 .vscode/
 .idea/
-
