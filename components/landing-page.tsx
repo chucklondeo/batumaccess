@@ -10,7 +10,6 @@ import {
   Mail,
   Menu,
   MessageCircle,
-  Search,
   Sparkles,
   X
 } from "lucide-react";
@@ -20,7 +19,6 @@ import { MotionCard } from "@/components/motion-card";
 import { Section } from "@/components/section";
 import { ScreenshotTool } from "@/components/screenshot-tool";
 import {
-  baziPalette,
   contact,
   globalMarkets,
   industries,
@@ -48,10 +46,6 @@ const uiCopy: Record<
       cases: [string, string, string];
       contact: [string, string, string];
     };
-    productSupport: string;
-    baziTitle: string;
-    baziBody: string;
-    contactNote: string;
     formFields: string[];
     formMessage: string;
     formPlaceholder: string;
@@ -65,17 +59,13 @@ const uiCopy: Record<
     inquiry: "Inquiry",
     sections: {
       solutions: ["Solutions", "One technology stack for smart parking, transit access and safety control", "Batum Technology combines field hardware, motion control, radar safety and parking software into modular solutions for international projects."],
-      products: ["Products", "Product modules designed for global project delivery", "Product content is structured for future CMS or admin upload without redesigning the frontend."],
+      products: ["Products", "Product modules designed for global project delivery", "From barrier gates to LPR cameras, radar sensors and cloud boxes, Batum provides the core equipment for complete parking and access control projects."],
       software: ["Software", "Local server + cloud platform + global payment integration", "The parking software layer is built for different countries, currencies, languages, payment gateways and deployment policies."],
       technology: ["Technology", "Motion control and safety logic beneath every project", "The engineering narrative supports control voltage, motion stability, radar safety, APIs and deployment flexibility."],
       global: ["Global Market", "International-first language, payment and deployment strategy", "The site structure supports market-specific landing pages for Hong Kong, Singapore, Middle East, Europe and Southeast Asia."],
-      cases: ["Case / Industries", "Use cases that convert technical capability into buyer confidence", "Each industry block can become a future landing page with cases, product lists, FAQs, specs and inquiry CTAs."],
-      contact: ["Contact", "Tell us your lane count, deployment market and software requirements", "This form is ready for wiring to an API route, CRM, email provider or headless CMS submission workflow."]
+      cases: ["Case / Industries", "Use cases that convert technical capability into buyer confidence", "Batum systems serve parking lots, highway ETC lanes, rail transit access points and commercial building entrances."],
+      contact: ["Contact", "Tell us your lane count, deployment market and software requirements", "Send your project requirements directly to Batum Technology. Our team will reply with hardware, software and integration suggestions."]
     },
-    productSupport: "Structured content ready",
-    baziTitle: "BaZi-inspired technology palette",
-    baziBody: "Calibrated from lunar 1986-01-19, 06:30 in Yongding, Longyan: a wood-fire leaning profile is balanced with water blue, metal gold, silver white and restrained fire accents for a steadier international technology brand.",
-    contactNote: "Product, country, industry and technology pages are prepared for future content growth.",
     formFields: ["Name", "Company", "Email", "WhatsApp", "Country", "Interested Product"],
     formMessage: "Project Requirements",
     formPlaceholder: "Tell us about parking spaces, lanes, payment country, deployment mode and integration needs.",
@@ -88,17 +78,13 @@ const uiCopy: Record<
     inquiry: "询盘",
     sections: {
       solutions: ["解决方案", "智慧停车、轨道交通门禁与安全控制的一体化技术栈", "巴图姆科技将现场硬件、运动控制、安全雷达和停车软件组合成面向海外项目的模块化方案。"],
-      products: ["产品中心", "面向全球项目交付的产品模块", "产品内容采用结构化方式，后续接入 CMS 或后台上传时不需要重做前端。"],
+      products: ["产品中心", "面向全球项目交付的产品模块", "从道闸、车牌识别相机到雷达传感器和云盒，Batum 提供完整停车与门禁项目的核心设备。"],
       software: ["软件平台", "本地服务器 + 云平台 + 全球支付融合", "停车软件支持不同国家、货币、语言、支付通道和部署政策。"],
       technology: ["核心技术", "贯穿每个项目的运动控制与安全逻辑", "技术表达围绕低压控制、运动稳定、防砸防夹雷达、API 和部署灵活性展开。"],
       global: ["全球市场", "优先考虑国际语言、支付和部署策略", "站点结构支持香港、新加坡、中东、欧洲、东南亚等市场的独立落地页。"],
       cases: ["案例 / 行业", "用行业场景建立海外客户信任", "每个行业模块后续都可以扩展为案例、产品清单、FAQ、规格资料和询盘入口。"],
-      contact: ["联系", "告诉我们车道数量、部署国家和软件需求", "表单后续可以接入 API、CRM、邮件系统或无头 CMS。"]
+      contact: ["联系", "告诉我们车道数量、部署国家和软件需求", "询盘将直接发送给 Batum Technology 销售团队，我们会根据硬件、软件和集成需求回复。"]
     },
-    productSupport: "结构化内容已预留",
-    baziTitle: "基于八字取向的科技配色",
-    baziBody: "根据农历 1986 年正月十九、早上 6:30、福建龙岩永定的资料，整体以木火偏显为参考，用水蓝、金色、银白和克制的火色做平衡，使品牌更稳、更国际化。",
-    contactNote: "产品、国家、行业和技术页面已为搜索优化预留结构。",
     formFields: ["姓名", "公司", "邮箱", "WhatsApp", "国家", "感兴趣产品"],
     formMessage: "项目需求",
     formPlaceholder: "请说明车位数量、车道数量、支付国家、部署方式和集成需求。",
@@ -111,17 +97,13 @@ const uiCopy: Record<
     inquiry: "Consulta",
     sections: {
       solutions: ["Soluciones", "Una plataforma para parking inteligente, acceso y seguridad", "Batum Technology combina hardware, control de movimiento, radar de seguridad y software de parking para proyectos internacionales."],
-      products: ["Productos", "Modulos de producto para proyectos globales", "El contenido de producto esta estructurado para conectar un CMS o panel de administracion sin redisenar el sitio."],
+      products: ["Productos", "Modulos de producto para proyectos globales", "Batum suministra barreras, camaras LPR, sensores de radar y cajas cloud para proyectos completos de parking y acceso."],
       software: ["Software", "Servidor local + nube + pagos globales", "El software soporta paises, monedas, idiomas, pasarelas de pago y politicas de despliegue diferentes."],
       technology: ["Tecnologia", "Control de movimiento y seguridad para cada proyecto", "La arquitectura comunica control de voltaje, estabilidad, radar de seguridad, APIs y despliegue flexible."],
       global: ["Mercado global", "Estrategia internacional de idioma, pago y despliegue", "La estructura permite paginas por mercado para Hong Kong, Singapur, Medio Oriente, Europa y Sudeste Asiatico."],
       cases: ["Casos / Industrias", "Casos que convierten tecnologia en confianza", "Cada industria puede evolucionar a una pagina con casos, productos, FAQs, fichas e inquiry."],
-      contact: ["Contacto", "Comparta carriles, mercado y requisitos de software", "El formulario esta listo para API, CRM, email o CMS headless."]
+      contact: ["Contacto", "Comparta carriles, mercado y requisitos de software", "Enviaremos su consulta directamente al equipo comercial de Batum Technology."]
     },
-    productSupport: "Contenido estructurado",
-    baziTitle: "Paleta tecnologica inspirada en BaZi",
-    baziBody: "La paleta equilibra un perfil madera-fuego con azul agua, oro metalico, blanco plata y acentos de fuego controlados para una marca tecnologica estable.",
-    contactNote: "Las paginas de producto, pais, industria y tecnologia estan preparadas para busqueda.",
     formFields: ["Nombre", "Empresa", "Email", "WhatsApp", "Pais", "Producto"],
     formMessage: "Requisitos del proyecto",
     formPlaceholder: "Indique plazas, carriles, pais de pago, modo de despliegue e integraciones.",
@@ -134,17 +116,13 @@ const uiCopy: Record<
     inquiry: "Inquiry",
     sections: {
       solutions: ["Solutions", "Integrated technology for parking, access and safety", "Hardware, motion control, safety radar and parking software for international projects."],
-      products: ["Products", "Product modules for global delivery", "Structured product content is ready for future CMS or admin upload."],
+      products: ["Products", "Product modules for global delivery", "Barrier gates, LPR cameras, radar sensors and cloud boxes for complete parking and access control projects."],
       software: ["Software", "Local server + cloud platform + global payments", "Software prepared for countries, currencies, languages and payment gateways."],
       technology: ["Technology", "Motion control and safety logic", "Control voltage, stable motion, radar safety, APIs and flexible deployment."],
       global: ["Global Market", "International language, payment and deployment strategy", "Landing page structure for Hong Kong, Singapore, Middle East, Europe and Southeast Asia."],
       cases: ["Cases / Industries", "Use cases that build buyer trust", "Industry blocks can grow into pages with cases, products, FAQs and inquiry CTAs."],
-      contact: ["Contact", "Share lane count, market and software needs", "Ready for API, CRM, email or headless CMS."]
+      contact: ["Contact", "Share lane count, market and software needs", "Send your project requirements directly to Batum Technology."]
     },
-    productSupport: "Structured content ready",
-    baziTitle: "BaZi-inspired technology palette",
-    baziBody: "A wood-fire leaning profile is balanced with water blue, metal gold, silver white and restrained fire accents.",
-    contactNote: "Search-ready product, country, industry and technology page structure.",
     formFields: ["Name", "Company", "Email", "WhatsApp", "Country", "Product"],
     formMessage: "Project Requirements",
     formPlaceholder: "Tell us about spaces, lanes, payment country, deployment mode and integration needs.",
@@ -157,17 +135,13 @@ const uiCopy: Record<
     inquiry: "Demande",
     sections: {
       solutions: ["Solutions", "Une plateforme pour parking, acces et securite", "Materiel, controle de mouvement, radar de securite et logiciel de parking pour projets internationaux."],
-      products: ["Produits", "Modules produits pour livraison globale", "Le contenu produit est structure pour un futur CMS ou panneau admin."],
+      products: ["Produits", "Modules produits pour livraison globale", "Barrieres, cameras LPR, radars et boitiers cloud pour projets complets de parking et acces."],
       software: ["Logiciel", "Serveur local + cloud + paiements mondiaux", "Le logiciel prend en charge pays, devises, langues, paiements et modes de deploiement."],
       technology: ["Technologie", "Controle de mouvement et logique de securite", "Tension de controle, stabilite, radar, API et deploiement flexible."],
       global: ["Marche global", "Strategie internationale de langue, paiement et deploiement", "Structure prete pour Hong Kong, Singapour, Moyen-Orient, Europe et Asie du Sud-Est."],
       cases: ["Cas / Industries", "Des cas qui creent la confiance", "Chaque secteur peut devenir une page avec cas, produits, FAQ et CTA."],
-      contact: ["Contact", "Indiquez voies, marche et besoins logiciel", "Formulaire pret pour API, CRM, email ou CMS headless."]
+      contact: ["Contact", "Indiquez voies, marche et besoins logiciel", "Votre demande sera envoyee directement a Batum Technology."]
     },
-    productSupport: "Contenu structure",
-    baziTitle: "Palette technologie inspiree BaZi",
-    baziBody: "Profil bois-feu equilibre par bleu eau, or metal, blanc argent et accents feu contenus.",
-    contactNote: "Structure prete pour pages produit, pays, industrie et technologie.",
     formFields: ["Nom", "Societe", "Email", "WhatsApp", "Pays", "Produit"],
     formMessage: "Besoins du projet",
     formPlaceholder: "Indiquez places, voies, pays de paiement, deploiement et integrations.",
@@ -180,17 +154,13 @@ const uiCopy: Record<
     inquiry: "Contato",
     sections: {
       solutions: ["Solucoes", "Tecnologia integrada para parking, acesso e seguranca", "Hardware, controle de movimento, radar de seguranca e software para projetos internacionais."],
-      products: ["Produtos", "Modulos para entrega global", "Conteudo estruturado para futuro CMS ou painel administrativo."],
+      products: ["Produtos", "Modulos para entrega global", "Cancelas, cameras LPR, sensores de radar e cloud boxes para projetos completos de parking e acesso."],
       software: ["Software", "Servidor local + nuvem + pagamentos globais", "Suporte a paises, moedas, idiomas, gateways e politicas de implantacao."],
       technology: ["Tecnologia", "Controle de movimento e seguranca", "Baixa tensao, movimento estavel, radar, API e implantacao flexivel."],
       global: ["Mercado global", "Estrategia internacional de idioma, pagamento e implantacao", "Estrutura para Hong Kong, Singapura, Oriente Medio, Europa e Sudeste Asiatico."],
       cases: ["Casos / Industrias", "Casos que geram confianca", "Cada industria pode virar uma pagina com casos, produtos, FAQs e CTA."],
-      contact: ["Contato", "Informe faixas, mercado e requisitos", "Formulario pronto para API, CRM, email ou CMS headless."]
+      contact: ["Contato", "Informe faixas, mercado e requisitos", "A consulta sera enviada diretamente para a equipe da Batum Technology."]
     },
-    productSupport: "Conteudo estruturado",
-    baziTitle: "Paleta tecnologica inspirada em BaZi",
-    baziBody: "Perfil madeira-fogo equilibrado por azul agua, ouro metal, branco prata e acentos de fogo contidos.",
-    contactNote: "Estrutura pronta para busca por produto, pais, industria e tecnologia.",
     formFields: ["Nome", "Empresa", "Email", "WhatsApp", "Pais", "Produto"],
     formMessage: "Requisitos do projeto",
     formPlaceholder: "Informe vagas, faixas, pais de pagamento, implantacao e integracoes.",
@@ -203,17 +173,13 @@ const uiCopy: Record<
     inquiry: "Inquiry",
     sections: {
       solutions: ["Solutions", "Integrated technology for parking, access and safety", "Hardware, motion control, safety radar and parking software for international projects."],
-      products: ["Products", "Product modules for global delivery", "Structured product content is ready for future CMS or admin upload."],
+      products: ["Products", "Product modules for global delivery", "Barrier gates, LPR cameras, radar sensors and cloud boxes for complete parking and access control projects."],
       software: ["Software", "Local server + cloud platform + global payments", "Software prepared for countries, currencies, languages and payment gateways."],
       technology: ["Technology", "Motion control and safety logic", "Control voltage, stable motion, radar safety, APIs and flexible deployment."],
       global: ["Global Market", "International language, payment and deployment strategy", "Landing page structure for Hong Kong, Singapore, Middle East, Europe and Southeast Asia."],
       cases: ["Cases / Industries", "Use cases that build buyer trust", "Industry blocks can grow into pages with cases, products, FAQs and inquiry CTAs."],
-      contact: ["Contact", "Share lane count, market and software needs", "Ready for API, CRM, email or headless CMS."]
+      contact: ["Contact", "Share lane count, market and software needs", "Send your project requirements directly to Batum Technology."]
     },
-    productSupport: "Structured content ready",
-    baziTitle: "BaZi-inspired technology palette",
-    baziBody: "A wood-fire leaning profile is balanced with water blue, metal gold, silver white and restrained fire accents.",
-    contactNote: "Search-ready product, country, industry and technology page structure.",
     formFields: ["Name", "Company", "Email", "WhatsApp", "Country", "Product"],
     formMessage: "Project Requirements",
     formPlaceholder: "Tell us about spaces, lanes, payment country, deployment mode and integration needs.",
@@ -323,9 +289,6 @@ export function LandingPage() {
                 <div className="grid h-14 w-14 place-items-center rounded-2xl border border-water/20 bg-water/10">
                   <product.icon className="h-7 w-7 text-water" />
                 </div>
-                <span className="rounded-full border border-gold/20 bg-gold/10 px-3 py-1 text-xs font-semibold text-gold">
-                  {copy.productSupport}
-                </span>
               </div>
               <h3 className="text-2xl font-semibold text-white">{product.name}</h3>
               <p className="mt-2 text-sm text-steel">{product.tag}</p>
@@ -378,32 +341,13 @@ export function LandingPage() {
         body={copy.sections.technology[2]}
         className="light-section"
       >
-        <div className="grid gap-5 lg:grid-cols-[0.78fr_1.22fr]">
-          <MotionCard className="p-7">
-            <h3 className="text-2xl font-semibold text-white">{copy.baziTitle}</h3>
-            <p className="mt-4 text-sm leading-7 text-steel">
-              {copy.baziBody}
-            </p>
-            <div className="mt-6 grid gap-3">
-              {baziPalette.map((item) => (
-                <div key={item.name} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-3">
-                  <span className="h-5 w-5 rounded-full" style={{ backgroundColor: item.color }} />
-                  <div>
-                    <div className="font-semibold text-white">{item.name}</div>
-                    <div className="text-xs text-steel">{item.role}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </MotionCard>
-          <div className="grid gap-4 md:grid-cols-2">
-            {technologies.map((item, index) => (
-              <MotionCard key={item} delay={index * 0.04} className="p-5">
-                <div className="mb-4 text-3xl font-semibold text-gold">{String(index + 1).padStart(2, "0")}</div>
-                <p className="text-lg font-medium leading-7 text-white">{item}</p>
-              </MotionCard>
-            ))}
-          </div>
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {technologies.map((item, index) => (
+            <MotionCard key={item} delay={index * 0.04} className="p-5">
+              <div className="mb-4 text-3xl font-semibold text-gold">{String(index + 1).padStart(2, "0")}</div>
+              <p className="text-lg font-medium leading-7 text-white">{item}</p>
+            </MotionCard>
+          ))}
         </div>
       </Section>
 
@@ -456,17 +400,19 @@ export function LandingPage() {
             <div className="mt-6 space-y-4 text-steel">
               <div className="flex items-center gap-3">
                 <MessageCircle className="h-5 w-5 text-wood" />
-                <span>{contact.whatsapp}</span>
+                <a href={contact.whatsappUrl} target="_blank" rel="noreferrer" className="hover:text-white">
+                  WhatsApp: {contact.phone}
+                </a>
+              </div>
+              <div className="flex items-center gap-3">
+                <MessageCircle className="h-5 w-5 text-water" />
+                <span>WeChat: {contact.wechat}</span>
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="h-5 w-5 text-gold" />
                 <a href={`mailto:${contact.email}`} className="hover:text-white">
                   {contact.email}
                 </a>
-              </div>
-              <div className="flex items-center gap-3">
-                <Search className="h-5 w-5 text-water" />
-                <span>{copy.contactNote}</span>
               </div>
             </div>
           </MotionCard>
@@ -634,9 +580,10 @@ function InquiryForm({ copy }: { copy: (typeof uiCopy)[LocaleKey] }) {
   const [status, setStatus] = useState<string | null>(null);
   const fieldNames = ["name", "company", "email", "whatsapp", "country", "product"];
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
+    const form = event.currentTarget;
+    const formData = new FormData(form);
     const subject = `Batum Technology project inquiry - ${String(formData.get("company") || "New lead")}`;
     const body = [
       "Batum Technology Website Inquiry",
@@ -652,8 +599,32 @@ function InquiryForm({ copy }: { copy: (typeof uiCopy)[LocaleKey] }) {
       String(formData.get("message") || "")
     ].join("\n");
 
-    setStatus(copy.submitReady);
-    window.location.href = `mailto:${contact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    formData.append("_subject", subject);
+    formData.append("_template", "table");
+    formData.append("_captcha", "false");
+    formData.append("recipient", contact.email);
+
+    setStatus("Sending inquiry...");
+
+    try {
+      const response = await fetch(`https://formsubmit.co/ajax/${contact.email}`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json"
+        },
+        body: formData
+      });
+
+      if (!response.ok) {
+        throw new Error("Email service rejected the inquiry.");
+      }
+
+      setStatus(copy.submitReady);
+      form.reset();
+    } catch {
+      setStatus("Opening your email app as a backup. Please send the prepared inquiry to complete the request.");
+      window.location.href = `mailto:${contact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    }
   }
 
   return (

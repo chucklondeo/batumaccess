@@ -198,16 +198,12 @@ export const industries = [
   { icon: Factory, title: "Commercial Buildings", body: "Office parks, hotels, malls and mixed-use access management." }
 ];
 
-export const baziPalette = [
-  { name: "Water", role: "balance / software intelligence / global flow", color: "#16b8d9" },
-  { name: "Metal", role: "precision / premium hardware / trust", color: "#f3d37a" },
-  { name: "Silver White", role: "clarity / international enterprise credibility", color: "#f8fbff" },
-  { name: "Wood", role: "growth / overseas expansion, used in restraint", color: "#2fbf8f" },
-  { name: "Fire", role: "conversion / inquiry action, used sparingly", color: "#d86b3d" }
-];
 
 export const contact = {
-  whatsapp: "+86 WhatsApp / WeChat ready",
+  phone: "+86 135 3425 3195",
+  whatsapp: "13534253195",
+  whatsappUrl: "https://wa.me/8613534253195",
+  wechat: "13534253195",
   email: "sales@batumaccess.com",
   company: "Batum Technology / 巴图姆（深圳）科技有限公司"
 };
