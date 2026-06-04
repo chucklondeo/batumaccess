@@ -1,6 +1,7 @@
 import { mkdir, appendFile } from "node:fs/promises";
 import { join } from "node:path";
 import { NextRequest, NextResponse } from "next/server";
+import nodemailer from "nodemailer";
 
 export const runtime = "nodejs";
 
@@ -32,13 +33,21 @@ export async function POST(request: NextRequest) {
   }
 
   await saveInquiry(inquiry);
-  const emailForwarded = await forwardInquiry(inquiry);
+  const emailForwarded = await sendInquiryEmail(inquiry);
 
-  return NextResponse.json({
-    ok: true,
-    stored: true,
-    emailForwarded
-  });
+  if (!emailForwarded) {
+    return NextResponse.json(
+      {
+        ok: false,
+        stored: true,
+        emailForwarded: false,
+        error: "Inquiry was stored, but SMTP email is not configured yet."
+      },
+      { status: 503 }
+    );
+  }
+
+  return NextResponse.json({ ok: true, stored: true, emailForwarded: true });
 }
 
 function sanitizeInquiry(payload: InquiryPayload) {
@@ -64,30 +73,95 @@ async function saveInquiry(inquiry: ReturnType<typeof sanitizeInquiry>) {
   await appendFile(join(dataDir, "inquiries.jsonl"), `${JSON.stringify(inquiry)}\n`, "utf8");
 }
 
-async function forwardInquiry(inquiry: ReturnType<typeof sanitizeInquiry>) {
-  const formData = new FormData();
-  formData.append("_subject", `Batum Technology inquiry - ${inquiry.company || inquiry.name}`);
-  formData.append("_template", "table");
-  formData.append("_captcha", "false");
-  formData.append("Name", inquiry.name);
-  formData.append("Company", inquiry.company);
-  formData.append("Email", inquiry.email);
-  formData.append("WhatsApp", inquiry.whatsapp);
-  formData.append("Country", inquiry.country);
-  formData.append("Interested Product", inquiry.product);
-  formData.append("Project Requirements", inquiry.message);
+async function sendInquiryEmail(inquiry: ReturnType<typeof sanitizeInquiry>) {
+  const smtpHost = process.env.SMTP_HOST || "smtp.hostinger.com";
+  const smtpPort = Number(process.env.SMTP_PORT || 465);
+  const smtpUser = process.env.SMTP_USER || salesEmail;
+  const smtpPass = process.env.SMTP_PASS;
+
+  if (!smtpPass) {
+    return false;
+  }
+
+  const transporter = nodemailer.createTransport({
+    host: smtpHost,
+    port: smtpPort,
+    secure: smtpPort === 465,
+    auth: {
+      user: smtpUser,
+      pass: smtpPass
+    }
+  });
 
   try {
-    const response = await fetch(`https://formsubmit.co/ajax/${salesEmail}`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json"
-      },
-      body: formData
+    await transporter.sendMail({
+      from: `"Batum Website" <${smtpUser}>`,
+      to: salesEmail,
+      replyTo: inquiry.email,
+      subject: `Batum Technology inquiry - ${inquiry.company || inquiry.name}`,
+      text: buildPlainTextEmail(inquiry),
+      html: buildHtmlEmail(inquiry)
     });
 
-    return response.ok;
+    return true;
   } catch {
     return false;
   }
+}
+
+function buildPlainTextEmail(inquiry: ReturnType<typeof sanitizeInquiry>) {
+  return [
+    "Batum Technology Website Inquiry",
+    "",
+    `Name: ${inquiry.name}`,
+    `Company: ${inquiry.company}`,
+    `Email: ${inquiry.email}`,
+    `WhatsApp: ${inquiry.whatsapp}`,
+    `Country: ${inquiry.country}`,
+    `Interested Product: ${inquiry.product}`,
+    `Submitted At: ${inquiry.createdAt}`,
+    "",
+    "Project Requirements:",
+    inquiry.message
+  ].join("\n");
+}
+
+function buildHtmlEmail(inquiry: ReturnType<typeof sanitizeInquiry>) {
+  const rows = [
+    ["Name", inquiry.name],
+    ["Company", inquiry.company],
+    ["Email", inquiry.email],
+    ["WhatsApp", inquiry.whatsapp],
+    ["Country", inquiry.country],
+    ["Interested Product", inquiry.product],
+    ["Submitted At", inquiry.createdAt],
+    ["Project Requirements", inquiry.message]
+  ];
+
+  return `
+    <div style="font-family:Arial,sans-serif;color:#111827;line-height:1.6">
+      <h2>Batum Technology Website Inquiry</h2>
+      <table cellpadding="8" cellspacing="0" style="border-collapse:collapse;width:100%;max-width:720px">
+        ${rows
+          .map(
+            ([label, value]) => `
+              <tr>
+                <td style="border:1px solid #e5e7eb;background:#f9fafb;font-weight:700;width:180px">${escapeHtml(label)}</td>
+                <td style="border:1px solid #e5e7eb;white-space:pre-wrap">${escapeHtml(value)}</td>
+              </tr>
+            `
+          )
+          .join("")}
+      </table>
+    </div>
+  `;
+}
+
+function escapeHtml(value: string) {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }

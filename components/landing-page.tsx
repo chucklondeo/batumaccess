@@ -604,13 +604,18 @@ function InquiryForm({ copy }: { copy: (typeof uiCopy)[LocaleKey] }) {
       });
 
       if (!response.ok) {
-        throw new Error("Inquiry service rejected the request.");
+        const result = await response.json().catch(() => null);
+        throw new Error(result?.error || "Inquiry service rejected the request.");
       }
 
       setStatus(copy.submitReady);
       form.reset();
-    } catch {
-      setStatus("Inquiry could not be submitted. Please contact sales@batumaccess.com or WhatsApp +86 135 3425 3195.");
+    } catch (error) {
+      setStatus(
+        error instanceof Error && error.message.includes("SMTP")
+          ? "Email delivery is not configured yet. Please contact sales@batumaccess.com or WhatsApp +86 135 3425 3195."
+          : "Inquiry could not be submitted. Please contact sales@batumaccess.com or WhatsApp +86 135 3425 3195."
+      );
     }
   }
 
