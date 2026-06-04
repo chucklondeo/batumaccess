@@ -23,6 +23,7 @@ screenshots-check/
 homepage-screenshot.png
 edge-shot-profile*/
 .local-ssh/
+.data/
 
 # environment
 .env

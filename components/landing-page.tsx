@@ -17,7 +17,6 @@ import { FloatingOrbit } from "@/components/floating-orbit";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { MotionCard } from "@/components/motion-card";
 import { Section } from "@/components/section";
-import { ScreenshotTool } from "@/components/screenshot-tool";
 import {
   contact,
   globalMarkets,
@@ -70,7 +69,7 @@ const uiCopy: Record<
     formMessage: "Project Requirements",
     formPlaceholder: "Tell us about parking spaces, lanes, payment country, deployment mode and integration needs.",
     submit: "Submit Inquiry",
-    submitReady: "Your email app should open with the project inquiry. Please send it to complete the request.",
+    submitReady: "Inquiry submitted. Batum Technology will contact you shortly.",
     footer: "Global smart parking, access control and parking payment software."
   },
   zh: {
@@ -89,7 +88,7 @@ const uiCopy: Record<
     formMessage: "项目需求",
     formPlaceholder: "请说明车位数量、车道数量、支付国家、部署方式和集成需求。",
     submit: "提交询盘",
-    submitReady: "邮件应用将自动打开询盘内容，请发送邮件完成提交。",
+    submitReady: "Inquiry submitted. Batum Technology will contact you shortly.",
     footer: "全球智慧停车、门禁控制与停车支付软件。"
   },
   es: {
@@ -108,7 +107,7 @@ const uiCopy: Record<
     formMessage: "Requisitos del proyecto",
     formPlaceholder: "Indique plazas, carriles, pais de pago, modo de despliegue e integraciones.",
     submit: "Enviar consulta",
-    submitReady: "Su correo se abrira con la consulta del proyecto. Envie el email para completar la solicitud.",
+    submitReady: "Inquiry submitted. Batum Technology will contact you shortly.",
     footer: "Parking inteligente global, control de acceso y software de pago."
   },
   ar: {
@@ -127,7 +126,7 @@ const uiCopy: Record<
     formMessage: "Project Requirements",
     formPlaceholder: "Tell us about spaces, lanes, payment country, deployment mode and integration needs.",
     submit: "Submit Inquiry",
-    submitReady: "Your email app should open with the project inquiry. Please send it to complete the request.",
+    submitReady: "Inquiry submitted. Batum Technology will contact you shortly.",
     footer: "Global smart parking, access control and parking payment software."
   },
   fr: {
@@ -146,7 +145,7 @@ const uiCopy: Record<
     formMessage: "Besoins du projet",
     formPlaceholder: "Indiquez places, voies, pays de paiement, deploiement et integrations.",
     submit: "Envoyer",
-    submitReady: "Votre application email va s'ouvrir avec la demande. Envoyez l'email pour terminer.",
+    submitReady: "Inquiry submitted. Batum Technology will contact you shortly.",
     footer: "Parking intelligent, controle d'acces et logiciel de paiement."
   },
   pt: {
@@ -165,7 +164,7 @@ const uiCopy: Record<
     formMessage: "Requisitos do projeto",
     formPlaceholder: "Informe vagas, faixas, pais de pagamento, implantacao e integracoes.",
     submit: "Enviar",
-    submitReady: "Seu email sera aberto com a consulta do projeto. Envie o email para concluir.",
+    submitReady: "Inquiry submitted. Batum Technology will contact you shortly.",
     footer: "Parking inteligente, controle de acesso e software de pagamento."
   },
   ru: {
@@ -184,7 +183,7 @@ const uiCopy: Record<
     formMessage: "Project Requirements",
     formPlaceholder: "Tell us about spaces, lanes, payment country, deployment mode and integration needs.",
     submit: "Submit Inquiry",
-    submitReady: "Your email app should open with the project inquiry. Please send it to complete the request.",
+    submitReady: "Inquiry submitted. Batum Technology will contact you shortly.",
     footer: "Global smart parking, access control and parking payment software."
   }
 };
@@ -463,7 +462,6 @@ function Header({
           ))}
         </nav>
         <div className="hidden items-center gap-3 md:flex">
-          <ScreenshotTool />
           <LanguageSwitcher locale={locale} onLocaleChange={onLocaleChange} />
           <a href="#contact" className="rounded-full bg-white px-4 py-2 text-sm font-bold text-void transition hover:bg-gold">
             {copy.inquiry}
@@ -584,46 +582,35 @@ function InquiryForm({ copy }: { copy: (typeof uiCopy)[LocaleKey] }) {
     event.preventDefault();
     const form = event.currentTarget;
     const formData = new FormData(form);
-    const subject = `Batum Technology project inquiry - ${String(formData.get("company") || "New lead")}`;
-    const body = [
-      "Batum Technology Website Inquiry",
-      "",
-      `Name: ${formData.get("name") || ""}`,
-      `Company: ${formData.get("company") || ""}`,
-      `Email: ${formData.get("email") || ""}`,
-      `WhatsApp: ${formData.get("whatsapp") || ""}`,
-      `Country: ${formData.get("country") || ""}`,
-      `Interested Product: ${formData.get("product") || ""}`,
-      "",
-      "Project Requirements:",
-      String(formData.get("message") || "")
-    ].join("\n");
-
-    formData.append("_subject", subject);
-    formData.append("_template", "table");
-    formData.append("_captcha", "false");
-    formData.append("recipient", contact.email);
+    const payload = {
+      name: String(formData.get("name") || ""),
+      company: String(formData.get("company") || ""),
+      email: String(formData.get("email") || ""),
+      whatsapp: String(formData.get("whatsapp") || ""),
+      country: String(formData.get("country") || ""),
+      product: String(formData.get("product") || ""),
+      message: String(formData.get("message") || "")
+    };
 
     setStatus("Sending inquiry...");
 
     try {
-      const response = await fetch(`https://formsubmit.co/ajax/${contact.email}`, {
+      const response = await fetch("/api/inquiry", {
         method: "POST",
         headers: {
-          Accept: "application/json"
+          "Content-Type": "application/json"
         },
-        body: formData
+        body: JSON.stringify(payload)
       });
 
       if (!response.ok) {
-        throw new Error("Email service rejected the inquiry.");
+        throw new Error("Inquiry service rejected the request.");
       }
 
       setStatus(copy.submitReady);
       form.reset();
     } catch {
-      setStatus("Opening your email app as a backup. Please send the prepared inquiry to complete the request.");
-      window.location.href = `mailto:${contact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      setStatus("Inquiry could not be submitted. Please contact sales@batumaccess.com or WhatsApp +86 135 3425 3195.");
     }
   }
 
