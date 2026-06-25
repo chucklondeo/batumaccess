@@ -613,7 +613,7 @@ function InquiryForm({ copy }: { copy: (typeof uiCopy)[LocaleKey] }) {
     } catch (error) {
       setStatus(
         error instanceof Error
-          ? `${error.message} Please contact sales@batumaccess.com or WhatsApp +86 135 3425 3195.`
+          ? `${error.message} You can also contact sales@batumaccess.com or WhatsApp +86 135 3425 3195.`
           : "Inquiry could not be submitted. Please contact sales@batumaccess.com or WhatsApp +86 135 3425 3195."
       );
     }

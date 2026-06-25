@@ -25,7 +25,7 @@ export async function GET() {
     smtp: {
       host: process.env.SMTP_HOST || "smtp.hostinger.com",
       port: Number(process.env.SMTP_PORT || 465),
-      user: process.env.SMTP_USER || salesEmail,
+      user: getEnvValue("SMTP_USER") || salesEmail,
       passwordConfigured: Boolean(process.env.SMTP_PASS)
     }
   });
@@ -88,10 +88,9 @@ async function saveInquiry(inquiry: Inquiry, emailResult: { ok: boolean; error?:
 }
 
 async function sendInquiryEmail(inquiry: Inquiry): Promise<{ ok: boolean; error?: string }> {
-  const smtpHost = process.env.SMTP_HOST || "smtp.hostinger.com";
-  const smtpPort = Number(process.env.SMTP_PORT || 465);
-  const smtpUser = process.env.SMTP_USER || salesEmail;
-  const smtpPass = process.env.SMTP_PASS;
+  const smtpHost = getEnvValue("SMTP_HOST") || "smtp.hostinger.com";
+  const smtpUser = getEnvValue("SMTP_USER") || salesEmail;
+  const smtpPass = getEnvValue("SMTP_PASS");
 
   if (!smtpPass) {
     return {
@@ -100,34 +99,45 @@ async function sendInquiryEmail(inquiry: Inquiry): Promise<{ ok: boolean; error?
     };
   }
 
-  const transporter = nodemailer.createTransport({
-    host: smtpHost,
-    port: smtpPort,
-    secure: smtpPort === 465,
-    auth: {
-      user: smtpUser,
-      pass: smtpPass
-    }
-  });
+  const configuredPort = Number(getEnvValue("SMTP_PORT") || 465);
+  const ports = Array.from(new Set([configuredPort, 465, 587]));
+  const errors: string[] = [];
 
-  try {
-    await transporter.verify();
-    await transporter.sendMail({
-      from: `"Batum Website" <${smtpUser}>`,
-      to: salesEmail,
-      replyTo: inquiry.email,
-      subject: `Batum Technology inquiry - ${inquiry.company || inquiry.name}`,
-      text: buildPlainTextEmail(inquiry),
-      html: buildHtmlEmail(inquiry)
+  for (const port of ports) {
+    const transporter = nodemailer.createTransport({
+      host: smtpHost,
+      port,
+      secure: port === 465,
+      auth: {
+        user: smtpUser,
+        pass: smtpPass
+      },
+      connectionTimeout: 12000,
+      greetingTimeout: 12000,
+      socketTimeout: 16000
     });
 
-    return { ok: true };
-  } catch (error) {
-    return {
-      ok: false,
-      error: error instanceof Error ? `SMTP delivery failed: ${error.message}` : "SMTP delivery failed."
-    };
+    try {
+      await transporter.verify();
+      await transporter.sendMail({
+        from: `"Batum Website" <${smtpUser}>`,
+        to: salesEmail,
+        replyTo: inquiry.email,
+        subject: `Batum Technology inquiry - ${inquiry.company || inquiry.name}`,
+        text: buildPlainTextEmail(inquiry),
+        html: buildHtmlEmail(inquiry)
+      });
+
+      return { ok: true };
+    } catch (error) {
+      errors.push(error instanceof Error ? `Port ${port}: ${error.message}` : `Port ${port}: SMTP delivery failed.`);
+    }
   }
+
+  return {
+    ok: false,
+    error: formatSmtpError(errors)
+  };
 }
 
 function buildPlainTextEmail(inquiry: Inquiry) {
@@ -185,4 +195,18 @@ function escapeHtml(value: string) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
+}
+
+function getEnvValue(name: string) {
+  const value = process.env[name];
+  if (!value) return "";
+  return value.trim().replace(/^["']|["']$/g, "");
+}
+
+function formatSmtpError(errors: string[]) {
+  const message = errors.join(" | ");
+  if (/535|Invalid login|authentication failed/i.test(message)) {
+    return "SMTP login failed. Please set the correct Hostinger mailbox password for sales@batumaccess.com in SMTP_PASS.";
+  }
+  return `SMTP delivery failed: ${message}`;
 }
