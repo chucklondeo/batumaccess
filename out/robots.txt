@@ -1,0 +1,4 @@
+User-Agent: *
+Allow: /
+
+Sitemap: https://batumaccess.com/sitemap.xml

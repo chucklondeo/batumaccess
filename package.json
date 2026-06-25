@@ -5,31 +5,28 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "prestart": "node scripts/ensure-build.js",
-    "start": "next start",
+    "start": "node scripts/static-server.js",
     "lint": "next lint",
     "screenshot": "powershell -ExecutionPolicy Bypass -File scripts/capture-screenshots.ps1",
     "test:smtp": "node scripts/test-smtp.js"
   },
   "dependencies": {
-    "@types/nodemailer": "^8.0.0",
     "clsx": "^2.1.1",
     "framer-motion": "^11.15.0",
     "lucide-react": "^0.468.0",
     "next": "14.2.35",
-    "nodemailer": "^8.0.10",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
     "react": "18.3.1",
-    "react-dom": "18.3.1"
+    "react-dom": "18.3.1",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.2"
   },
   "devDependencies": {
     "@types/node": "^20.17.10",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
-    "autoprefixer": "^10.4.20",
     "eslint": "^8.57.1",
-    "eslint-config-next": "14.2.35",
-    "postcss": "^8.4.49",
-    "tailwindcss": "^3.4.17",
-    "typescript": "^5.7.2"
+    "eslint-config-next": "14.2.35"
   }
 }
