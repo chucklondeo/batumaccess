@@ -1,19 +1,14 @@
-"use client";
-
-import { type FormEvent, useState } from "react";
 import {
   ArrowRight,
   CheckCircle2,
   ChevronRight,
   Database,
   Mail,
-  Menu,
   MessageCircle,
   Sparkles,
-  X
 } from "lucide-react";
 import { FloatingOrbit } from "@/components/floating-orbit";
-import { LanguageSwitcher } from "@/components/language-switcher";
+import { InquiryForm } from "@/components/inquiry-form";
 import { MotionCard } from "@/components/motion-card";
 import { Section } from "@/components/section";
 import {
@@ -188,21 +183,14 @@ const uiCopy: Record<
 };
 
 export function LandingPage() {
-  const [locale, setLocale] = useState<LocaleKey>("en");
-  const [menuOpen, setMenuOpen] = useState(false);
+  const locale: LocaleKey = "en";
   const hero = localizedHero[locale];
   const copy = uiCopy[locale];
 
   return (
     <main className="relative overflow-hidden">
       <FloatingOrbit />
-      <Header
-        locale={locale}
-        onLocaleChange={setLocale}
-        menuOpen={menuOpen}
-        onMenuToggle={() => setMenuOpen((value) => !value)}
-        copy={copy}
-      />
+      <Header copy={copy} />
 
       <section className="relative min-h-screen px-5 pb-20 pt-28 sm:px-8 lg:px-12">
         <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.04fr_0.96fr]">
@@ -419,19 +407,7 @@ export function LandingPage() {
   );
 }
 
-function Header({
-  locale,
-  onLocaleChange,
-  menuOpen,
-  onMenuToggle,
-  copy
-}: {
-  locale: LocaleKey;
-  onLocaleChange: (locale: LocaleKey) => void;
-  menuOpen: boolean;
-  onMenuToggle: () => void;
-  copy: (typeof uiCopy)[LocaleKey];
-}) {
+function Header({ copy }: { copy: (typeof uiCopy)[LocaleKey] }) {
   return (
     <header className="fixed left-0 right-0 top-0 z-50 border-b border-white/10 bg-void/70 px-5 py-4 backdrop-blur-2xl sm:px-8 lg:px-12">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">
@@ -452,30 +428,14 @@ function Header({
           ))}
         </nav>
         <div className="hidden items-center gap-3 md:flex">
-          <LanguageSwitcher locale={locale} onLocaleChange={onLocaleChange} />
           <a href="#contact" className="rounded-full bg-white px-4 py-2 text-sm font-bold text-void transition hover:bg-gold">
             {copy.inquiry}
           </a>
         </div>
-        <button
-          type="button"
-          className="grid h-11 w-11 place-items-center rounded-2xl border border-white/10 bg-white/[0.06] lg:hidden"
-          onClick={onMenuToggle}
-          aria-label="Toggle navigation"
-        >
-          {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
+        <a href="#contact" className="rounded-full bg-white px-4 py-2 text-sm font-bold text-void transition hover:bg-gold md:hidden">
+          {copy.inquiry}
+        </a>
       </div>
-      {menuOpen ? (
-        <div className="mx-auto mt-4 grid max-w-7xl gap-3 rounded-3xl border border-white/10 bg-obsidian/95 p-4 lg:hidden">
-          {navItems.map((item, index) => (
-            <a key={item.href} href={item.href} className="rounded-2xl px-4 py-3 text-steel hover:bg-white/5 hover:text-white">
-              {copy.nav[index] ?? item.label}
-            </a>
-          ))}
-          <LanguageSwitcher locale={locale} onLocaleChange={onLocaleChange} />
-        </div>
-      ) : null}
     </header>
   );
 }
@@ -562,84 +522,3 @@ function SoftwareDashboard() {
   );
 }
 
-function InquiryForm({ copy }: { copy: (typeof uiCopy)[LocaleKey] }) {
-  const [status, setStatus] = useState<string | null>(null);
-  const fieldNames = ["name", "company", "email", "whatsapp", "country", "product"];
-
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const form = event.currentTarget;
-    const formData = new FormData(form);
-    const payload = {
-      name: String(formData.get("name") || ""),
-      company: String(formData.get("company") || ""),
-      email: String(formData.get("email") || ""),
-      whatsapp: String(formData.get("whatsapp") || ""),
-      country: String(formData.get("country") || ""),
-      product: String(formData.get("product") || ""),
-      message: String(formData.get("message") || "")
-    };
-
-    setStatus("Sending inquiry...");
-
-    try {
-      const response = await fetch("/api/inquiry", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(payload)
-      });
-
-      if (!response.ok) {
-        const result = await response.json().catch(() => null);
-        throw new Error(result?.error || "Inquiry service rejected the request.");
-      }
-
-      setStatus(copy.submitReady);
-      form.reset();
-    } catch (error) {
-      setStatus(
-        error instanceof Error
-          ? `${error.message} You can also contact sales@batumaccess.com or WhatsApp +86 135 3425 3195.`
-          : "Inquiry could not be submitted. Please contact sales@batumaccess.com or WhatsApp +86 135 3425 3195."
-      );
-    }
-  }
-
-  return (
-    <MotionCard className="p-6 sm:p-8">
-      <form className="grid gap-4 md:grid-cols-2" onSubmit={handleSubmit}>
-        {copy.formFields.map((field, index) => (
-          <label key={field} className="grid gap-2 text-sm font-semibold text-white">
-            {field}
-            <input
-              name={fieldNames[index]}
-              required={fieldNames[index] === "name" || fieldNames[index] === "email"}
-              className="rounded-2xl border border-white/10 bg-white/[0.06] px-4 py-3 text-sm text-white outline-none transition placeholder:text-steel focus:border-water"
-              placeholder={field}
-              type={fieldNames[index] === "email" ? "email" : "text"}
-            />
-          </label>
-        ))}
-        <label className="grid gap-2 text-sm font-semibold text-white md:col-span-2">
-          {copy.formMessage}
-          <textarea
-            name="message"
-            required
-            className="min-h-36 rounded-2xl border border-white/10 bg-white/[0.06] px-4 py-3 text-sm text-white outline-none transition placeholder:text-steel focus:border-water"
-            placeholder={copy.formPlaceholder}
-          />
-        </label>
-        <button
-          type="submit"
-          className="group md:col-span-2 inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-water to-gold px-6 py-4 text-sm font-black text-void transition hover:shadow-gold"
-        >
-          {copy.submit}
-          <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
-        </button>
-        {status ? <p className="md:col-span-2 rounded-2xl border border-wood/30 bg-wood/10 px-4 py-3 text-sm text-wood">{status}</p> : null}
-      </form>
-    </MotionCard>
-  );
-}
