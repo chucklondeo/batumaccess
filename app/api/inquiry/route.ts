@@ -27,6 +27,10 @@ export async function GET() {
       port: Number(process.env.SMTP_PORT || 465),
       user: getEnvValue("SMTP_USER") || salesEmail,
       passwordConfigured: Boolean(process.env.SMTP_PASS)
+    },
+    delivery: {
+      primary: "formsubmit",
+      fallback: "smtp"
     }
   });
 }
@@ -47,7 +51,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ ok: false, error: "Name, email and project requirements are required." }, { status: 400 });
     }
 
-    const emailResult = await sendInquiryEmail(inquiry);
+    const emailResult = await sendInquiryViaFormSubmit(inquiry);
     const storageResult = await saveInquirySafely(inquiry, emailResult);
 
     if (!emailResult.ok) {
@@ -94,13 +98,13 @@ function clean(value?: string, maxLength = 500) {
   return String(value || "").trim().slice(0, maxLength);
 }
 
-async function saveInquiry(inquiry: Inquiry, emailResult: { ok: boolean; error?: string }) {
+async function saveInquiry(inquiry: Inquiry, emailResult: { ok: boolean; provider?: string; error?: string }) {
   const dataDir = join(process.cwd(), ".data");
   await mkdir(dataDir, { recursive: true });
   await appendFile(join(dataDir, "inquiries.jsonl"), `${JSON.stringify({ ...inquiry, emailResult })}\n`, "utf8");
 }
 
-async function saveInquirySafely(inquiry: Inquiry, emailResult: { ok: boolean; error?: string }) {
+async function saveInquirySafely(inquiry: Inquiry, emailResult: { ok: boolean; provider?: string; error?: string }) {
   try {
     await saveInquiry(inquiry, emailResult);
     return { ok: true };
@@ -109,7 +113,66 @@ async function saveInquirySafely(inquiry: Inquiry, emailResult: { ok: boolean; e
   }
 }
 
-async function sendInquiryEmail(inquiry: Inquiry): Promise<{ ok: boolean; error?: string }> {
+async function sendInquiryViaFormSubmit(inquiry: Inquiry): Promise<{ ok: boolean; provider?: string; error?: string }> {
+  const formSubmitUrl = `https://formsubmit.co/ajax/${salesEmail}`;
+  const subject = `Batum Technology inquiry - ${inquiry.company || inquiry.name}`;
+
+  try {
+    const response = await fetch(formSubmitUrl, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        _subject: subject,
+        _template: "table",
+        _captcha: "false",
+        name: inquiry.name,
+        company: inquiry.company,
+        email: inquiry.email,
+        _replyto: inquiry.email,
+        whatsapp: inquiry.whatsapp,
+        country: inquiry.country,
+        interested_product: inquiry.product,
+        submitted_at: inquiry.createdAt,
+        project_requirements: inquiry.message
+      })
+    });
+
+    const responseText = await response.text();
+
+    if (response.ok) {
+      return { ok: true, provider: "formsubmit" };
+    }
+
+    const fallbackResult = await sendInquiryEmail(inquiry);
+    if (fallbackResult.ok) {
+      return { ok: true, provider: "smtp" };
+    }
+
+    return {
+      ok: false,
+      provider: "formsubmit+smtp",
+      error: `FormSubmit delivery failed (${response.status}): ${responseText || response.statusText}. SMTP fallback: ${
+        fallbackResult.error || "failed"
+      }`
+    };
+  } catch (error) {
+    const fallbackResult = await sendInquiryEmail(inquiry);
+    if (fallbackResult.ok) {
+      return { ok: true, provider: "smtp" };
+    }
+
+    return {
+      ok: false,
+      provider: "formsubmit+smtp",
+      error: `FormSubmit delivery failed: ${formatUnknownError(error)}. SMTP fallback: ${fallbackResult.error || "failed"}`
+    };
+  }
+}
+
+async function sendInquiryEmail(inquiry: Inquiry): Promise<{ ok: boolean; provider?: string; error?: string }> {
   const smtpHost = getSmtpHost();
   const smtpUser = getEnvValue("SMTP_USER") || salesEmail;
   const smtpPass = getEnvValue("SMTP_PASS");
@@ -150,7 +213,7 @@ async function sendInquiryEmail(inquiry: Inquiry): Promise<{ ok: boolean; error?
         html: buildHtmlEmail(inquiry)
       });
 
-      return { ok: true };
+      return { ok: true, provider: "smtp" };
     } catch (error) {
       errors.push(error instanceof Error ? `Port ${port}: ${error.message}` : `Port ${port}: SMTP delivery failed.`);
     }
