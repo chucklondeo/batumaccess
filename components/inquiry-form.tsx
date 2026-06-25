@@ -13,6 +13,8 @@ type InquiryFormCopy = {
 };
 
 const fieldNames = ["name", "company", "email", "whatsapp", "country", "product"];
+const inquiryEmail = "sales@batumaccess.com";
+const formSubmitEndpoint = `https://formsubmit.co/ajax/${inquiryEmail}`;
 
 export function InquiryForm({ copy }: { copy: InquiryFormCopy }) {
   const [status, setStatus] = useState<string | null>(null);
@@ -34,12 +36,25 @@ export function InquiryForm({ copy }: { copy: InquiryFormCopy }) {
     setStatus("Sending inquiry...");
 
     try {
-      const response = await fetch("/api/inquiry", {
+      const response = await fetch(formSubmitEndpoint, {
         method: "POST",
         headers: {
+          Accept: "application/json",
           "Content-Type": "application/json"
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify({
+          _subject: `Batum Technology inquiry - ${payload.company || payload.name}`,
+          _template: "table",
+          _captcha: "false",
+          _replyto: payload.email,
+          name: payload.name,
+          company: payload.company,
+          email: payload.email,
+          whatsapp: payload.whatsapp,
+          country: payload.country,
+          interested_product: payload.product,
+          project_requirements: payload.message
+        })
       });
 
       if (!response.ok) {
@@ -48,7 +63,7 @@ export function InquiryForm({ copy }: { copy: InquiryFormCopy }) {
         throw new Error(result?.error || responseText || `Inquiry service rejected the request (${response.status}).`);
       }
 
-      setStatus(copy.submitReady);
+      setStatus(`${copy.submitReady} If this is the first submission, please confirm the FormSubmit email sent to ${inquiryEmail}.`);
       form.reset();
     } catch (error) {
       setStatus(
