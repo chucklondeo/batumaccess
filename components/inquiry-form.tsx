@@ -1,6 +1,5 @@
 "use client";
 
-import { type FormEvent, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { MotionCard } from "@/components/motion-card";
 
@@ -12,71 +11,18 @@ type InquiryFormCopy = {
   submitReady: string;
 };
 
-const fieldNames = ["name", "company", "email", "whatsapp", "country", "product"];
+const fieldNames = ["name", "company", "email", "whatsapp", "country", "interested_product"];
 const inquiryEmail = "sales@batumaccess.com";
-const formSubmitEndpoint = `https://formsubmit.co/ajax/${inquiryEmail}`;
+const formSubmitEndpoint = `https://formsubmit.co/${inquiryEmail}`;
 
 export function InquiryForm({ copy }: { copy: InquiryFormCopy }) {
-  const [status, setStatus] = useState<string | null>(null);
-
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const form = event.currentTarget;
-    const formData = new FormData(form);
-    const payload = {
-      name: String(formData.get("name") || ""),
-      company: String(formData.get("company") || ""),
-      email: String(formData.get("email") || ""),
-      whatsapp: String(formData.get("whatsapp") || ""),
-      country: String(formData.get("country") || ""),
-      product: String(formData.get("product") || ""),
-      message: String(formData.get("message") || "")
-    };
-
-    setStatus("Sending inquiry...");
-
-    try {
-      const response = await fetch(formSubmitEndpoint, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          _subject: `Batum Technology inquiry - ${payload.company || payload.name}`,
-          _template: "table",
-          _captcha: "false",
-          _replyto: payload.email,
-          name: payload.name,
-          company: payload.company,
-          email: payload.email,
-          whatsapp: payload.whatsapp,
-          country: payload.country,
-          interested_product: payload.product,
-          project_requirements: payload.message
-        })
-      });
-
-      if (!response.ok) {
-        const responseText = await response.text();
-        const result = parseJsonResponse(responseText);
-        throw new Error(result?.error || responseText || `Inquiry service rejected the request (${response.status}).`);
-      }
-
-      setStatus(`${copy.submitReady} If this is the first submission, please confirm the FormSubmit email sent to ${inquiryEmail}.`);
-      form.reset();
-    } catch (error) {
-      setStatus(
-        error instanceof Error
-          ? `${error.message} You can also contact sales@batumaccess.com or WhatsApp +86 135 3425 3195.`
-          : "Inquiry could not be submitted. Please contact sales@batumaccess.com or WhatsApp +86 135 3425 3195."
-      );
-    }
-  }
-
   return (
     <MotionCard className="p-6 sm:p-8">
-      <form className="grid gap-4 md:grid-cols-2" onSubmit={handleSubmit}>
+      <form action={formSubmitEndpoint} className="grid gap-4 md:grid-cols-2" method="POST">
+        <input name="_subject" type="hidden" value="Batum Technology website inquiry" />
+        <input name="_template" type="hidden" value="table" />
+        <input name="_captcha" type="hidden" value="false" />
+        <input name="_next" type="hidden" value="https://batumaccess.com/?inquiry=sent" />
         {copy.formFields.map((field, index) => (
           <label key={field} className="grid gap-2 text-sm font-semibold text-white">
             {field}
@@ -92,7 +38,7 @@ export function InquiryForm({ copy }: { copy: InquiryFormCopy }) {
         <label className="grid gap-2 text-sm font-semibold text-white md:col-span-2">
           {copy.formMessage}
           <textarea
-            name="message"
+            name="project_requirements"
             required
             className="min-h-36 rounded-2xl border border-white/10 bg-white/[0.06] px-4 py-3 text-sm text-white outline-none transition placeholder:text-steel focus:border-water"
             placeholder={copy.formPlaceholder}
@@ -105,16 +51,10 @@ export function InquiryForm({ copy }: { copy: InquiryFormCopy }) {
           {copy.submit}
           <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
         </button>
-        {status ? <p className="md:col-span-2 rounded-2xl border border-wood/30 bg-wood/10 px-4 py-3 text-sm text-wood">{status}</p> : null}
+        <p className="md:col-span-2 rounded-2xl border border-wood/30 bg-wood/10 px-4 py-3 text-sm text-wood">
+          First submission may require confirming the FormSubmit email sent to {inquiryEmail}.
+        </p>
       </form>
     </MotionCard>
   );
-}
-
-function parseJsonResponse(text: string): { error?: string } | null {
-  try {
-    return JSON.parse(text);
-  } catch {
-    return null;
-  }
 }
