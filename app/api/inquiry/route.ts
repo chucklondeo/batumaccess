@@ -17,6 +17,20 @@ type InquiryPayload = {
   message?: string;
 };
 
+type Inquiry = ReturnType<typeof sanitizeInquiry>;
+
+export async function GET() {
+  return NextResponse.json({
+    ok: true,
+    smtp: {
+      host: process.env.SMTP_HOST || "smtp.hostinger.com",
+      port: Number(process.env.SMTP_PORT || 465),
+      user: process.env.SMTP_USER || salesEmail,
+      passwordConfigured: Boolean(process.env.SMTP_PASS)
+    }
+  });
+}
+
 export async function POST(request: NextRequest) {
   let payload: InquiryPayload;
 
@@ -32,16 +46,16 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: false, error: "Name, email and project requirements are required." }, { status: 400 });
   }
 
-  await saveInquiry(inquiry);
-  const emailForwarded = await sendInquiryEmail(inquiry);
+  const emailResult = await sendInquiryEmail(inquiry);
+  await saveInquiry(inquiry, emailResult);
 
-  if (!emailForwarded) {
+  if (!emailResult.ok) {
     return NextResponse.json(
       {
         ok: false,
         stored: true,
         emailForwarded: false,
-        error: "Inquiry was stored, but SMTP email is not configured yet."
+        error: emailResult.error
       },
       { status: 503 }
     );
@@ -67,20 +81,23 @@ function clean(value?: string, maxLength = 500) {
   return String(value || "").trim().slice(0, maxLength);
 }
 
-async function saveInquiry(inquiry: ReturnType<typeof sanitizeInquiry>) {
+async function saveInquiry(inquiry: Inquiry, emailResult: { ok: boolean; error?: string }) {
   const dataDir = join(process.cwd(), ".data");
   await mkdir(dataDir, { recursive: true });
-  await appendFile(join(dataDir, "inquiries.jsonl"), `${JSON.stringify(inquiry)}\n`, "utf8");
+  await appendFile(join(dataDir, "inquiries.jsonl"), `${JSON.stringify({ ...inquiry, emailResult })}\n`, "utf8");
 }
 
-async function sendInquiryEmail(inquiry: ReturnType<typeof sanitizeInquiry>) {
+async function sendInquiryEmail(inquiry: Inquiry): Promise<{ ok: boolean; error?: string }> {
   const smtpHost = process.env.SMTP_HOST || "smtp.hostinger.com";
   const smtpPort = Number(process.env.SMTP_PORT || 465);
   const smtpUser = process.env.SMTP_USER || salesEmail;
   const smtpPass = process.env.SMTP_PASS;
 
   if (!smtpPass) {
-    return false;
+    return {
+      ok: false,
+      error: "SMTP_PASS is missing. Configure the sales@batumaccess.com mailbox password in Hostinger environment variables."
+    };
   }
 
   const transporter = nodemailer.createTransport({
@@ -94,6 +111,7 @@ async function sendInquiryEmail(inquiry: ReturnType<typeof sanitizeInquiry>) {
   });
 
   try {
+    await transporter.verify();
     await transporter.sendMail({
       from: `"Batum Website" <${smtpUser}>`,
       to: salesEmail,
@@ -103,13 +121,16 @@ async function sendInquiryEmail(inquiry: ReturnType<typeof sanitizeInquiry>) {
       html: buildHtmlEmail(inquiry)
     });
 
-    return true;
-  } catch {
-    return false;
+    return { ok: true };
+  } catch (error) {
+    return {
+      ok: false,
+      error: error instanceof Error ? `SMTP delivery failed: ${error.message}` : "SMTP delivery failed."
+    };
   }
 }
 
-function buildPlainTextEmail(inquiry: ReturnType<typeof sanitizeInquiry>) {
+function buildPlainTextEmail(inquiry: Inquiry) {
   return [
     "Batum Technology Website Inquiry",
     "",
@@ -126,7 +147,7 @@ function buildPlainTextEmail(inquiry: ReturnType<typeof sanitizeInquiry>) {
   ].join("\n");
 }
 
-function buildHtmlEmail(inquiry: ReturnType<typeof sanitizeInquiry>) {
+function buildHtmlEmail(inquiry: Inquiry) {
   const rows = [
     ["Name", inquiry.name],
     ["Company", inquiry.company],
