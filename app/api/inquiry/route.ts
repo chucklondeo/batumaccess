@@ -23,7 +23,7 @@ export async function GET() {
   return NextResponse.json({
     ok: true,
     smtp: {
-      host: process.env.SMTP_HOST || "smtp.hostinger.com",
+      host: getSmtpHost(),
       port: Number(process.env.SMTP_PORT || 465),
       user: getEnvValue("SMTP_USER") || salesEmail,
       passwordConfigured: Boolean(process.env.SMTP_PASS)
@@ -88,7 +88,7 @@ async function saveInquiry(inquiry: Inquiry, emailResult: { ok: boolean; error?:
 }
 
 async function sendInquiryEmail(inquiry: Inquiry): Promise<{ ok: boolean; error?: string }> {
-  const smtpHost = getEnvValue("SMTP_HOST") || "smtp.hostinger.com";
+  const smtpHost = getSmtpHost();
   const smtpUser = getEnvValue("SMTP_USER") || salesEmail;
   const smtpPass = getEnvValue("SMTP_PASS");
 
@@ -201,6 +201,11 @@ function getEnvValue(name: string) {
   const value = process.env[name];
   if (!value) return "";
   return value.trim().replace(/^["']|["']$/g, "");
+}
+
+function getSmtpHost() {
+  const host = getEnvValue("SMTP_HOST") || "smtp.hostinger.com";
+  return host === "smtp.hostinger.co" ? "smtp.hostinger.com" : host;
 }
 
 function formatSmtpError(errors: string[]) {
