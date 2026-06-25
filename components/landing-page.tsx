@@ -1,7 +1,6 @@
 "use client";
 
 import { type FormEvent, useState } from "react";
-import { motion } from "framer-motion";
 import {
   ArrowRight,
   CheckCircle2,
@@ -207,11 +206,7 @@ export function LandingPage() {
 
       <section className="relative min-h-screen px-5 pb-20 pt-28 sm:px-8 lg:px-12">
         <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.04fr_0.96fr]">
-          <motion.div
-            initial={{ opacity: 1, y: 0 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          >
+          <div>
             <div className="mb-6 inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.06] px-4 py-2 text-sm text-steel backdrop-blur-2xl">
               <Sparkles className="h-4 w-4 text-gold" />
               <span>{hero.eyebrow}</span>
@@ -244,16 +239,11 @@ export function LandingPage() {
                 </div>
               ))}
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 1, scale: 1, rotateX: 0 }}
-            animate={{ opacity: 1, scale: 1, rotateX: 0 }}
-            transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className="relative"
-          >
+          <div className="relative">
             <SystemVisual />
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -524,11 +514,9 @@ function SystemVisual() {
               <div key={item} className="flex items-center gap-3">
                 <span className="grid h-7 w-7 place-items-center rounded-full bg-water/10 text-xs text-water">{index + 1}</span>
                 <div className="h-2 flex-1 overflow-hidden rounded-full bg-white/10">
-                  <motion.div
+                  <div
                     className="h-full rounded-full bg-gradient-to-r from-water via-wood to-gold"
-                    initial={{ width: "0%" }}
-                    animate={{ width: `${72 + index * 7}%` }}
-                    transition={{ duration: 1.2, delay: 0.4 + index * 0.15 }}
+                    style={{ width: `${72 + index * 7}%` }}
                   />
                 </div>
                 <span className="w-44 text-xs text-steel">{item}</span>
