@@ -43,8 +43,9 @@ export function InquiryForm({ copy }: { copy: InquiryFormCopy }) {
       });
 
       if (!response.ok) {
-        const result = await response.json().catch(() => null);
-        throw new Error(result?.error || "Inquiry service rejected the request.");
+        const responseText = await response.text();
+        const result = parseJsonResponse(responseText);
+        throw new Error(result?.error || responseText || `Inquiry service rejected the request (${response.status}).`);
       }
 
       setStatus(copy.submitReady);
@@ -93,4 +94,12 @@ export function InquiryForm({ copy }: { copy: InquiryFormCopy }) {
       </form>
     </MotionCard>
   );
+}
+
+function parseJsonResponse(text: string): { error?: string } | null {
+  try {
+    return JSON.parse(text);
+  } catch {
+    return null;
+  }
 }

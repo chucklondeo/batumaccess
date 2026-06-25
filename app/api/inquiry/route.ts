@@ -32,36 +32,49 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
-  let payload: InquiryPayload;
-
   try {
-    payload = await request.json();
-  } catch {
-    return NextResponse.json({ ok: false, error: "Invalid inquiry payload." }, { status: 400 });
-  }
+    let payload: InquiryPayload;
 
-  const inquiry = sanitizeInquiry(payload);
+    try {
+      payload = await request.json();
+    } catch {
+      return NextResponse.json({ ok: false, error: "Invalid inquiry payload." }, { status: 400 });
+    }
 
-  if (!inquiry.name || !inquiry.email || !inquiry.message) {
-    return NextResponse.json({ ok: false, error: "Name, email and project requirements are required." }, { status: 400 });
-  }
+    const inquiry = sanitizeInquiry(payload);
 
-  const emailResult = await sendInquiryEmail(inquiry);
-  await saveInquiry(inquiry, emailResult);
+    if (!inquiry.name || !inquiry.email || !inquiry.message) {
+      return NextResponse.json({ ok: false, error: "Name, email and project requirements are required." }, { status: 400 });
+    }
 
-  if (!emailResult.ok) {
+    const emailResult = await sendInquiryEmail(inquiry);
+    const storageResult = await saveInquirySafely(inquiry, emailResult);
+
+    if (!emailResult.ok) {
+      return NextResponse.json(
+        {
+          ok: false,
+          stored: storageResult.ok,
+          storageError: storageResult.error,
+          emailForwarded: false,
+          error: emailResult.error
+        },
+        { status: 503 }
+      );
+    }
+
+    return NextResponse.json({ ok: true, stored: storageResult.ok, storageError: storageResult.error, emailForwarded: true });
+  } catch (error) {
     return NextResponse.json(
       {
         ok: false,
-        stored: true,
+        stored: false,
         emailForwarded: false,
-        error: emailResult.error
+        error: `Inquiry service failed: ${formatUnknownError(error)}`
       },
-      { status: 503 }
+      { status: 500 }
     );
   }
-
-  return NextResponse.json({ ok: true, stored: true, emailForwarded: true });
 }
 
 function sanitizeInquiry(payload: InquiryPayload) {
@@ -85,6 +98,15 @@ async function saveInquiry(inquiry: Inquiry, emailResult: { ok: boolean; error?:
   const dataDir = join(process.cwd(), ".data");
   await mkdir(dataDir, { recursive: true });
   await appendFile(join(dataDir, "inquiries.jsonl"), `${JSON.stringify({ ...inquiry, emailResult })}\n`, "utf8");
+}
+
+async function saveInquirySafely(inquiry: Inquiry, emailResult: { ok: boolean; error?: string }) {
+  try {
+    await saveInquiry(inquiry, emailResult);
+    return { ok: true };
+  } catch (error) {
+    return { ok: false, error: formatUnknownError(error) };
+  }
 }
 
 async function sendInquiryEmail(inquiry: Inquiry): Promise<{ ok: boolean; error?: string }> {
@@ -214,4 +236,11 @@ function formatSmtpError(errors: string[]) {
     return "SMTP login failed. Please set the correct Hostinger mailbox password for sales@batumaccess.com in SMTP_PASS.";
   }
   return `SMTP delivery failed: ${message}`;
+}
+
+function formatUnknownError(error: unknown) {
+  if (error instanceof Error) {
+    return error.message;
+  }
+  return "Unexpected server error.";
 }
