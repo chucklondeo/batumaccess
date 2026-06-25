@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "prestart": "node scripts/ensure-build.js",
     "start": "next start",
     "lint": "next lint",
     "screenshot": "powershell -ExecutionPolicy Bypass -File scripts/capture-screenshots.ps1",
