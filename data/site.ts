@@ -401,19 +401,136 @@ export const faqs: Record<LocaleKey, FaqItem[]> = {
   ]
 };
 
-export const solutionCards = [
-  { icon: "parking", title: "Smart parking", body: "LPR, barrier control, radar protection and parking payment workflows." },
-  { icon: "transit", title: "Rail transit access", body: "AFC gates, platform screen door control and station access integration." },
-  { icon: "operator", title: "Door operator control", body: "Low-voltage servo drive logic for automatic door and gate movement." },
-  { icon: "safety", title: "Safety radar", body: "Anti-smash and anti-pinch detection for vehicle and pedestrian safety." }
-] as const;
+type CardItem = { icon: keyof typeof iconMap; title: string; body: string };
 
-export const caseCards = [
-  { icon: "parking", title: "Parking lots", body: "Ticketless parking entry, exit payment and vehicle access management." },
-  { icon: "building", title: "Commercial buildings", body: "Office, hotel, mall and residential mixed-use entrance control." },
-  { icon: "transit", title: "Rail transit", body: "AFC, platform screen door and passenger flow access systems." },
-  { icon: "fast", title: "Highway ETC", body: "Fast vehicle lane control and integration with identification systems." }
-] as const;
+export const solutionCards: Record<LocaleKey, CardItem[]> = {
+  en: [
+    { icon: "parking", title: "Smart parking", body: "LPR, barrier control, radar protection and parking payment workflows." },
+    { icon: "transit", title: "Rail transit access", body: "AFC gates, platform screen door control and station access integration." },
+    { icon: "operator", title: "Door operator control", body: "Low-voltage servo drive logic for automatic door and gate movement." },
+    { icon: "safety", title: "Safety radar", body: "Anti-smash and anti-pinch detection for vehicle and pedestrian safety." }
+  ],
+  "zh-hant": [
+    { icon: "parking", title: "智慧停車", body: "車牌辨識、道閘控制、雷達防護與停車繳費流程。" },
+    { icon: "transit", title: "軌道交通門禁", body: "自動售票閘機（AFC）、站台屏蔽門控制與車站門禁整合。" },
+    { icon: "operator", title: "開門機控制", body: "用於自動門與閘門動作的低壓伺服驅動邏輯。" },
+    { icon: "safety", title: "安全雷達", body: "針對車輛與行人安全的防砸防夾偵測。" }
+  ],
+  es: [
+    { icon: "parking", title: "Parking inteligente", body: "Reconocimiento de placas, control de barreras, protección por radar y flujos de pago de parking." },
+    { icon: "transit", title: "Acceso a tránsito ferroviario", body: "Puertas AFC, control de puertas de andén e integración de acceso a estaciones." },
+    { icon: "operator", title: "Control de operador de puerta", body: "Lógica de accionamiento servo de bajo voltaje para el movimiento automático de puertas y portones." },
+    { icon: "safety", title: "Radar de seguridad", body: "Detección antiaplastamiento y antipinzamiento para la seguridad de vehículos y peatones." }
+  ],
+  vi: [
+    { icon: "parking", title: "Bãi đỗ xe thông minh", body: "Nhận diện biển số, điều khiển barrier, bảo vệ bằng radar và quy trình thanh toán bãi đỗ." },
+    { icon: "transit", title: "Kiểm soát ra vào giao thông đường sắt", body: "Cổng AFC, điều khiển cửa chắn sân ga và tích hợp kiểm soát ra vào nhà ga." },
+    { icon: "operator", title: "Điều khiển bộ mở cửa", body: "Logic truyền động servo điện áp thấp cho chuyển động của cửa và cổng tự động." },
+    { icon: "safety", title: "Radar an toàn", body: "Phát hiện chống đập và chống kẹp cho an toàn của xe và người đi bộ." }
+  ],
+  ms: [
+    { icon: "parking", title: "Parkir pintar", body: "Pengecaman plat nombor, kawalan palang, perlindungan radar dan aliran pembayaran parkir." },
+    { icon: "transit", title: "Akses transit rel", body: "Pintu AFC, kawalan pintu platform dan integrasi akses stesen." },
+    { icon: "operator", title: "Kawalan penggerak pintu", body: "Logik pemacu servo voltan rendah untuk pergerakan pintu dan get automatik." },
+    { icon: "safety", title: "Radar keselamatan", body: "Pengesanan anti-hentam dan anti-pinch untuk keselamatan kenderaan dan pejalan kaki." }
+  ],
+  th: [
+    { icon: "parking", title: "ที่จอดรถอัจฉริยะ", body: "การอ่านทะเบียนรถ การควบคุมไม้กั้น การป้องกันด้วยเรดาร์ และขั้นตอนการชำระเงินที่จอดรถ" },
+    { icon: "transit", title: "การเข้าถึงระบบขนส่งทางราง", body: "ประตู AFC การควบคุมประตูกั้นชานชาลา และการเชื่อมต่อระบบเข้าออกสถานี" },
+    { icon: "operator", title: "การควบคุมชุดเปิดประตู", body: "ตรรกะการขับเคลื่อนเซอร์โวแรงดันต่ำสำหรับการเคลื่อนที่ของประตูและไม้กั้นอัตโนมัติ" },
+    { icon: "safety", title: "เรดาร์นิรภัย", body: "การตรวจจับป้องกันการชนและหนีบเพื่อความปลอดภัยของรถและคนเดิน" }
+  ]
+};
+
+export const caseCards: Record<LocaleKey, CardItem[]> = {
+  en: [
+    { icon: "parking", title: "Parking lots", body: "Ticketless parking entry, exit payment and vehicle access management." },
+    { icon: "building", title: "Commercial buildings", body: "Office, hotel, mall and residential mixed-use entrance control." },
+    { icon: "transit", title: "Rail transit", body: "AFC, platform screen door and passenger flow access systems." },
+    { icon: "fast", title: "Highway ETC", body: "Fast vehicle lane control and integration with identification systems." }
+  ],
+  "zh-hant": [
+    { icon: "parking", title: "停車場", body: "免票入場、出場繳費與車輛出入管理。" },
+    { icon: "building", title: "商業建築", body: "辦公室、飯店、商場與住宅混合用途的出入口控制。" },
+    { icon: "transit", title: "軌道交通", body: "自動售票閘機、站台屏蔽門與人流出入系統。" },
+    { icon: "fast", title: "高速公路 ETC", body: "快速車道控制與識別系統整合。" }
+  ],
+  es: [
+    { icon: "parking", title: "Estacionamientos", body: "Entrada sin boleto, pago de salida y gestión de acceso vehicular." },
+    { icon: "building", title: "Edificios comerciales", body: "Control de acceso para uso mixto de oficinas, hoteles, centros comerciales y residencial." },
+    { icon: "transit", title: "Tránsito ferroviario", body: "Sistemas de acceso AFC, puertas de andén y flujo de pasajeros." },
+    { icon: "fast", title: "ETC en autopistas", body: "Control de carril rápido para vehículos e integración con sistemas de identificación." }
+  ],
+  vi: [
+    { icon: "parking", title: "Bãi đỗ xe", body: "Vào không cần vé, thanh toán khi ra và quản lý ra vào xe." },
+    { icon: "building", title: "Tòa nhà thương mại", body: "Kiểm soát lối vào cho văn phòng, khách sạn, trung tâm thương mại và khu dân cư hỗn hợp." },
+    { icon: "transit", title: "Giao thông đường sắt", body: "Hệ thống AFC, cửa chắn sân ga và kiểm soát luồng hành khách." },
+    { icon: "fast", title: "ETC trên đường cao tốc", body: "Điều khiển làn xe nhanh và tích hợp với hệ thống nhận diện." }
+  ],
+  ms: [
+    { icon: "parking", title: "Tempat letak kereta", body: "Kemasukan tanpa tiket, pembayaran keluar dan pengurusan akses kenderaan." },
+    { icon: "building", title: "Bangunan komersial", body: "Kawalan pintu masuk untuk pejabat, hotel, pusat membeli-belah dan kediaman bercampur." },
+    { icon: "transit", title: "Transit rel", body: "Sistem AFC, pintu platform dan kawalan aliran penumpang." },
+    { icon: "fast", title: "ETC lebuh raya", body: "Kawalan lorong pantas dan integrasi dengan sistem pengecaman." }
+  ],
+  th: [
+    { icon: "parking", title: "ลานจอดรถ", body: "เข้าโดยไม่ใช้ตั๋ว ชำระเงินตอนออก และการจัดการเข้าออกของรถ" },
+    { icon: "building", title: "อาคารพาณิชย์", body: "ควบคุมทางเข้าสำหรับสำนักงาน โรงแรม ห้างสรรพสินค้า และที่พักอาศัยแบบผสมผสาน" },
+    { icon: "transit", title: "ระบบขนส่งทางราง", body: "ระบบ AFC ประตูกั้นชานชาลา และควบคุมการเข้าออกของผู้โดยสาร" },
+    { icon: "fast", title: "ETC บนทางหลวง", body: "ควบคุมช่องทางความเร็วสูงและเชื่อมต่อกับระบบระบุตัวตน" }
+  ]
+};
+
+export const softwareFeatures: Record<LocaleKey, Array<{ title: string; body: string }>> = {
+  en: [
+    { title: "Local server deployment", body: "Install the parking platform on an on-site server for buyers who require offline operation or strict data residency." },
+    { title: "Cloud platform operation", body: "Run the platform on Batum's cloud infrastructure for fast rollout across multiple sites without local server maintenance." },
+    { title: "Global payment integration", body: "Connect country-specific payment gateways and QR/card methods for ticketless and unattended parking." },
+    { title: "Multilingual UI", body: "Operator and customer-facing screens can switch between languages to match local staff and drivers." },
+    { title: "API integration", body: "Open interfaces let system integrators connect the platform with existing property, ERP or access control systems." },
+    { title: "Parking data reporting", body: "Occupancy, revenue and lane usage reports help operators track performance and plan capacity." }
+  ],
+  "zh-hant": [
+    { title: "本地伺服器部署", body: "為需要離線運作或嚴格資料留存要求的買家，將停車平台安裝於現場伺服器。" },
+    { title: "雲端平台營運", body: "在巴圖姆雲端基礎架構上運行平台，快速在多個場站部署，無需維護本地伺服器。" },
+    { title: "全球支付整合", body: "串接各國支付閘道與 QR/信用卡付款方式，支援無人化與免票停車。" },
+    { title: "多語言介面", body: "操作端與客戶端畫面可切換語言，配合當地員工與駕駛使用。" },
+    { title: "API 整合", body: "開放介面讓系統整合商可將平台與既有物業、ERP 或門禁系統串接。" },
+    { title: "停車數據報表", body: "佔用率、營收與車道使用報表協助營運方追蹤績效並規劃產能。" }
+  ],
+  es: [
+    { title: "Despliegue en servidor local", body: "Instale la plataforma de parking en un servidor local para compradores que requieren operación sin conexión o residencia estricta de datos." },
+    { title: "Operación en plataforma cloud", body: "Ejecute la plataforma en la infraestructura cloud de Batum para un despliegue rápido en múltiples sitios sin mantener servidores locales." },
+    { title: "Integración de pagos globales", body: "Conecte pasarelas de pago específicas de cada país y métodos QR/tarjeta para parking sin boleto y desatendido." },
+    { title: "Interfaz multilingüe", body: "Las pantallas de operador y cliente pueden cambiar de idioma según el personal local y los conductores." },
+    { title: "Integración por API", body: "Las interfaces abiertas permiten a los integradores conectar la plataforma con sistemas existentes de propiedad, ERP o control de acceso." },
+    { title: "Informes de datos de parking", body: "Los informes de ocupación, ingresos y uso de carriles ayudan a los operadores a medir el rendimiento y planificar capacidad." }
+  ],
+  vi: [
+    { title: "Triển khai máy chủ nội bộ", body: "Cài đặt phần mềm bãi đỗ trên máy chủ tại chỗ cho khách hàng cần vận hành offline hoặc yêu cầu lưu trữ dữ liệu nghiêm ngặt." },
+    { title: "Vận hành trên nền tảng cloud", body: "Chạy phần mềm trên hạ tầng cloud của Batum để triển khai nhanh tại nhiều địa điểm mà không cần duy trì máy chủ nội bộ." },
+    { title: "Tích hợp thanh toán toàn cầu", body: "Kết nối cổng thanh toán theo từng quốc gia và phương thức QR/thẻ cho bãi đỗ không cần vé và không người trông." },
+    { title: "Giao diện đa ngôn ngữ", body: "Màn hình cho người vận hành và khách hàng có thể đổi ngôn ngữ phù hợp với nhân viên và lái xe địa phương." },
+    { title: "Tích hợp API", body: "Giao diện mở cho phép đơn vị tích hợp hệ thống kết nối phần mềm với hệ thống bất động sản, ERP hoặc kiểm soát ra vào hiện có." },
+    { title: "Báo cáo dữ liệu bãi đỗ", body: "Báo cáo tỷ lệ sử dụng, doanh thu và làn xe giúp đơn vị vận hành theo dõi hiệu suất và lập kế hoạch công suất." }
+  ],
+  ms: [
+    { title: "Pemasangan pelayan tempatan", body: "Pasang platform parkir pada pelayan di lokasi untuk pembeli yang memerlukan operasi luar talian atau keperluan kediaman data yang ketat." },
+    { title: "Operasi platform cloud", body: "Jalankan platform pada infrastruktur cloud Batum untuk pelancaran pantas merentasi pelbagai lokasi tanpa perlu menyelenggara pelayan tempatan." },
+    { title: "Integrasi bayaran global", body: "Sambungkan get bayaran mengikut negara dan kaedah QR/kad untuk parkir tanpa tiket dan tanpa pengawal." },
+    { title: "Antara muka pelbagai bahasa", body: "Skrin operator dan pelanggan boleh menukar bahasa mengikut kakitangan tempatan dan pemandu." },
+    { title: "Integrasi API", body: "Antara muka terbuka membolehkan pengintegrasi sistem menyambungkan platform dengan sistem hartanah, ERP atau kawalan akses sedia ada." },
+    { title: "Laporan data parkir", body: "Laporan kadar penggunaan, hasil dan penggunaan lorong membantu pengendali menjejaki prestasi dan merancang kapasiti." }
+  ],
+  th: [
+    { title: "การติดตั้งเซิร์ฟเวอร์ภายใน", body: "ติดตั้งซอฟต์แวร์ที่จอดรถบนเซิร์ฟเวอร์ภายในสถานที่ สำหรับผู้ซื้อที่ต้องการทำงานแบบออฟไลน์หรือมีข้อกำหนดด้านการเก็บข้อมูลที่เข้มงวด" },
+    { title: "การดำเนินงานบนคลาวด์", body: "รันซอฟต์แวร์บนโครงสร้างพื้นฐานคลาวด์ของ Batum เพื่อเปิดใช้งานได้รวดเร็วในหลายสถานที่โดยไม่ต้องดูแลเซิร์ฟเวอร์ภายใน" },
+    { title: "การเชื่อมต่อการชำระเงินทั่วโลก", body: "เชื่อมต่อเกตเวย์การชำระเงินตามแต่ละประเทศและวิธีการชำระผ่าน QR/บัตร สำหรับที่จอดรถแบบไม่ใช้ตั๋วและไม่มีเจ้าหน้าที่" },
+    { title: "อินเทอร์เฟซหลายภาษา", body: "หน้าจอสำหรับผู้ปฏิบัติงานและลูกค้าสามารถเปลี่ยนภาษาให้เหมาะกับพนักงานท้องถิ่นและผู้ขับขี่" },
+    { title: "การเชื่อมต่อ API", body: "อินเทอร์เฟซแบบเปิดให้ผู้รวมระบบเชื่อมต่อซอฟต์แวร์กับระบบอสังหาริมทรัพย์ ERP หรือระบบควบคุมทางเข้าที่มีอยู่" },
+    { title: "รายงานข้อมูลที่จอดรถ", body: "รายงานอัตราการใช้งาน รายได้ และการใช้ช่องทางช่วยให้ผู้ดำเนินงานติดตามประสิทธิภาพและวางแผนกำลังการรองรับ" }
+  ]
+};
 
 export const seoTopics = [
   "24V servo barrier gate manufacturer",

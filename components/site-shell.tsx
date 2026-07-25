@@ -14,6 +14,7 @@ import {
   pageSlugs,
   products,
   seoTopics,
+  softwareFeatures,
   solutionCards
 } from "@/data/site";
 import { InquiryForm } from "@/components/inquiry-form";
@@ -150,9 +151,9 @@ function PageSection({ locale, slug, compact = false }: { locale: LocaleKey; slu
 function renderPageContent(locale: LocaleKey, slug: PageSlug) {
   const copy = messages[locale];
   if (slug === "products") return <ProductGrid locale={locale} />;
-  if (slug === "solutions") return <CardGrid cards={solutionCards} />;
-  if (slug === "cases") return <CardGrid cards={caseCards} />;
-  if (slug === "software") return <SoftwareContent />;
+  if (slug === "solutions") return <CardGrid cards={solutionCards[locale]} />;
+  if (slug === "cases") return <CardGrid cards={caseCards[locale]} />;
+  if (slug === "software") return <SoftwareContent locale={locale} />;
   if (slug === "about") return <AboutContent locale={locale} />;
   if (slug === "faq") return <FaqContent locale={locale} />;
   if (slug === "contact") return <ContactContent locale={locale} />;
@@ -170,7 +171,7 @@ function renderPageContent(locale: LocaleKey, slug: PageSlug) {
   );
 }
 
-function CardGrid({ cards }: { cards: ReadonlyArray<{ icon: keyof typeof iconMap; title: string; body: string }> }) {
+function CardGrid({ cards }: { cards: Array<{ icon: keyof typeof iconMap; title: string; body: string }> }) {
   return (
     <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
       {cards.map((card) => {
@@ -217,13 +218,13 @@ function ProductGrid({ locale }: { locale: LocaleKey }) {
   );
 }
 
-function SoftwareContent() {
+function SoftwareContent({ locale }: { locale: LocaleKey }) {
   return (
     <div className="grid gap-5 md:grid-cols-3">
-      {["Local server deployment", "Cloud platform operation", "Global payment integration", "Multilingual UI", "API integration", "Parking data reporting"].map((item) => (
-        <article key={item} className="glass-card rounded-3xl p-6">
-          <h2 className="text-xl font-semibold text-white">{item}</h2>
-          <p className="mt-4 text-sm leading-7 text-steel">Structured for integrators, distributors and property operators that need reliable parking workflows.</p>
+      {softwareFeatures[locale].map((item) => (
+        <article key={item.title} className="glass-card rounded-3xl p-6">
+          <h2 className="text-xl font-semibold text-white">{item.title}</h2>
+          <p className="mt-4 text-sm leading-7 text-steel">{item.body}</p>
         </article>
       ))}
     </div>
