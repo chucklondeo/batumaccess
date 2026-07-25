@@ -8,31 +8,22 @@ export const metadata: Metadata = {
     template: "%s | Batum Technology"
   },
   description:
-    "Batum Technology / 巴图姆（深圳）科技有限公司 builds global smart parking, rail transit AFC gates, barrier gate control, safety radar accessories and parking software with local server, cloud platform, multilingual and global payment integration.",
+    "Batum Technology / 巴圖姆（深圳）科技有限公司 builds low-voltage servo barrier gates, door operators, safety radar accessories, access control hardware and parking software.",
   keywords: [
-    "smart parking system",
-    "parking management software",
-    "barrier gate manufacturer",
-    "AFC gate",
-    "platform screen door",
-    "LPR camera",
-    "radar sensor",
-    "parking payment software",
-    "local server parking system",
-    "cloud parking platform"
+    "servo barrier gate",
+    "door operator",
+    "safety radar",
+    "parking software",
+    "access control manufacturer",
+    "low voltage servo control",
+    "platform screen door control"
   ],
   openGraph: {
     title: "Batum Technology | Global Smart Parking & Access Control Technology",
-    description:
-      "Smart parking hardware, rail transit access control and global parking software for international markets.",
+    description: "Low-voltage servo access control hardware and parking software for international markets.",
     url: "https://batumaccess.com",
     siteName: "Batum Technology",
     type: "website"
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Batum Technology",
-    description: "Global smart parking and access control technology."
   }
 };
 
@@ -48,4 +39,3 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   );
 }
-

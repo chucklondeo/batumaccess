@@ -1,0 +1,5 @@
+Batum Technology - Low-voltage Servo Barrier Gate Datasheet
+
+Category: Servo barrier gate
+Core features: 24V low-voltage servo control, stable arm movement, radar safety integration.
+Applications: parking lots, commercial entrances, highway lanes, residential access.

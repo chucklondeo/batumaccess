@@ -1,0 +1,5 @@
+Batum Technology - Anti-smash Safety Radar Datasheet
+
+Category: Safety radar
+Core features: vehicle presence detection, anti-pinch logic, outdoor-ready safety accessory.
+Applications: parking barriers, access gates and vehicle entrance safety zones.

@@ -1,0 +1,5 @@
+Batum Technology - Servo Door Operator Datasheet
+
+Category: Door operator
+Core features: low-noise servo motion, precise position control, access control integration.
+Applications: swing doors, sliding doors, pedestrian access and automatic gate systems.
