@@ -1,7 +1,7 @@
 "use client";
 
 import { ChangeEvent, useEffect, useMemo, useState } from "react";
-import { pageSlugs, products, seoTopics } from "@/data/site";
+import { products, seoTopics } from "@/data/site";
 
 type AdminProduct = {
   id: string;
@@ -12,13 +12,6 @@ type AdminProduct = {
   documentName?: string;
   documentUrl?: string;
 };
-
-const categoryOptions = [
-  { value: "servo-barrier", label: "Servo barrier gate" },
-  { value: "door-operator", label: "Door operator" },
-  { value: "radar", label: "Radar" },
-  { value: "accessory", label: "Accessory" }
-];
 
 const storageKey = "batum-content-hub-v1";
 
@@ -73,7 +66,7 @@ export function AdminPanel() {
     const id = `product-${Date.now()}`;
     setItems((current) => [
       ...current,
-      { id, category: categoryOptions[0].value, name: "New product", summary: "Product summary", keywords: "parking access control" }
+      { id, category: "accessory", name: "New product", summary: "Product summary", keywords: "parking access control" }
     ]);
   }
 
@@ -119,19 +112,10 @@ export function AdminPanel() {
       <div className="mx-auto max-w-7xl">
         <p className="text-xs font-bold uppercase tracking-[0.28em] text-water">Batum Content Hub</p>
         <h1 className="mt-3 text-4xl font-semibold tracking-[-0.03em] text-white sm:text-6xl">
-          Product, document and SEO content manager
+          Product, document and search content manager
         </h1>
         <p className="mt-5 max-w-3xl text-sm leading-7 text-steel">
-          Static CMS for the current Hostinger-safe deployment. This site has no server or database, so nothing typed here goes live by itself: draft changes in this browser, then <strong className="text-white">Export JSON</strong> and hand it to whoever commits site updates.
-        </p>
-        <p className="mt-3 max-w-3xl text-sm leading-7 text-steel">
-          Document uploads work the same way: the file picker above only previews a document in this browser tab — it is not saved anywhere. To publish a real datasheet, add the PDF/file to <code className="rounded bg-white/10 px-1.5 py-0.5 text-white">public/docs/</code> in the project, set the product&apos;s <code className="rounded bg-white/10 px-1.5 py-0.5 text-white">document</code> path in <code className="rounded bg-white/10 px-1.5 py-0.5 text-white">data/site.ts</code> to match, and commit both.
-        </p>
-        <p className="mt-3 max-w-3xl text-sm leading-7 text-steel">
-          The SEO keyword seed list below is expanded automatically once a day by a GitHub Action (<code className="rounded bg-white/10 px-1.5 py-0.5 text-white">.github/workflows/seo-daily.yml</code>), which opens a pull request for review rather than publishing directly.
-        </p>
-        <p className="mt-3 max-w-3xl text-sm leading-7 text-steel">
-          Pages: {pageSlugs.join(", ")}. Adding or removing a page is a code change, not something this panel can do live — see the &quot;Adding a page&quot; section in the project README.
+          Manage product drafts, document links and search content ideas for the current static Hostinger deployment. Data is saved in this browser. Export JSON after editing and publish it with the project when ready.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <button onClick={addProduct} className="rounded-full bg-water px-5 py-3 text-sm font-bold text-void">Add product</button>
@@ -146,20 +130,7 @@ export function AdminPanel() {
           {items.map((item) => (
             <article key={item.id} className="glass-card grid gap-4 rounded-3xl p-5 lg:grid-cols-[1fr_1fr_1fr_auto]">
               <Input label="Product name" value={item.name} onChange={(value) => updateProduct(item.id, { name: value })} />
-              <label className="grid gap-2 text-sm font-semibold text-white">
-                Category
-                <select
-                  className="rounded-2xl border border-white/10 bg-white/[0.06] px-4 py-3 text-sm text-white"
-                  value={item.category}
-                  onChange={(event) => updateProduct(item.id, { category: event.target.value })}
-                >
-                  {categoryOptions.map((option) => (
-                    <option key={option.value} value={option.value} className="bg-obsidian text-white">
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-              </label>
+              <Input label="Category" value={item.category} onChange={(value) => updateProduct(item.id, { category: value })} />
               <Input label="Keywords" value={item.keywords} onChange={(value) => updateProduct(item.id, { keywords: value })} />
               <button onClick={() => removeProduct(item.id)} className="self-end rounded-2xl border border-fire/40 px-4 py-3 text-sm font-bold text-fire">
                 Delete
@@ -169,7 +140,7 @@ export function AdminPanel() {
                 <textarea className="min-h-24 rounded-2xl border border-white/10 bg-white/[0.06] p-3 text-sm text-white" value={item.summary} onChange={(event) => updateProduct(item.id, { summary: event.target.value })} />
               </label>
               <label className="grid gap-2 text-sm font-semibold text-white">
-                Product document (preview only — see note below)
+                Product document
                 <input type="file" onChange={(event) => uploadDocument(item.id, event)} />
                 {item.documentUrl ? <a className="text-water underline" href={item.documentUrl} download={item.documentName}>{item.documentName}</a> : null}
               </label>
@@ -179,11 +150,11 @@ export function AdminPanel() {
 
         <section className="mt-12 grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
           <label className="grid gap-3 text-sm font-semibold text-white">
-            SEO keyword seed list
+            Search content seed list
             <textarea className="min-h-80 rounded-3xl border border-white/10 bg-white/[0.06] p-4 text-sm leading-7 text-white" value={seoSeed} onChange={(event) => setSeoSeed(event.target.value)} />
           </label>
           <div className="glass-card rounded-3xl p-6">
-            <h2 className="text-2xl font-semibold text-white">SEO title/description preview</h2>
+            <h2 className="text-2xl font-semibold text-white">Daily content draft queue</h2>
             <div className="mt-5 grid gap-4">
               {seoDraft.map((draft) => (
                 <article key={draft.title} className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
