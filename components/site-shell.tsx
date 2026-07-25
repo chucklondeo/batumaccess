@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { ArrowRight, Download, Mail, MessageCircle } from "lucide-react";
 import {
+  aboutHighlights,
   caseCards,
+  companyName,
   contact,
   defaultLocale,
   faqs,
@@ -29,10 +31,7 @@ export function SiteShell({ locale, children }: { locale: LocaleKey; children: R
             <span className="grid h-10 w-10 place-items-center rounded-xl border border-water/30 bg-water/10 font-black text-water">
               B
             </span>
-            <span>
-              <span className="block text-sm font-semibold text-white">Batum Technology</span>
-              <span className="block text-xs text-steel">巴圖姆（深圳）科技有限公司</span>
-            </span>
+            <span className="block text-sm font-semibold text-white">{companyName[locale]}</span>
           </Link>
           <nav className="hidden items-center gap-5 lg:flex">
             <Link className="text-sm text-steel hover:text-white" href={localePath(locale)}>
@@ -53,7 +52,7 @@ export function SiteShell({ locale, children }: { locale: LocaleKey; children: R
       {children}
       <footer className="border-t border-white/10 px-5 py-8 text-sm text-steel">
         <div className="mx-auto flex max-w-7xl flex-col gap-3 md:flex-row md:items-center md:justify-between">
-          <span>{contact.company}</span>
+          <span>{companyName[locale]}</span>
           <span>{contact.email} · {contact.phone}</span>
         </div>
       </footer>
@@ -235,11 +234,11 @@ function AboutContent({ locale }: { locale: LocaleKey }) {
   return (
     <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
       <div className="glass-card rounded-3xl p-7">
-        <h2 className="text-2xl font-semibold text-white">{contact.company}</h2>
+        <h2 className="text-2xl font-semibold text-white">{companyName[locale]}</h2>
         <p className="mt-5 text-sm leading-8 text-steel">{messages[locale].sections.about.body}</p>
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
-        {["Drive control R&D", "Hardware manufacturing", "Low-voltage servo systems", "Safety-first product design"].map((item) => (
+        {aboutHighlights[locale].map((item) => (
           <div key={item} className="glass-card rounded-3xl p-6">
             <h3 className="text-xl font-semibold text-white">{item}</h3>
           </div>
@@ -277,7 +276,7 @@ function ContactContent({ locale }: { locale: LocaleKey }) {
   return (
     <div className="grid gap-6 lg:grid-cols-[0.82fr_1.18fr]">
       <div className="glass-card rounded-3xl p-7">
-        <h2 className="text-2xl font-semibold text-white">{contact.company}</h2>
+        <h2 className="text-2xl font-semibold text-white">{companyName[locale]}</h2>
         <p className="mt-4 text-sm leading-7 text-steel">{copy.contactIntro}</p>
         <div className="mt-6 space-y-4 text-steel">
           <a className="flex items-center gap-3 hover:text-white" href={contact.whatsappUrl} target="_blank" rel="noreferrer">

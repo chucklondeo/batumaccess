@@ -56,6 +56,24 @@ export const contact = {
   whatsappUrl: "https://wa.me/8613534253195"
 };
 
+export const companyName: Record<LocaleKey, string> = {
+  en: "Batum Technology",
+  "zh-hant": "巴圖姆（深圳）科技有限公司",
+  es: "Batum Technology",
+  vi: "Batum Technology",
+  ms: "Batum Technology",
+  th: "Batum Technology"
+};
+
+export const aboutHighlights: Record<LocaleKey, string[]> = {
+  en: ["Drive control R&D", "Hardware manufacturing", "Low-voltage servo systems", "Safety-first product design"],
+  "zh-hant": ["門禁驅動控制研發", "硬體生產製造", "低壓伺服系統", "安全優先的產品設計"],
+  es: ["I+D en control de accionamiento", "Fabricación de hardware", "Sistemas servo de bajo voltaje", "Diseño de producto centrado en la seguridad"],
+  vi: ["R&D điều khiển truyền động", "Sản xuất phần cứng", "Hệ thống servo điện áp thấp", "Thiết kế sản phẩm ưu tiên an toàn"],
+  ms: ["R&D kawalan pemacu", "Pembuatan perkakasan", "Sistem servo voltan rendah", "Reka bentuk produk keutamaan keselamatan"],
+  th: ["วิจัยและพัฒนาระบบควบคุมไดรฟ์", "การผลิตฮาร์ดแวร์", "ระบบเซอร์โวแรงดันต่ำ", "ออกแบบผลิตภัณฑ์โดยเน้นความปลอดภัยเป็นหลัก"]
+};
+
 type Product = {
   id: string;
   category: "servo-barrier" | "door-operator" | "radar" | "accessory";
@@ -222,7 +240,7 @@ export const messages: Record<LocaleKey, {
       products: { kicker: "Products", title: "Servo barrier, door operator, radar and accessory categories", body: "Each product module is structured for datasheets, project keywords and future upload management." },
       cases: { kicker: "Cases", title: "Application pages for parking lots, buildings, rail transit and ETC lanes", body: "Industry pages help buyers understand where the hardware and software fit into real projects." },
       software: { kicker: "Software", title: "Local server, cloud platform and global payment integration", body: "Parking software can support local deployment, cloud operation, multiple languages and country payment methods." },
-      about: { kicker: "About Batum", title: "R&D and manufacturing company focused on low-voltage servo access control", body: "Batum develops drive control, motion control and hardware manufacturing capability for vehicle and pedestrian access systems. Products cover high-speed barrier gates, direct-drive pedestrian gates, platform screen door control, door operators and safety accessories. Safety is the first design objective." },
+      about: { kicker: "About Batum", title: "R&D and manufacturing company focused on low-voltage servo access control", body: "Batum is a company with strong R&D capability in access control drive control and comprehensive hardware manufacturing capability. Our products cover both vehicle and pedestrian access control — high-speed barrier gates, direct-drive pedestrian access gates, platform screen doors and door operators — all built as low-voltage servo solutions. Safety is our first design goal." },
       faq: { kicker: "FAQ", title: "Answers for buyers evaluating servo access control hardware", body: "Common questions about customization, certification, samples, lead time and after-sales support." },
       contact: { kicker: "Contact", title: "Send project requirements to Batum Technology", body: "The form sends directly to sales@batumaccess.com through FormSubmit." },
       "seo-hub": { kicker: "SEO Content Hub", title: "Structured keyword pages for long-term search growth", body: "Use this page for product knowledge, category keywords and market-specific content that can be expanded over time." }
@@ -245,7 +263,7 @@ export const messages: Record<LocaleKey, {
       products: { kicker: "產品", title: "伺服道閘、開門機、雷達與配件分類", body: "每個產品模組都可對應說明文件、工程關鍵詞和後續上傳管理。" },
       cases: { kicker: "案例", title: "停車場、商業建築、軌道交通與 ETC 車道應用", body: "行業頁面幫助海外買家理解硬體與軟體在實際項目中的使用方式。" },
       software: { kicker: "軟體", title: "本地伺服器、雲端平台與多國支付整合", body: "停車軟體可支援本地部署、雲端營運、多語言和不同國家的支付方式。" },
-      about: { kicker: "關於巴圖姆", title: "專注低壓伺服門禁控制的研發與硬體製造公司", body: "巴圖姆具備門禁驅動控制、運動控制研發和硬體生產能力，產品覆蓋快速道閘、直驅人行通道閘、站台屏蔽門控制、開門機與安全配件。安全是我們的第一設計目標。" },
+      about: { kicker: "關於巴圖姆", title: "專注低壓伺服門禁控制的研發與硬體製造公司", body: "巴圖姆是一家在門禁驅動控制方面擁有強大研發能力、並具備完整硬體生產能力的綜合實力企業。我們的產品涵蓋車輛與行人門禁，包括快速道閘、直驅人行通道閘、站台屏蔽門與開門機，全部採用低壓伺服解決方案。安全是我們的第一設計目標。" },
       faq: { kicker: "常見問題", title: "解答買家在評估伺服門禁硬體時的疑問", body: "關於客製化、認證、樣品、交期與售後支援的常見問題整理。" },
       contact: { kicker: "聯絡我們", title: "把項目需求發送給巴圖姆", body: "表單會透過 FormSubmit 直接發送至 sales@batumaccess.com。" },
       "seo-hub": { kicker: "內容中心", title: "用於長期搜尋成長的結構化關鍵詞頁面", body: "此頁可持續擴充產品知識、分類關鍵詞和市場內容。" }
@@ -268,7 +286,7 @@ export const messages: Record<LocaleKey, {
       products: { kicker: "Productos", title: "Barrera servo, operador de puerta, radar y accesorios", body: "Cada producto está estructurado para fichas técnicas, palabras clave y gestión futura." },
       cases: { kicker: "Casos", title: "Aplicaciones para parkings, edificios, tránsito y ETC", body: "Las páginas por industria explican cómo se aplican hardware y software en proyectos reales." },
       software: { kicker: "Software", title: "Servidor local, nube y pagos globales", body: "El software puede soportar despliegue local, operación cloud, idiomas y métodos de pago por país." },
-      about: { kicker: "Sobre Batum", title: "Empresa de I+D y fabricación enfocada en control servo de acceso", body: "Batum desarrolla control de accionamiento, control de movimiento y hardware para acceso vehicular y peatonal. Los productos cubren barreras rápidas, pasos peatonales direct-drive, puertas de andén, operadores de puerta y accesorios de seguridad." },
+      about: { kicker: "Sobre Batum", title: "Empresa de I+D y fabricación enfocada en control servo de acceso", body: "Batum es una empresa con una fuerte capacidad de I+D en control de accionamiento para control de acceso y una capacidad integral de fabricación de hardware. Nuestros productos cubren el control de acceso vehicular y peatonal — barreras de alta velocidad, puertas peatonales de accionamiento directo, puertas de andén y operadores de puerta — todos como soluciones servo de bajo voltaje. La seguridad es nuestro primer objetivo de diseño." },
       faq: { kicker: "Preguntas frecuentes", title: "Respuestas para compradores que evalúan hardware de control de acceso servo", body: "Preguntas comunes sobre personalización, certificación, muestras, plazos de entrega y soporte postventa." },
       contact: { kicker: "Contacto", title: "Envíe los requisitos del proyecto", body: "El formulario se envía directamente a sales@batumaccess.com mediante FormSubmit." },
       "seo-hub": { kicker: "Contenido SEO", title: "Páginas de palabras clave para crecimiento orgánico", body: "Use esta página para conocimiento de producto, categorías y contenido por mercado." }
@@ -291,7 +309,7 @@ export const messages: Record<LocaleKey, {
       products: { kicker: "Sản phẩm", title: "Barrier servo, bộ mở cửa, radar và phụ kiện", body: "Mỗi sản phẩm có cấu trúc cho tài liệu, từ khóa và quản lý nội dung sau này." },
       cases: { kicker: "Dự án", title: "Ứng dụng cho bãi đỗ, tòa nhà, metro và ETC", body: "Trang ngành giúp khách hàng hiểu cách dùng phần cứng và phần mềm trong dự án thực tế." },
       software: { kicker: "Phần mềm", title: "Máy chủ nội bộ, nền tảng cloud và thanh toán toàn cầu", body: "Phần mềm hỗ trợ triển khai nội bộ, vận hành cloud, đa ngôn ngữ và phương thức thanh toán theo quốc gia." },
-      about: { kicker: "Về Batum", title: "Công ty R&D và sản xuất tập trung vào điều khiển servo", body: "Batum phát triển điều khiển truyền động, điều khiển chuyển động và phần cứng cho hệ thống ra vào xe và người. Sản phẩm gồm barrier tốc độ cao, cổng người đi bộ direct-drive, cửa chắn sân ga, bộ mở cửa và phụ kiện an toàn." },
+      about: { kicker: "Về Batum", title: "Công ty R&D và sản xuất tập trung vào điều khiển servo", body: "Batum là công ty có năng lực R&D mạnh về điều khiển truyền động cho hệ thống kiểm soát ra vào và năng lực sản xuất phần cứng toàn diện. Sản phẩm của chúng tôi bao gồm kiểm soát ra vào cho xe và người đi bộ — barrier tốc độ cao, cổng người đi bộ dẫn động trực tiếp, cửa chắn sân ga và bộ mở cửa — tất cả đều là giải pháp servo điện áp thấp. An toàn là mục tiêu thiết kế hàng đầu của chúng tôi." },
       faq: { kicker: "Câu hỏi thường gặp", title: "Giải đáp cho khách hàng đang tìm hiểu phần cứng kiểm soát ra vào servo", body: "Các câu hỏi thường gặp về tùy chỉnh, chứng nhận, lấy mẫu, thời gian giao hàng và hỗ trợ hậu mãi." },
       contact: { kicker: "Liên hệ", title: "Gửi yêu cầu dự án cho Batum", body: "Biểu mẫu gửi trực tiếp đến sales@batumaccess.com qua FormSubmit." },
       "seo-hub": { kicker: "Nội dung SEO", title: "Trang từ khóa cho tăng trưởng tìm kiếm", body: "Dùng trang này cho kiến thức sản phẩm, từ khóa danh mục và nội dung thị trường." }
@@ -314,7 +332,7 @@ export const messages: Record<LocaleKey, {
       products: { kicker: "Produk", title: "Palang servo, penggerak pintu, radar dan aksesori", body: "Setiap produk distrukturkan untuk dokumen, kata kunci dan pengurusan masa depan." },
       cases: { kicker: "Kes", title: "Aplikasi untuk parkir, bangunan, transit dan ETC", body: "Halaman industri menerangkan penggunaan perkakasan dan perisian dalam projek sebenar." },
       software: { kicker: "Perisian", title: "Pelayan tempatan, cloud dan integrasi bayaran global", body: "Perisian menyokong pemasangan tempatan, operasi cloud, pelbagai bahasa dan bayaran negara." },
-      about: { kicker: "Tentang Batum", title: "Syarikat R&D dan pembuatan kawalan akses servo", body: "Batum membangunkan kawalan pemacu, kawalan gerakan dan perkakasan untuk akses kenderaan dan pejalan kaki. Produk merangkumi palang pantas, pintu pejalan kaki direct-drive, pintu platform, penggerak pintu dan aksesori keselamatan." },
+      about: { kicker: "Tentang Batum", title: "Syarikat R&D dan pembuatan kawalan akses servo", body: "Batum adalah syarikat dengan keupayaan R&D yang kukuh dalam kawalan pemacu untuk kawalan akses serta keupayaan pembuatan perkakasan yang menyeluruh. Produk kami merangkumi kawalan akses kenderaan dan pejalan kaki — palang berkelajuan tinggi, pintu pejalan kaki pemacu langsung, pintu platform dan penggerak pintu — semuanya sebagai penyelesaian servo voltan rendah. Keselamatan adalah objektif reka bentuk utama kami." },
       faq: { kicker: "Soalan Lazim", title: "Jawapan untuk pembeli yang menilai perkakasan kawalan akses servo", body: "Soalan lazim mengenai penyesuaian, pensijilan, sampel, masa penghantaran dan sokongan selepas jualan." },
       contact: { kicker: "Hubungi", title: "Hantar keperluan projek kepada Batum", body: "Borang dihantar terus ke sales@batumaccess.com melalui FormSubmit." },
       "seo-hub": { kicker: "Kandungan SEO", title: "Halaman kata kunci untuk pertumbuhan carian", body: "Gunakan halaman ini untuk pengetahuan produk, kata kunci kategori dan kandungan pasaran." }
@@ -337,7 +355,7 @@ export const messages: Record<LocaleKey, {
       products: { kicker: "สินค้า", title: "ไม้กั้นเซอร์โว ชุดเปิดประตู เรดาร์ และอุปกรณ์เสริม", body: "สินค้าแต่ละกลุ่มรองรับเอกสาร คีย์เวิร์ด และการจัดการข้อมูลในอนาคต" },
       cases: { kicker: "กรณีใช้งาน", title: "สำหรับลานจอด อาคาร รถไฟฟ้า และช่อง ETC", body: "หน้าอุตสาหกรรมช่วยอธิบายการใช้งานฮาร์ดแวร์และซอฟต์แวร์ในโครงการจริง" },
       software: { kicker: "ซอฟต์แวร์", title: "เซิร์ฟเวอร์ภายใน คลาวด์ และการชำระเงินหลายประเทศ", body: "ซอฟต์แวร์รองรับการติดตั้งภายใน คลาวด์ หลายภาษา และวิธีชำระเงินตามประเทศ" },
-      about: { kicker: "เกี่ยวกับ Batum", title: "บริษัทวิจัย พัฒนา และผลิตระบบควบคุมทางเข้าเซอร์โว", body: "Batum พัฒนาการควบคุมไดรฟ์ การควบคุมการเคลื่อนที่ และฮาร์ดแวร์สำหรับรถและคนเดิน สินค้าครอบคลุมไม้กั้นความเร็วสูง ประตูคนเดิน direct-drive ประตูกั้นชานชาลา ชุดเปิดประตู และอุปกรณ์นิรภัย" },
+      about: { kicker: "เกี่ยวกับ Batum", title: "บริษัทวิจัย พัฒนา และผลิตระบบควบคุมทางเข้าเซอร์โว", body: "Batum เป็นบริษัทที่มีศักยภาพด้านการวิจัยและพัฒนาระบบควบคุมไดรฟ์สำหรับควบคุมทางเข้าอย่างแข็งแกร่ง พร้อมความสามารถด้านการผลิตฮาร์ดแวร์ที่ครบวงจร สินค้าของเราครอบคลุมการควบคุมทางเข้าทั้งสำหรับรถและคนเดิน ได้แก่ ไม้กั้นความเร็วสูง ประตูคนเดิน direct-drive ประตูกั้นชานชาลา และชุดเปิดประตู ทั้งหมดเป็นโซลูชันเซอร์โวแรงดันต่ำ ความปลอดภัยคือเป้าหมายการออกแบบอันดับหนึ่งของเรา" },
       faq: { kicker: "คำถามที่พบบ่อย", title: "คำตอบสำหรับผู้ซื้อที่กำลังพิจารณาฮาร์ดแวร์ควบคุมทางเข้าเซอร์โว", body: "คำถามที่พบบ่อยเกี่ยวกับการปรับแต่ง การรับรอง ตัวอย่างสินค้า ระยะเวลาส่งมอบ และการสนับสนุนหลังการขาย" },
       contact: { kicker: "ติดต่อ", title: "ส่งรายละเอียดโครงการถึง Batum", body: "แบบฟอร์มส่งตรงถึง sales@batumaccess.com ผ่าน FormSubmit" },
       "seo-hub": { kicker: "ศูนย์ SEO", title: "หน้าคีย์เวิร์ดเพื่อเพิ่มการค้นหา", body: "ใช้หน้านี้สำหรับความรู้สินค้า คีย์เวิร์ดหมวดหมู่ และเนื้อหาตลาด" }
