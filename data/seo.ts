@@ -1,4 +1,4 @@
-import { contact } from "@/data/site";
+import { contact, faqs } from "@/data/site";
 
 export const organizationJsonLd = {
   "@context": "https://schema.org",
@@ -25,4 +25,14 @@ export const websiteJsonLd = {
   name: "Batum Technology",
   url: "https://batumaccess.com",
   inLanguage: ["en", "zh-Hant", "es", "vi", "ms", "th"]
+};
+
+export const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.en.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: { "@type": "Answer", text: item.a }
+  }))
 };
