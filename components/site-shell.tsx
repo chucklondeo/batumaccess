@@ -4,6 +4,7 @@ import {
   caseCards,
   contact,
   defaultLocale,
+  faqs,
   iconMap,
   localePath,
   locales,
@@ -36,7 +37,7 @@ export function SiteShell({ locale, children }: { locale: LocaleKey; children: R
             <Link className="text-sm text-steel hover:text-white" href={localePath(locale)}>
               {copy.nav.home}
             </Link>
-            {pageSlugs.slice(0, 6).map((slug) => (
+            {pageSlugs.slice(0, 7).map((slug) => (
               <Link key={slug} className="text-sm text-steel hover:text-white" href={localePath(locale, slug)}>
                 {copy.nav[slug]}
               </Link>
@@ -153,6 +154,7 @@ function renderPageContent(locale: LocaleKey, slug: PageSlug) {
   if (slug === "cases") return <CardGrid cards={caseCards} />;
   if (slug === "software") return <SoftwareContent />;
   if (slug === "about") return <AboutContent locale={locale} />;
+  if (slug === "faq") return <FaqContent locale={locale} />;
   if (slug === "contact") return <ContactContent locale={locale} />;
   return (
     <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
@@ -242,6 +244,29 @@ function AboutContent({ locale }: { locale: LocaleKey }) {
           </div>
         ))}
       </div>
+    </div>
+  );
+}
+
+function FaqContent({ locale }: { locale: LocaleKey }) {
+  const copy = messages[locale];
+  return (
+    <div className="grid gap-4">
+      {faqs[locale].map((item) => (
+        <details key={item.q} className="glass-card group rounded-3xl p-6">
+          <summary className="cursor-pointer list-none text-lg font-semibold text-white marker:content-none">
+            {item.q}
+          </summary>
+          <p className="mt-4 text-sm leading-7 text-steel">{item.a}</p>
+        </details>
+      ))}
+      <Link
+        className="mt-2 inline-flex w-fit items-center gap-2 rounded-full bg-water px-6 py-4 text-sm font-bold text-void"
+        href={localePath(locale, "contact")}
+      >
+        {copy.primaryCta}
+        <ArrowRight className="h-4 w-4" />
+      </Link>
     </div>
   );
 }

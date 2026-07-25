@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 
 export type LocaleKey = "en" | "zh-hant" | "es" | "vi" | "ms" | "th";
-export type PageSlug = "solutions" | "products" | "cases" | "software" | "about" | "contact" | "seo-hub";
+export type PageSlug = "solutions" | "products" | "cases" | "software" | "about" | "faq" | "contact" | "seo-hub";
 
 export const defaultLocale: LocaleKey = "en";
 
@@ -29,7 +29,7 @@ export const locales: Array<{ key: LocaleKey; label: string; native: string; mar
   { key: "th", label: "Thai", native: "ไทย", market: "Thailand" }
 ];
 
-export const pageSlugs: PageSlug[] = ["solutions", "products", "cases", "software", "about", "contact", "seo-hub"];
+export const pageSlugs: PageSlug[] = ["solutions", "products", "cases", "software", "about", "faq", "contact", "seo-hub"];
 
 export const iconMap = {
   barrier: Gauge,
@@ -194,6 +194,8 @@ export const products: Product[] = [
   }
 ];
 
+export type FaqItem = { q: string; a: string };
+
 export const messages: Record<LocaleKey, {
   nav: Record<PageSlug | "home" | "admin", string>;
   heroTitle: string;
@@ -209,7 +211,7 @@ export const messages: Record<LocaleKey, {
   form: { name: string; company: string; email: string; whatsapp: string; country: string; product: string; message: string; submit: string };
 }> = {
   en: {
-    nav: { home: "Home", solutions: "Solutions", products: "Products", cases: "Cases", software: "Software", about: "About", contact: "Contact", "seo-hub": "SEO Hub", admin: "Admin" },
+    nav: { home: "Home", solutions: "Solutions", products: "Products", cases: "Cases", software: "Software", about: "About", faq: "FAQ", contact: "Contact", "seo-hub": "SEO Hub", admin: "Admin" },
     heroTitle: "Global Smart Parking & Access Control Technology",
     heroBody: "Low-voltage servo hardware, safety radar accessories and parking software for international parking, gate and transit projects.",
     primaryCta: "Submit Inquiry",
@@ -221,6 +223,7 @@ export const messages: Record<LocaleKey, {
       cases: { kicker: "Cases", title: "Application pages for parking lots, buildings, rail transit and ETC lanes", body: "Industry pages help buyers understand where the hardware and software fit into real projects." },
       software: { kicker: "Software", title: "Local server, cloud platform and global payment integration", body: "Parking software can support local deployment, cloud operation, multiple languages and country payment methods." },
       about: { kicker: "About Batum", title: "R&D and manufacturing company focused on low-voltage servo access control", body: "Batum develops drive control, motion control and hardware manufacturing capability for vehicle and pedestrian access systems. Products cover high-speed barrier gates, direct-drive pedestrian gates, platform screen door control, door operators and safety accessories. Safety is the first design objective." },
+      faq: { kicker: "FAQ", title: "Answers for buyers evaluating servo access control hardware", body: "Common questions about customization, certification, samples, lead time and after-sales support." },
       contact: { kicker: "Contact", title: "Send project requirements to Batum Technology", body: "The form sends directly to sales@batumaccess.com through FormSubmit." },
       "seo-hub": { kicker: "SEO Content Hub", title: "Structured keyword pages for long-term search growth", body: "Use this page for product knowledge, category keywords and market-specific content that can be expanded over time." }
     },
@@ -231,7 +234,7 @@ export const messages: Record<LocaleKey, {
     form: { name: "Name", company: "Company", email: "Email", whatsapp: "WhatsApp", country: "Country", product: "Interested product", message: "Project requirements", submit: "Submit Inquiry" }
   },
   "zh-hant": {
-    nav: { home: "首頁", solutions: "解決方案", products: "產品", cases: "案例", software: "軟體", about: "關於我們", contact: "聯絡我們", "seo-hub": "內容中心", admin: "管理後台" },
+    nav: { home: "首頁", solutions: "解決方案", products: "產品", cases: "案例", software: "軟體", about: "關於我們", faq: "常見問題", contact: "聯絡我們", "seo-hub": "內容中心", admin: "管理後台" },
     heroTitle: "全球智慧停車與門禁控制技術",
     heroBody: "面向海外市場的低壓伺服硬體、安全雷達配件與停車軟體解決方案。",
     primaryCta: "提交詢盤",
@@ -243,6 +246,7 @@ export const messages: Record<LocaleKey, {
       cases: { kicker: "案例", title: "停車場、商業建築、軌道交通與 ETC 車道應用", body: "行業頁面幫助海外買家理解硬體與軟體在實際項目中的使用方式。" },
       software: { kicker: "軟體", title: "本地伺服器、雲端平台與多國支付整合", body: "停車軟體可支援本地部署、雲端營運、多語言和不同國家的支付方式。" },
       about: { kicker: "關於巴圖姆", title: "專注低壓伺服門禁控制的研發與硬體製造公司", body: "巴圖姆具備門禁驅動控制、運動控制研發和硬體生產能力，產品覆蓋快速道閘、直驅人行通道閘、站台屏蔽門控制、開門機與安全配件。安全是我們的第一設計目標。" },
+      faq: { kicker: "常見問題", title: "解答買家在評估伺服門禁硬體時的疑問", body: "關於客製化、認證、樣品、交期與售後支援的常見問題整理。" },
       contact: { kicker: "聯絡我們", title: "把項目需求發送給巴圖姆", body: "表單會透過 FormSubmit 直接發送至 sales@batumaccess.com。" },
       "seo-hub": { kicker: "內容中心", title: "用於長期搜尋成長的結構化關鍵詞頁面", body: "此頁可持續擴充產品知識、分類關鍵詞和市場內容。" }
     },
@@ -253,7 +257,7 @@ export const messages: Record<LocaleKey, {
     form: { name: "姓名", company: "公司", email: "郵箱", whatsapp: "WhatsApp", country: "國家", product: "感興趣產品", message: "項目需求", submit: "提交詢盤" }
   },
   es: {
-    nav: { home: "Inicio", solutions: "Soluciones", products: "Productos", cases: "Casos", software: "Software", about: "Nosotros", contact: "Contacto", "seo-hub": "Contenido SEO", admin: "Admin" },
+    nav: { home: "Inicio", solutions: "Soluciones", products: "Productos", cases: "Casos", software: "Software", about: "Nosotros", faq: "Preguntas frecuentes", contact: "Contacto", "seo-hub": "Contenido SEO", admin: "Admin" },
     heroTitle: "Tecnología global de parking inteligente y control de acceso",
     heroBody: "Hardware servo de bajo voltaje, radar de seguridad y software de parking para proyectos internacionales.",
     primaryCta: "Enviar consulta",
@@ -265,6 +269,7 @@ export const messages: Record<LocaleKey, {
       cases: { kicker: "Casos", title: "Aplicaciones para parkings, edificios, tránsito y ETC", body: "Las páginas por industria explican cómo se aplican hardware y software en proyectos reales." },
       software: { kicker: "Software", title: "Servidor local, nube y pagos globales", body: "El software puede soportar despliegue local, operación cloud, idiomas y métodos de pago por país." },
       about: { kicker: "Sobre Batum", title: "Empresa de I+D y fabricación enfocada en control servo de acceso", body: "Batum desarrolla control de accionamiento, control de movimiento y hardware para acceso vehicular y peatonal. Los productos cubren barreras rápidas, pasos peatonales direct-drive, puertas de andén, operadores de puerta y accesorios de seguridad." },
+      faq: { kicker: "Preguntas frecuentes", title: "Respuestas para compradores que evalúan hardware de control de acceso servo", body: "Preguntas comunes sobre personalización, certificación, muestras, plazos de entrega y soporte postventa." },
       contact: { kicker: "Contacto", title: "Envíe los requisitos del proyecto", body: "El formulario se envía directamente a sales@batumaccess.com mediante FormSubmit." },
       "seo-hub": { kicker: "Contenido SEO", title: "Páginas de palabras clave para crecimiento orgánico", body: "Use esta página para conocimiento de producto, categorías y contenido por mercado." }
     },
@@ -275,7 +280,7 @@ export const messages: Record<LocaleKey, {
     form: { name: "Nombre", company: "Empresa", email: "Email", whatsapp: "WhatsApp", country: "País", product: "Producto", message: "Requisitos", submit: "Enviar consulta" }
   },
   vi: {
-    nav: { home: "Trang chủ", solutions: "Giải pháp", products: "Sản phẩm", cases: "Dự án", software: "Phần mềm", about: "Về chúng tôi", contact: "Liên hệ", "seo-hub": "Nội dung SEO", admin: "Quản trị" },
+    nav: { home: "Trang chủ", solutions: "Giải pháp", products: "Sản phẩm", cases: "Dự án", software: "Phần mềm", about: "Về chúng tôi", faq: "Câu hỏi thường gặp", contact: "Liên hệ", "seo-hub": "Nội dung SEO", admin: "Quản trị" },
     heroTitle: "Công nghệ bãi đỗ xe thông minh và kiểm soát ra vào toàn cầu",
     heroBody: "Phần cứng servo điện áp thấp, radar an toàn và phần mềm bãi đỗ cho dự án quốc tế.",
     primaryCta: "Gửi yêu cầu",
@@ -287,6 +292,7 @@ export const messages: Record<LocaleKey, {
       cases: { kicker: "Dự án", title: "Ứng dụng cho bãi đỗ, tòa nhà, metro và ETC", body: "Trang ngành giúp khách hàng hiểu cách dùng phần cứng và phần mềm trong dự án thực tế." },
       software: { kicker: "Phần mềm", title: "Máy chủ nội bộ, nền tảng cloud và thanh toán toàn cầu", body: "Phần mềm hỗ trợ triển khai nội bộ, vận hành cloud, đa ngôn ngữ và phương thức thanh toán theo quốc gia." },
       about: { kicker: "Về Batum", title: "Công ty R&D và sản xuất tập trung vào điều khiển servo", body: "Batum phát triển điều khiển truyền động, điều khiển chuyển động và phần cứng cho hệ thống ra vào xe và người. Sản phẩm gồm barrier tốc độ cao, cổng người đi bộ direct-drive, cửa chắn sân ga, bộ mở cửa và phụ kiện an toàn." },
+      faq: { kicker: "Câu hỏi thường gặp", title: "Giải đáp cho khách hàng đang tìm hiểu phần cứng kiểm soát ra vào servo", body: "Các câu hỏi thường gặp về tùy chỉnh, chứng nhận, lấy mẫu, thời gian giao hàng và hỗ trợ hậu mãi." },
       contact: { kicker: "Liên hệ", title: "Gửi yêu cầu dự án cho Batum", body: "Biểu mẫu gửi trực tiếp đến sales@batumaccess.com qua FormSubmit." },
       "seo-hub": { kicker: "Nội dung SEO", title: "Trang từ khóa cho tăng trưởng tìm kiếm", body: "Dùng trang này cho kiến thức sản phẩm, từ khóa danh mục và nội dung thị trường." }
     },
@@ -297,7 +303,7 @@ export const messages: Record<LocaleKey, {
     form: { name: "Tên", company: "Công ty", email: "Email", whatsapp: "WhatsApp", country: "Quốc gia", product: "Sản phẩm", message: "Yêu cầu dự án", submit: "Gửi yêu cầu" }
   },
   ms: {
-    nav: { home: "Laman Utama", solutions: "Penyelesaian", products: "Produk", cases: "Kes", software: "Perisian", about: "Tentang Kami", contact: "Hubungi", "seo-hub": "Kandungan SEO", admin: "Admin" },
+    nav: { home: "Laman Utama", solutions: "Penyelesaian", products: "Produk", cases: "Kes", software: "Perisian", about: "Tentang Kami", faq: "Soalan Lazim", contact: "Hubungi", "seo-hub": "Kandungan SEO", admin: "Admin" },
     heroTitle: "Teknologi parkir pintar dan kawalan akses global",
     heroBody: "Perkakasan servo voltan rendah, radar keselamatan dan perisian parkir untuk projek antarabangsa.",
     primaryCta: "Hantar pertanyaan",
@@ -309,6 +315,7 @@ export const messages: Record<LocaleKey, {
       cases: { kicker: "Kes", title: "Aplikasi untuk parkir, bangunan, transit dan ETC", body: "Halaman industri menerangkan penggunaan perkakasan dan perisian dalam projek sebenar." },
       software: { kicker: "Perisian", title: "Pelayan tempatan, cloud dan integrasi bayaran global", body: "Perisian menyokong pemasangan tempatan, operasi cloud, pelbagai bahasa dan bayaran negara." },
       about: { kicker: "Tentang Batum", title: "Syarikat R&D dan pembuatan kawalan akses servo", body: "Batum membangunkan kawalan pemacu, kawalan gerakan dan perkakasan untuk akses kenderaan dan pejalan kaki. Produk merangkumi palang pantas, pintu pejalan kaki direct-drive, pintu platform, penggerak pintu dan aksesori keselamatan." },
+      faq: { kicker: "Soalan Lazim", title: "Jawapan untuk pembeli yang menilai perkakasan kawalan akses servo", body: "Soalan lazim mengenai penyesuaian, pensijilan, sampel, masa penghantaran dan sokongan selepas jualan." },
       contact: { kicker: "Hubungi", title: "Hantar keperluan projek kepada Batum", body: "Borang dihantar terus ke sales@batumaccess.com melalui FormSubmit." },
       "seo-hub": { kicker: "Kandungan SEO", title: "Halaman kata kunci untuk pertumbuhan carian", body: "Gunakan halaman ini untuk pengetahuan produk, kata kunci kategori dan kandungan pasaran." }
     },
@@ -319,7 +326,7 @@ export const messages: Record<LocaleKey, {
     form: { name: "Nama", company: "Syarikat", email: "Email", whatsapp: "WhatsApp", country: "Negara", product: "Produk", message: "Keperluan projek", submit: "Hantar pertanyaan" }
   },
   th: {
-    nav: { home: "หน้าแรก", solutions: "โซลูชัน", products: "สินค้า", cases: "กรณีใช้งาน", software: "ซอฟต์แวร์", about: "เกี่ยวกับเรา", contact: "ติดต่อ", "seo-hub": "ศูนย์ SEO", admin: "ผู้ดูแล" },
+    nav: { home: "หน้าแรก", solutions: "โซลูชัน", products: "สินค้า", cases: "กรณีใช้งาน", software: "ซอฟต์แวร์", about: "เกี่ยวกับเรา", faq: "คำถามที่พบบ่อย", contact: "ติดต่อ", "seo-hub": "ศูนย์ SEO", admin: "ผู้ดูแล" },
     heroTitle: "เทคโนโลยีที่จอดรถอัจฉริยะและควบคุมทางเข้าระดับโลก",
     heroBody: "ฮาร์ดแวร์เซอร์โวแรงดันต่ำ เรดาร์นิรภัย และซอฟต์แวร์ที่จอดรถสำหรับโครงการนานาชาติ",
     primaryCta: "ส่งคำถาม",
@@ -331,6 +338,7 @@ export const messages: Record<LocaleKey, {
       cases: { kicker: "กรณีใช้งาน", title: "สำหรับลานจอด อาคาร รถไฟฟ้า และช่อง ETC", body: "หน้าอุตสาหกรรมช่วยอธิบายการใช้งานฮาร์ดแวร์และซอฟต์แวร์ในโครงการจริง" },
       software: { kicker: "ซอฟต์แวร์", title: "เซิร์ฟเวอร์ภายใน คลาวด์ และการชำระเงินหลายประเทศ", body: "ซอฟต์แวร์รองรับการติดตั้งภายใน คลาวด์ หลายภาษา และวิธีชำระเงินตามประเทศ" },
       about: { kicker: "เกี่ยวกับ Batum", title: "บริษัทวิจัย พัฒนา และผลิตระบบควบคุมทางเข้าเซอร์โว", body: "Batum พัฒนาการควบคุมไดรฟ์ การควบคุมการเคลื่อนที่ และฮาร์ดแวร์สำหรับรถและคนเดิน สินค้าครอบคลุมไม้กั้นความเร็วสูง ประตูคนเดิน direct-drive ประตูกั้นชานชาลา ชุดเปิดประตู และอุปกรณ์นิรภัย" },
+      faq: { kicker: "คำถามที่พบบ่อย", title: "คำตอบสำหรับผู้ซื้อที่กำลังพิจารณาฮาร์ดแวร์ควบคุมทางเข้าเซอร์โว", body: "คำถามที่พบบ่อยเกี่ยวกับการปรับแต่ง การรับรอง ตัวอย่างสินค้า ระยะเวลาส่งมอบ และการสนับสนุนหลังการขาย" },
       contact: { kicker: "ติดต่อ", title: "ส่งรายละเอียดโครงการถึง Batum", body: "แบบฟอร์มส่งตรงถึง sales@batumaccess.com ผ่าน FormSubmit" },
       "seo-hub": { kicker: "ศูนย์ SEO", title: "หน้าคีย์เวิร์ดเพื่อเพิ่มการค้นหา", body: "ใช้หน้านี้สำหรับความรู้สินค้า คีย์เวิร์ดหมวดหมู่ และเนื้อหาตลาด" }
     },
@@ -340,6 +348,57 @@ export const messages: Record<LocaleKey, {
     firstSubmitNote: "ครั้งแรกอาจต้องยืนยันอีเมล FormSubmit ที่ sales@batumaccess.com",
     form: { name: "ชื่อ", company: "บริษัท", email: "อีเมล", whatsapp: "WhatsApp", country: "ประเทศ", product: "สินค้า", message: "รายละเอียดโครงการ", submit: "ส่งคำถาม" }
   }
+};
+
+export const faqs: Record<LocaleKey, FaqItem[]> = {
+  en: [
+    { q: "Do you support OEM/ODM customization?", a: "Yes. Logo, color, voice prompts, housing and control parameters can be customized to match your brand and target market. Contact sales with your specification." },
+    { q: "Do your products meet certification requirements for export markets?", a: "Products are designed around common international electrical and safety requirements, and we can provide technical documentation to support certification and customs clearance in your market. Contact us to confirm the specific certificates your country requires." },
+    { q: "How long is the delivery lead time?", a: "Lead time depends on product configuration and order quantity. Send us your project details for an accurate estimate." },
+    { q: "Can I get samples before placing a bulk order?", a: "Yes, sample units are available for evaluation before a bulk order. Contact sales for sample pricing and shipping options." },
+    { q: "What after-sales support and warranty do you provide?", a: "Batum provides installation guidance, remote technical support and a manufacturer warranty on hardware. Contact sales for the warranty terms of your selected product." },
+    { q: "Can the parking software support local payment methods and languages?", a: "Yes, the software supports multilingual interfaces and can integrate country-specific payment methods. Contact us to discuss your deployment requirements." }
+  ],
+  "zh-hant": [
+    { q: "是否支援 OEM/ODM 客製化？", a: "支援。可依品牌與市場需求客製化 Logo、顏色、語音提示、外殼與控制參數，請聯絡銷售團隊提供您的規格需求。" },
+    { q: "產品是否符合出口市場的認證要求？", a: "產品設計上符合常見的國際電氣與安全規範，並可提供技術文件協助您完成目標市場的認證與清關程序，具體所需證書請與我們聯繫確認。" },
+    { q: "交期需要多久？", a: "交期依產品配置與訂購數量而定，請提供您的項目需求以取得準確交期。" },
+    { q: "下大量訂單前可以先申請樣品嗎？", a: "可以，我們提供樣品供評估，下單前請聯絡銷售了解樣品價格與運送方式。" },
+    { q: "售後服務與保修如何？", a: "巴圖姆提供安裝指導、遠端技術支援與硬體製造商保修，具體保修條款請洽銷售確認所選產品的保修內容。" },
+    { q: "停車軟體能否支援當地語言與付款方式？", a: "可以，停車軟體支援多語言介面，並可整合當地國家的付款方式，請聯絡我們討論您的部署需求。" }
+  ],
+  es: [
+    { q: "¿Ofrecen personalización OEM/ODM?", a: "Sí. Podemos personalizar logotipo, colores, mensajes de voz, carcasa y parámetros de control según su marca y mercado. Contacte a ventas con sus especificaciones." },
+    { q: "¿Sus productos cumplen con las certificaciones para exportación?", a: "Los productos están diseñados conforme a los requisitos eléctricos y de seguridad internacionales habituales, y podemos proporcionar documentación técnica para apoyar la certificación y el despacho de aduana en su mercado. Contáctenos para confirmar los certificados específicos que necesita." },
+    { q: "¿Cuánto tarda la entrega?", a: "El plazo de entrega depende de la configuración del producto y la cantidad del pedido. Envíenos los detalles de su proyecto para un plazo preciso." },
+    { q: "¿Puedo solicitar muestras antes de un pedido grande?", a: "Sí, ofrecemos muestras para evaluación antes de un pedido al por mayor. Contacte a ventas para precios y envío de muestras." },
+    { q: "¿Qué soporte postventa y garantía ofrecen?", a: "Batum ofrece orientación de instalación, soporte técnico remoto y garantía de fabricante en el hardware. Contacte a ventas para conocer los términos de garantía del producto elegido." },
+    { q: "¿El software de parking admite pagos e idiomas locales?", a: "Sí, el software admite interfaces multilingües y puede integrar métodos de pago específicos de cada país. Contáctenos para hablar sobre su despliegue." }
+  ],
+  vi: [
+    { q: "Có hỗ trợ OEM/ODM không?", a: "Có. Chúng tôi có thể tùy chỉnh logo, màu sắc, thông báo giọng nói, vỏ máy và tham số điều khiển theo thương hiệu và thị trường của bạn. Vui lòng liên hệ bộ phận kinh doanh với yêu cầu cụ thể." },
+    { q: "Sản phẩm có đáp ứng chứng nhận xuất khẩu không?", a: "Sản phẩm được thiết kế theo các yêu cầu điện và an toàn quốc tế phổ biến, chúng tôi có thể cung cấp tài liệu kỹ thuật hỗ trợ chứng nhận và thông quan tại thị trường của bạn. Vui lòng liên hệ để xác nhận chứng nhận cụ thể cần thiết." },
+    { q: "Thời gian giao hàng là bao lâu?", a: "Thời gian giao hàng phụ thuộc vào cấu hình sản phẩm và số lượng đặt hàng. Vui lòng gửi thông tin dự án để nhận thời gian giao hàng chính xác." },
+    { q: "Có thể lấy mẫu trước khi đặt hàng lớn không?", a: "Có, chúng tôi cung cấp mẫu để đánh giá trước khi đặt hàng số lượng lớn. Vui lòng liên hệ để biết giá và cách gửi mẫu." },
+    { q: "Chế độ hậu mãi và bảo hành như thế nào?", a: "Batum cung cấp hướng dẫn lắp đặt, hỗ trợ kỹ thuật từ xa và bảo hành từ nhà sản xuất. Vui lòng liên hệ để biết điều khoản bảo hành cho sản phẩm bạn chọn." },
+    { q: "Phần mềm bãi đỗ có hỗ trợ thanh toán và ngôn ngữ địa phương không?", a: "Có, phần mềm hỗ trợ giao diện đa ngôn ngữ và có thể tích hợp phương thức thanh toán theo từng quốc gia. Vui lòng liên hệ để trao đổi về nhu cầu triển khai." }
+  ],
+  ms: [
+    { q: "Adakah anda menyediakan penyesuaian OEM/ODM?", a: "Ya. Kami boleh menyesuaikan logo, warna, mesej suara, casing dan parameter kawalan mengikut jenama dan pasaran anda. Sila hubungi jualan dengan spesifikasi anda." },
+    { q: "Adakah produk anda memenuhi pensijilan untuk pasaran eksport?", a: "Produk direka mengikut keperluan elektrik dan keselamatan antarabangsa yang biasa, dan kami boleh menyediakan dokumen teknikal untuk membantu pensijilan dan kelulusan kastam di pasaran anda. Sila hubungi kami untuk mengesahkan sijil khusus yang diperlukan." },
+    { q: "Berapa lama masa penghantaran?", a: "Masa penghantaran bergantung kepada konfigurasi produk dan kuantiti pesanan. Sila hantar butiran projek anda untuk masa penghantaran yang tepat." },
+    { q: "Bolehkah saya minta sampel sebelum pesanan pukal?", a: "Boleh, kami menyediakan sampel untuk penilaian sebelum pesanan pukal. Sila hubungi jualan untuk harga dan penghantaran sampel." },
+    { q: "Apakah sokongan selepas jualan dan waranti yang disediakan?", a: "Batum menyediakan panduan pemasangan, sokongan teknikal jarak jauh dan waranti pengeluar untuk perkakasan. Sila hubungi jualan untuk terma waranti produk yang dipilih." },
+    { q: "Adakah perisian parkir menyokong pembayaran dan bahasa tempatan?", a: "Ya, perisian menyokong antara muka pelbagai bahasa dan boleh disepadukan dengan kaedah pembayaran mengikut negara. Sila hubungi kami untuk membincangkan keperluan pemasangan anda." }
+  ],
+  th: [
+    { q: "มีบริการรับผลิตแบบ OEM/ODM หรือไม่?", a: "มี เราสามารถปรับแต่งโลโก้ สี เสียงแจ้งเตือน ตัวเครื่อง และพารามิเตอร์การควบคุมให้ตรงกับแบรนด์และตลาดของคุณ กรุณาติดต่อฝ่ายขายพร้อมข้อกำหนดของคุณ" },
+    { q: "สินค้าผ่านการรับรองสำหรับตลาดส่งออกหรือไม่?", a: "สินค้าออกแบบตามมาตรฐานไฟฟ้าและความปลอดภัยสากลทั่วไป และเรามีเอกสารทางเทคนิคเพื่อสนับสนุนการขอรับรองและพิธีการศุลกากรในตลาดของคุณ กรุณาติดต่อเราเพื่อยืนยันใบรับรองที่จำเป็นสำหรับประเทศของคุณ" },
+    { q: "ใช้เวลาส่งมอบสินค้านานเท่าไร?", a: "ระยะเวลาส่งมอบขึ้นอยู่กับการตั้งค่าสินค้าและจำนวนที่สั่งซื้อ กรุณาส่งรายละเอียดโครงการเพื่อรับระยะเวลาที่ถูกต้อง" },
+    { q: "สามารถขอตัวอย่างสินค้าก่อนสั่งซื้อจำนวนมากได้หรือไม่?", a: "ได้ เรามีตัวอย่างสินค้าให้ประเมินก่อนสั่งซื้อจำนวนมาก กรุณาติดต่อฝ่ายขายเรื่องราคาและการจัดส่งตัวอย่าง" },
+    { q: "มีบริการหลังการขายและการรับประกันอย่างไร?", a: "Batum ให้คำแนะนำการติดตั้ง การสนับสนุนทางเทคนิคทางไกล และการรับประกันจากผู้ผลิตสำหรับฮาร์ดแวร์ กรุณาติดต่อฝ่ายขายเพื่อทราบเงื่อนไขการรับประกันของสินค้าที่คุณเลือก" },
+    { q: "ซอฟต์แวร์ที่จอดรถรองรับภาษาและการชำระเงินในประเทศของฉันหรือไม่?", a: "รองรับ ซอฟต์แวร์มีอินเทอร์เฟซหลายภาษาและสามารถเชื่อมต่อวิธีการชำระเงินตามแต่ละประเทศ กรุณาติดต่อเราเพื่อพูดคุยเกี่ยวกับความต้องการในการติดตั้งของคุณ" }
+  ]
 };
 
 export const solutionCards = [
