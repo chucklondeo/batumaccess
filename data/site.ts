@@ -14,6 +14,7 @@ import {
   Wrench,
   Zap
 } from "lucide-react";
+import seoTopicsSeed from "./seo-topics.json";
 
 export type LocaleKey = "en" | "zh-hant" | "es" | "vi" | "ms" | "th";
 export type PageSlug = "solutions" | "products" | "cases" | "software" | "about" | "faq" | "contact" | "seo-hub";
@@ -550,14 +551,7 @@ export const softwareFeatures: Record<LocaleKey, Array<{ title: string; body: st
   ]
 };
 
-export const seoTopics = [
-  "24V servo barrier gate manufacturer",
-  "low voltage door operator control system",
-  "anti-smash radar sensor for parking barrier",
-  "parking management software local server deployment",
-  "cloud parking platform with payment integration",
-  "direct drive pedestrian access gate control"
-];
+export const seoTopics: string[] = seoTopicsSeed;
 
 export function localePath(locale: LocaleKey, slug?: PageSlug) {
   if (locale === defaultLocale) {
