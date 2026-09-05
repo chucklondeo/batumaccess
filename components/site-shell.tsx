@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { ArrowRight, CheckCircle2, ChevronDown, Download, Mail, MessageCircle } from "lucide-react";
 import {
+  aboutHighlights,
   caseCards,
+  companyName,
   contact,
   iconMap,
   localePath,
@@ -12,6 +14,7 @@ import {
   faqs,
   products,
   seoTopics,
+  softwareFeatures,
   solutionCards
 } from "@/data/site";
 import { InquiryForm } from "@/components/inquiry-form";
@@ -29,10 +32,7 @@ export function SiteShell({ locale, children }: { locale: LocaleKey; children: R
             <span className="grid h-10 w-10 place-items-center rounded-xl border border-water/30 bg-water/10 font-black text-water">
               B
             </span>
-            <span>
-              <span className="block text-sm font-semibold text-white">Batum Technology</span>
-              <span className="block text-xs text-steel">巴圖姆（深圳）科技有限公司</span>
-            </span>
+            <span className="block text-sm font-semibold text-white">{companyName[locale]}</span>
           </Link>
 
           <nav className="hidden items-center gap-5 lg:flex">
@@ -68,7 +68,7 @@ export function SiteShell({ locale, children }: { locale: LocaleKey; children: R
 
       <footer className="border-t border-white/10 px-5 py-8 text-sm text-steel">
         <div className="mx-auto flex max-w-7xl flex-col gap-3 md:flex-row md:items-center md:justify-between">
-          <span>{contact.company}</span>
+          <span>{companyName[locale]}</span>
           <span>{contact.email} · {contact.phone}</span>
         </div>
       </footer>
@@ -182,9 +182,9 @@ function renderPageContent(locale: LocaleKey, slug: PageSlug) {
   const copy = messages[locale];
 
   if (slug === "products") return <ProductGrid locale={locale} />;
-  if (slug === "solutions") return <CardGrid cards={solutionCards} />;
-  if (slug === "cases") return <CardGrid cards={caseCards} />;
-  if (slug === "software") return <SoftwareContent />;
+  if (slug === "solutions") return <CardGrid cards={solutionCards[locale]} />;
+  if (slug === "cases") return <CardGrid cards={caseCards[locale]} />;
+  if (slug === "software") return <SoftwareContent locale={locale} />;
   if (slug === "about") return <AboutContent locale={locale} />;
   if (slug === "contact") return <ContactContent locale={locale} />;
   if (slug === "faq") return <FaqContent locale={locale} />;
@@ -216,7 +216,7 @@ function FaqContent({ locale }: { locale: LocaleKey }) {
   );
 }
 
-function CardGrid({ cards }: { cards: ReadonlyArray<{ icon: keyof typeof iconMap; title: string; body: string }> }) {
+function CardGrid({ cards }: { cards: Array<{ icon: keyof typeof iconMap; title: string; body: string }> }) {
   return (
     <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
       {cards.map((card) => {
@@ -269,13 +269,13 @@ function ProductGrid({ locale }: { locale: LocaleKey }) {
   );
 }
 
-function SoftwareContent() {
+function SoftwareContent({ locale }: { locale: LocaleKey }) {
   return (
     <div className="grid gap-5 md:grid-cols-3">
-      {["Local server deployment", "Cloud platform operation", "Global payment integration", "Multilingual UI", "API integration", "Parking data reporting"].map((item) => (
-        <article key={item} className="glass-card rounded-3xl p-6">
-          <h2 className="text-xl font-semibold text-white">{item}</h2>
-          <p className="mt-4 text-sm leading-7 text-steel">Structured for integrators, distributors and property operators that need reliable parking workflows.</p>
+      {softwareFeatures[locale].map((item) => (
+        <article key={item.title} className="glass-card rounded-3xl p-6">
+          <h2 className="text-xl font-semibold text-white">{item.title}</h2>
+          <p className="mt-4 text-sm leading-7 text-steel">{item.body}</p>
         </article>
       ))}
     </div>
@@ -286,11 +286,11 @@ function AboutContent({ locale }: { locale: LocaleKey }) {
   return (
     <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
       <div className="glass-card rounded-3xl p-7">
-        <h2 className="text-2xl font-semibold text-white">{contact.company}</h2>
+        <h2 className="text-2xl font-semibold text-white">{companyName[locale]}</h2>
         <p className="mt-5 text-sm leading-8 text-steel">{messages[locale].sections.about.body}</p>
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
-        {["Drive control R&D", "Hardware manufacturing", "Low-voltage servo systems", "Safety-first product design"].map((item) => (
+        {aboutHighlights[locale].map((item) => (
           <div key={item} className="glass-card rounded-3xl p-6">
             <h3 className="text-xl font-semibold text-white">{item}</h3>
           </div>
@@ -306,7 +306,7 @@ function ContactContent({ locale }: { locale: LocaleKey }) {
   return (
     <div className="grid gap-6 lg:grid-cols-[0.82fr_1.18fr]">
       <div className="glass-card rounded-3xl p-7">
-        <h2 className="text-2xl font-semibold text-white">{contact.company}</h2>
+        <h2 className="text-2xl font-semibold text-white">{companyName[locale]}</h2>
         <p className="mt-4 text-sm leading-7 text-steel">{copy.contactIntro}</p>
         <div className="mt-6 space-y-4 text-steel">
           <a className="flex items-center gap-3 hover:text-white" href={contact.whatsappUrl} target="_blank" rel="noreferrer">
