@@ -14,6 +14,7 @@ import {
   Wrench,
   Zap
 } from "lucide-react";
+import seoTopicsSeed from "./seo-topics.json";
 
 export type LocaleKey = "en" | "zh-hant" | "es" | "vi" | "ms" | "th";
 export type PageSlug = "solutions" | "products" | "cases" | "software" | "about" | "contact" | "faq" | "seo-hub";
@@ -54,6 +55,24 @@ export const contact = {
   phone: "+86 135 3425 3195",
   wechat: "13534253195",
   whatsappUrl: "https://wa.me/8613534253195"
+};
+
+export const companyName: Record<LocaleKey, string> = {
+  en: "Batum Technology",
+  "zh-hant": "巴圖姆（深圳）科技有限公司",
+  es: "Batum Technology",
+  vi: "Batum Technology",
+  ms: "Batum Technology",
+  th: "Batum Technology"
+};
+
+export const aboutHighlights: Record<LocaleKey, string[]> = {
+  en: ["Drive control R&D", "Hardware manufacturing", "Low-voltage servo systems", "Safety-first product design"],
+  "zh-hant": ["門禁驅動控制研發", "硬體生產製造", "低壓伺服系統", "安全優先的產品設計"],
+  es: ["I+D en control de accionamiento", "Fabricación de hardware", "Sistemas servo de bajo voltaje", "Diseño de producto centrado en la seguridad"],
+  vi: ["R&D điều khiển truyền động", "Sản xuất phần cứng", "Hệ thống servo điện áp thấp", "Thiết kế sản phẩm ưu tiên an toàn"],
+  ms: ["R&D kawalan pemacu", "Pembuatan perkakasan", "Sistem servo voltan rendah", "Reka bentuk produk keutamaan keselamatan"],
+  th: ["วิจัยและพัฒนาระบบควบคุมไดรฟ์", "การผลิตฮาร์ดแวร์", "ระบบเซอร์โวแรงดันต่ำ", "ออกแบบผลิตภัณฑ์โดยเน้นความปลอดภัยเป็นหลัก"]
 };
 
 type Product = {
@@ -215,13 +234,13 @@ const english: Copy = {
   heroBody: "Low-voltage servo hardware, safety radar accessories and parking software for international parking, gate and transit projects.",
   primaryCta: "Submit Inquiry",
   secondaryCta: "View Products",
-  homeKicker: contact.company,
+  homeKicker: companyName.en,
   sections: {
     solutions: { kicker: "Solutions", title: "Integrated systems for vehicles, pedestrians and transit access", body: "Modular solutions combine servo control, access logic, radar safety and software integration." },
     products: { kicker: "Products", title: "Servo barrier, door operator, radar and accessory categories", body: "Each product module is structured for datasheets, project keywords and future upload management." },
     cases: { kicker: "Cases", title: "Application pages for parking lots, buildings, rail transit and ETC lanes", body: "Industry pages help buyers understand where the hardware and software fit into real projects." },
     software: { kicker: "Software", title: "Local server, cloud platform and global payment integration", body: "Parking software can support local deployment, cloud operation, multiple languages and country payment methods." },
-    about: { kicker: "About Batum", title: "R&D and manufacturing company focused on low-voltage servo access control", body: "Batum develops drive control, motion control and hardware manufacturing capability for vehicle and pedestrian access systems. Products cover high-speed barrier gates, direct-drive pedestrian gates, platform screen door control, door operators and safety accessories. Safety is the first design objective." },
+    about: { kicker: "About Batum", title: "R&D and manufacturing company focused on low-voltage servo access control", body: "Batum is a company with strong R&D capability in access control drive control and comprehensive hardware manufacturing capability. Our products cover both vehicle and pedestrian access control — high-speed barrier gates, direct-drive pedestrian access gates, platform screen doors and door operators — all built as low-voltage servo solutions. Safety is our first design goal." },
     contact: { kicker: "Contact", title: "Send project requirements to Batum Technology", body: "The inquiry form sends project information to sales@batumaccess.com." },
     faq: { kicker: "FAQ", title: "Common project questions", body: "Clear answers for buyers comparing parking hardware, access control products and software deployment options." },
     "seo-hub": { kicker: "Insights", title: "Structured knowledge pages for search growth", body: "Use this section for product knowledge, category articles and market-specific content that can be expanded over time." }
@@ -241,13 +260,13 @@ export const messages: Record<LocaleKey, Copy> = {
     heroBody: "面向海外市場的低壓伺服硬體、安全雷達配件與停車軟體解決方案。",
     primaryCta: "提交詢盤",
     secondaryCta: "查看產品",
-    homeKicker: contact.company,
+    homeKicker: companyName["zh-hant"],
     sections: {
       solutions: { kicker: "解決方案", title: "車輛、人行與軌道交通門禁的一體化系統", body: "以伺服控制、門禁邏輯、安全雷達和軟體整合組成模組化方案。" },
       products: { kicker: "產品", title: "伺服道閘、開門機、雷達與配件分類", body: "每個產品模組都可對應說明文件、工程關鍵詞和後續上傳管理。" },
       cases: { kicker: "案例", title: "停車場、商業建築、軌道交通與 ETC 車道應用", body: "行業頁面幫助海外買家理解硬體與軟體在實際項目中的使用方式。" },
       software: { kicker: "軟體", title: "本地伺服器、雲端平台與多國支付整合", body: "停車軟體可支援本地部署、雲端營運、多語言和不同國家的支付方式。" },
-      about: { kicker: "關於巴圖姆", title: "專注低壓伺服門禁控制的研發與硬體製造公司", body: "巴圖姆具備門禁驅動控制、運動控制研發和硬體生產能力，產品覆蓋快速道閘、直驅人行通道閘、站台屏蔽門控制、開門機與安全配件。安全是我們的第一設計目標。" },
+      about: { kicker: "關於巴圖姆", title: "專注低壓伺服門禁控制的研發與硬體製造公司", body: "巴圖姆是一家在門禁驅動控制方面擁有強大研發能力、並具備完整硬體生產能力的綜合實力企業。我們的產品涵蓋車輛與行人門禁，包括快速道閘、直驅人行通道閘、站台屏蔽門與開門機，全部採用低壓伺服解決方案。安全是我們的第一設計目標。" },
       contact: { kicker: "聯絡我們", title: "把項目需求發送給巴圖姆", body: "詢盤表單會把項目信息發送至 sales@batumaccess.com。" },
       faq: { kicker: "常見問題", title: "項目採購常見問題", body: "幫助買家快速了解停車硬體、門禁產品與軟體部署方式。" },
       "seo-hub": { kicker: "知識中心", title: "用於長期搜尋成長的結構化內容頁面", body: "此頁可持續擴充產品知識、分類關鍵詞和市場內容。" }
@@ -270,7 +289,7 @@ export const messages: Record<LocaleKey, Copy> = {
       products: { kicker: "Productos", title: "Barrera servo, operador de puerta, radar y accesorios", body: "Cada producto está estructurado para fichas técnicas, palabras clave y gestión futura." },
       cases: { kicker: "Casos", title: "Aplicaciones para parkings, edificios, tránsito y ETC", body: "Las páginas por industria explican cómo se aplican hardware y software en proyectos reales." },
       software: { kicker: "Software", title: "Servidor local, nube y pagos globales", body: "El software puede soportar despliegue local, operación cloud, idiomas y métodos de pago por país." },
-      about: { kicker: "Sobre Batum", title: "Empresa de I+D y fabricación enfocada en control servo de acceso", body: "Batum desarrolla control de accionamiento, control de movimiento y hardware para acceso vehicular y peatonal. Los productos cubren barreras rápidas, pasos peatonales direct-drive, puertas de andén, operadores de puerta y accesorios de seguridad." },
+      about: { kicker: "Sobre Batum", title: "Empresa de I+D y fabricación enfocada en control servo de acceso", body: "Batum es una empresa con una fuerte capacidad de I+D en control de accionamiento para control de acceso y una capacidad integral de fabricación de hardware. Nuestros productos cubren el control de acceso vehicular y peatonal — barreras de alta velocidad, puertas peatonales de accionamiento directo, puertas de andén y operadores de puerta — todos como soluciones servo de bajo voltaje. La seguridad es nuestro primer objetivo de diseño." },
       contact: { kicker: "Contacto", title: "Envíe los requisitos del proyecto", body: "El formulario envía la información a sales@batumaccess.com." },
       faq: { kicker: "FAQ", title: "Preguntas comunes de proyectos", body: "Respuestas para compradores que comparan hardware de parking, productos de acceso y despliegue de software." },
       "seo-hub": { kicker: "Conocimiento", title: "Páginas estructuradas para crecimiento orgánico", body: "Use esta página para conocimiento de producto, categorías y contenido por mercado." }
@@ -293,7 +312,7 @@ export const messages: Record<LocaleKey, Copy> = {
       products: { kicker: "Sản phẩm", title: "Barrier servo, bộ mở cửa, radar và phụ kiện", body: "Mỗi sản phẩm có cấu trúc cho tài liệu, từ khóa và quản lý nội dung sau này." },
       cases: { kicker: "Dự án", title: "Ứng dụng cho bãi đỗ, tòa nhà, metro và ETC", body: "Trang ngành giúp khách hàng hiểu cách dùng phần cứng và phần mềm trong dự án thực tế." },
       software: { kicker: "Phần mềm", title: "Máy chủ nội bộ, nền tảng cloud và thanh toán toàn cầu", body: "Phần mềm hỗ trợ triển khai nội bộ, vận hành cloud, đa ngôn ngữ và phương thức thanh toán theo quốc gia." },
-      about: { kicker: "Về Batum", title: "Công ty R&D và sản xuất tập trung vào điều khiển servo", body: "Batum phát triển điều khiển truyền động, điều khiển chuyển động và phần cứng cho hệ thống ra vào xe và người. Sản phẩm gồm barrier tốc độ cao, cổng người đi bộ direct-drive, cửa chắn sân ga, bộ mở cửa và phụ kiện an toàn." },
+      about: { kicker: "Về Batum", title: "Công ty R&D và sản xuất tập trung vào điều khiển servo", body: "Batum là công ty có năng lực R&D mạnh về điều khiển truyền động cho hệ thống kiểm soát ra vào và năng lực sản xuất phần cứng toàn diện. Sản phẩm của chúng tôi bao gồm kiểm soát ra vào cho xe và người đi bộ — barrier tốc độ cao, cổng người đi bộ dẫn động trực tiếp, cửa chắn sân ga và bộ mở cửa — tất cả đều là giải pháp servo điện áp thấp. An toàn là mục tiêu thiết kế hàng đầu của chúng tôi." },
       contact: { kicker: "Liên hệ", title: "Gửi yêu cầu dự án cho Batum", body: "Biểu mẫu gửi thông tin đến sales@batumaccess.com." },
       faq: { kicker: "FAQ", title: "Câu hỏi dự án thường gặp", body: "Câu trả lời cho khách hàng đang so sánh phần cứng bãi đỗ, sản phẩm ra vào và triển khai phần mềm." },
       "seo-hub": { kicker: "Kiến thức", title: "Trang nội dung có cấu trúc cho tìm kiếm", body: "Dùng trang này cho kiến thức sản phẩm, từ khóa danh mục và nội dung thị trường." }
@@ -316,7 +335,7 @@ export const messages: Record<LocaleKey, Copy> = {
       products: { kicker: "Produk", title: "Palang servo, penggerak pintu, radar dan aksesori", body: "Setiap produk distrukturkan untuk dokumen, kata kunci dan pengurusan masa depan." },
       cases: { kicker: "Kes", title: "Aplikasi untuk parkir, bangunan, transit dan ETC", body: "Halaman industri menerangkan penggunaan perkakasan dan perisian dalam projek sebenar." },
       software: { kicker: "Perisian", title: "Pelayan tempatan, cloud dan integrasi bayaran global", body: "Perisian menyokong pemasangan tempatan, operasi cloud, pelbagai bahasa dan bayaran negara." },
-      about: { kicker: "Tentang Batum", title: "Syarikat R&D dan pembuatan kawalan akses servo", body: "Batum membangunkan kawalan pemacu, kawalan gerakan dan perkakasan untuk akses kenderaan dan pejalan kaki. Produk merangkumi palang pantas, pintu pejalan kaki direct-drive, pintu platform, penggerak pintu dan aksesori keselamatan." },
+      about: { kicker: "Tentang Batum", title: "Syarikat R&D dan pembuatan kawalan akses servo", body: "Batum adalah syarikat dengan keupayaan R&D yang kukuh dalam kawalan pemacu untuk kawalan akses serta keupayaan pembuatan perkakasan yang menyeluruh. Produk kami merangkumi kawalan akses kenderaan dan pejalan kaki — palang berkelajuan tinggi, pintu pejalan kaki pemacu langsung, pintu platform dan penggerak pintu — semuanya sebagai penyelesaian servo voltan rendah. Keselamatan adalah objektif reka bentuk utama kami." },
       contact: { kicker: "Hubungi", title: "Hantar keperluan projek kepada Batum", body: "Borang menghantar maklumat kepada sales@batumaccess.com." },
       faq: { kicker: "FAQ", title: "Soalan projek yang biasa", body: "Jawapan untuk pembeli yang membandingkan perkakasan parkir, produk akses dan pemasangan perisian." },
       "seo-hub": { kicker: "Pengetahuan", title: "Halaman kandungan untuk pertumbuhan carian", body: "Gunakan halaman ini untuk pengetahuan produk, kata kunci kategori dan kandungan pasaran." }
@@ -339,7 +358,7 @@ export const messages: Record<LocaleKey, Copy> = {
       products: { kicker: "สินค้า", title: "ไม้กั้นเซอร์โว ชุดเปิดประตู เรดาร์ และอุปกรณ์เสริม", body: "สินค้าถูกจัดโครงสร้างสำหรับเอกสาร คำค้นหา และการจัดการเนื้อหาในอนาคต" },
       cases: { kicker: "กรณีใช้งาน", title: "ลานจอดรถ อาคาร ระบบราง และช่องทาง ETC", body: "หน้าอุตสาหกรรมช่วยให้ลูกค้าเข้าใจการใช้งานฮาร์ดแวร์และซอฟต์แวร์ในโครงการจริง" },
       software: { kicker: "ซอฟต์แวร์", title: "เซิร์ฟเวอร์ภายใน แพลตฟอร์ม cloud และการชำระเงินทั่วโลก", body: "ซอฟต์แวร์รองรับการติดตั้งภายใน การทำงานบน cloud หลายภาษา และวิธีชำระเงินตามประเทศ" },
-      about: { kicker: "เกี่ยวกับ Batum", title: "บริษัทวิจัยและผลิตระบบควบคุมทางเข้าออกเซอร์โว", body: "Batum พัฒนาการควบคุมไดรฟ์ การควบคุมการเคลื่อนที่ และฮาร์ดแวร์สำหรับระบบทางเข้าออกรถและคนเดิน สินค้าครอบคลุมไม้กั้นความเร็วสูง ประตูคนเดิน direct-drive ระบบประตูชานชาลา ชุดเปิดประตู และอุปกรณ์นิรภัย" },
+      about: { kicker: "เกี่ยวกับ Batum", title: "บริษัทวิจัยและผลิตระบบควบคุมทางเข้าออกเซอร์โว", body: "Batum เป็นบริษัทที่มีศักยภาพด้านการวิจัยและพัฒนาระบบควบคุมไดรฟ์สำหรับควบคุมทางเข้าอย่างแข็งแกร่ง พร้อมความสามารถด้านการผลิตฮาร์ดแวร์ที่ครบวงจร สินค้าของเราครอบคลุมการควบคุมทางเข้าทั้งสำหรับรถและคนเดิน ได้แก่ ไม้กั้นความเร็วสูง ประตูคนเดิน direct-drive ประตูกั้นชานชาลา และชุดเปิดประตู ทั้งหมดเป็นโซลูชันเซอร์โวแรงดันต่ำ ความปลอดภัยคือเป้าหมายการออกแบบอันดับหนึ่งของเรา" },
       contact: { kicker: "ติดต่อ", title: "ส่งข้อมูลโครงการให้ Batum", body: "แบบฟอร์มจะส่งข้อมูลไปที่ sales@batumaccess.com" },
       faq: { kicker: "FAQ", title: "คำถามโครงการที่พบบ่อย", body: "คำตอบสำหรับผู้ซื้อที่เปรียบเทียบฮาร์ดแวร์จอดรถ สินค้าควบคุมทางเข้าออก และการติดตั้งซอฟต์แวร์" },
       "seo-hub": { kicker: "ความรู้", title: "หน้าความรู้แบบมีโครงสร้างสำหรับการค้นหา", body: "ใช้หน้านี้สำหรับความรู้สินค้า คำค้นหาหมวดหมู่ และเนื้อหาตลาด" }
@@ -352,28 +371,138 @@ export const messages: Record<LocaleKey, Copy> = {
   }
 };
 
-export const solutionCards = [
-  { icon: "parking", title: "Smart parking", body: "LPR, barrier control, radar protection and parking payment workflows." },
-  { icon: "transit", title: "Rail transit access", body: "AFC gates, platform screen door control and station access integration." },
-  { icon: "operator", title: "Door operator control", body: "Low-voltage servo drive logic for automatic door and gate movement." },
-  { icon: "safety", title: "Safety radar", body: "Anti-smash and anti-pinch detection for vehicle and pedestrian safety." }
-] as const;
+type CardItem = { icon: keyof typeof iconMap; title: string; body: string };
 
-export const caseCards = [
-  { icon: "parking", title: "Parking lots", body: "Ticketless parking entry, exit payment and vehicle access management." },
-  { icon: "building", title: "Commercial buildings", body: "Office, hotel, mall and residential mixed-use entrance control." },
-  { icon: "transit", title: "Rail transit", body: "AFC, platform screen door and passenger flow access systems." },
-  { icon: "fast", title: "Highway ETC", body: "Fast vehicle lane control and integration with identification systems." }
-] as const;
+export const solutionCards: Record<LocaleKey, CardItem[]> = {
+  en: [
+    { icon: "parking", title: "Smart parking", body: "LPR, barrier control, radar protection and parking payment workflows." },
+    { icon: "transit", title: "Rail transit access", body: "AFC gates, platform screen door control and station access integration." },
+    { icon: "operator", title: "Door operator control", body: "Low-voltage servo drive logic for automatic door and gate movement." },
+    { icon: "safety", title: "Safety radar", body: "Anti-smash and anti-pinch detection for vehicle and pedestrian safety." }
+  ],
+  "zh-hant": [
+    { icon: "parking", title: "智慧停車", body: "車牌辨識、道閘控制、雷達防護與停車繳費流程。" },
+    { icon: "transit", title: "軌道交通門禁", body: "自動售票閘機（AFC）、站台屏蔽門控制與車站門禁整合。" },
+    { icon: "operator", title: "開門機控制", body: "用於自動門與閘門動作的低壓伺服驅動邏輯。" },
+    { icon: "safety", title: "安全雷達", body: "針對車輛與行人安全的防砸防夾偵測。" }
+  ],
+  es: [
+    { icon: "parking", title: "Parking inteligente", body: "Reconocimiento de placas, control de barreras, protección por radar y flujos de pago de parking." },
+    { icon: "transit", title: "Acceso a tránsito ferroviario", body: "Puertas AFC, control de puertas de andén e integración de acceso a estaciones." },
+    { icon: "operator", title: "Control de operador de puerta", body: "Lógica de accionamiento servo de bajo voltaje para el movimiento automático de puertas y portones." },
+    { icon: "safety", title: "Radar de seguridad", body: "Detección antiaplastamiento y antipinzamiento para la seguridad de vehículos y peatones." }
+  ],
+  vi: [
+    { icon: "parking", title: "Bãi đỗ xe thông minh", body: "Nhận diện biển số, điều khiển barrier, bảo vệ bằng radar và quy trình thanh toán bãi đỗ." },
+    { icon: "transit", title: "Kiểm soát ra vào giao thông đường sắt", body: "Cổng AFC, điều khiển cửa chắn sân ga và tích hợp kiểm soát ra vào nhà ga." },
+    { icon: "operator", title: "Điều khiển bộ mở cửa", body: "Logic truyền động servo điện áp thấp cho chuyển động của cửa và cổng tự động." },
+    { icon: "safety", title: "Radar an toàn", body: "Phát hiện chống đập và chống kẹp cho an toàn của xe và người đi bộ." }
+  ],
+  ms: [
+    { icon: "parking", title: "Parkir pintar", body: "Pengecaman plat nombor, kawalan palang, perlindungan radar dan aliran pembayaran parkir." },
+    { icon: "transit", title: "Akses transit rel", body: "Pintu AFC, kawalan pintu platform dan integrasi akses stesen." },
+    { icon: "operator", title: "Kawalan penggerak pintu", body: "Logik pemacu servo voltan rendah untuk pergerakan pintu dan get automatik." },
+    { icon: "safety", title: "Radar keselamatan", body: "Pengesanan anti-hentam dan anti-pinch untuk keselamatan kenderaan dan pejalan kaki." }
+  ],
+  th: [
+    { icon: "parking", title: "ที่จอดรถอัจฉริยะ", body: "การอ่านทะเบียนรถ การควบคุมไม้กั้น การป้องกันด้วยเรดาร์ และขั้นตอนการชำระเงินที่จอดรถ" },
+    { icon: "transit", title: "การเข้าถึงระบบขนส่งทางราง", body: "ประตู AFC การควบคุมประตูกั้นชานชาลา และการเชื่อมต่อระบบเข้าออกสถานี" },
+    { icon: "operator", title: "การควบคุมชุดเปิดประตู", body: "ตรรกะการขับเคลื่อนเซอร์โวแรงดันต่ำสำหรับการเคลื่อนที่ของประตูและไม้กั้นอัตโนมัติ" },
+    { icon: "safety", title: "เรดาร์นิรภัย", body: "การตรวจจับป้องกันการชนและหนีบเพื่อความปลอดภัยของรถและคนเดิน" }
+  ]
+};
 
-export const seoTopics = [
-  "24V servo barrier gate manufacturer",
-  "low voltage door operator control system",
-  "anti-smash radar sensor for parking barrier",
-  "parking management software local server deployment",
-  "cloud parking platform with payment integration",
-  "direct drive pedestrian access gate control"
-];
+export const caseCards: Record<LocaleKey, CardItem[]> = {
+  en: [
+    { icon: "parking", title: "Parking lots", body: "Ticketless parking entry, exit payment and vehicle access management." },
+    { icon: "building", title: "Commercial buildings", body: "Office, hotel, mall and residential mixed-use entrance control." },
+    { icon: "transit", title: "Rail transit", body: "AFC, platform screen door and passenger flow access systems." },
+    { icon: "fast", title: "Highway ETC", body: "Fast vehicle lane control and integration with identification systems." }
+  ],
+  "zh-hant": [
+    { icon: "parking", title: "停車場", body: "免票入場、出場繳費與車輛出入管理。" },
+    { icon: "building", title: "商業建築", body: "辦公室、飯店、商場與住宅混合用途的出入口控制。" },
+    { icon: "transit", title: "軌道交通", body: "自動售票閘機、站台屏蔽門與人流出入系統。" },
+    { icon: "fast", title: "高速公路 ETC", body: "快速車道控制與識別系統整合。" }
+  ],
+  es: [
+    { icon: "parking", title: "Estacionamientos", body: "Entrada sin boleto, pago de salida y gestión de acceso vehicular." },
+    { icon: "building", title: "Edificios comerciales", body: "Control de acceso para uso mixto de oficinas, hoteles, centros comerciales y residencial." },
+    { icon: "transit", title: "Tránsito ferroviario", body: "Sistemas de acceso AFC, puertas de andén y flujo de pasajeros." },
+    { icon: "fast", title: "ETC en autopistas", body: "Control de carril rápido para vehículos e integración con sistemas de identificación." }
+  ],
+  vi: [
+    { icon: "parking", title: "Bãi đỗ xe", body: "Vào không cần vé, thanh toán khi ra và quản lý ra vào xe." },
+    { icon: "building", title: "Tòa nhà thương mại", body: "Kiểm soát lối vào cho văn phòng, khách sạn, trung tâm thương mại và khu dân cư hỗn hợp." },
+    { icon: "transit", title: "Giao thông đường sắt", body: "Hệ thống AFC, cửa chắn sân ga và kiểm soát luồng hành khách." },
+    { icon: "fast", title: "ETC trên đường cao tốc", body: "Điều khiển làn xe nhanh và tích hợp với hệ thống nhận diện." }
+  ],
+  ms: [
+    { icon: "parking", title: "Tempat letak kereta", body: "Kemasukan tanpa tiket, pembayaran keluar dan pengurusan akses kenderaan." },
+    { icon: "building", title: "Bangunan komersial", body: "Kawalan pintu masuk untuk pejabat, hotel, pusat membeli-belah dan kediaman bercampur." },
+    { icon: "transit", title: "Transit rel", body: "Sistem AFC, pintu platform dan kawalan aliran penumpang." },
+    { icon: "fast", title: "ETC lebuh raya", body: "Kawalan lorong pantas dan integrasi dengan sistem pengecaman." }
+  ],
+  th: [
+    { icon: "parking", title: "ลานจอดรถ", body: "เข้าโดยไม่ใช้ตั๋ว ชำระเงินตอนออก และการจัดการเข้าออกของรถ" },
+    { icon: "building", title: "อาคารพาณิชย์", body: "ควบคุมทางเข้าสำหรับสำนักงาน โรงแรม ห้างสรรพสินค้า และที่พักอาศัยแบบผสมผสาน" },
+    { icon: "transit", title: "ระบบขนส่งทางราง", body: "ระบบ AFC ประตูกั้นชานชาลา และควบคุมการเข้าออกของผู้โดยสาร" },
+    { icon: "fast", title: "ETC บนทางหลวง", body: "ควบคุมช่องทางความเร็วสูงและเชื่อมต่อกับระบบระบุตัวตน" }
+  ]
+};
+
+export const softwareFeatures: Record<LocaleKey, Array<{ title: string; body: string }>> = {
+  en: [
+    { title: "Local server deployment", body: "Install the parking platform on an on-site server for buyers who require offline operation or strict data residency." },
+    { title: "Cloud platform operation", body: "Run the platform on Batum's cloud infrastructure for fast rollout across multiple sites without local server maintenance." },
+    { title: "Global payment integration", body: "Connect country-specific payment gateways and QR/card methods for ticketless and unattended parking." },
+    { title: "Multilingual UI", body: "Operator and customer-facing screens can switch between languages to match local staff and drivers." },
+    { title: "API integration", body: "Open interfaces let system integrators connect the platform with existing property, ERP or access control systems." },
+    { title: "Parking data reporting", body: "Occupancy, revenue and lane usage reports help operators track performance and plan capacity." }
+  ],
+  "zh-hant": [
+    { title: "本地伺服器部署", body: "為需要離線運作或嚴格資料留存要求的買家，將停車平台安裝於現場伺服器。" },
+    { title: "雲端平台營運", body: "在巴圖姆雲端基礎架構上運行平台，快速在多個場站部署，無需維護本地伺服器。" },
+    { title: "全球支付整合", body: "串接各國支付閘道與 QR/信用卡付款方式，支援無人化與免票停車。" },
+    { title: "多語言介面", body: "操作端與客戶端畫面可切換語言，配合當地員工與駕駛使用。" },
+    { title: "API 整合", body: "開放介面讓系統整合商可將平台與既有物業、ERP 或門禁系統串接。" },
+    { title: "停車數據報表", body: "佔用率、營收與車道使用報表協助營運方追蹤績效並規劃產能。" }
+  ],
+  es: [
+    { title: "Despliegue en servidor local", body: "Instale la plataforma de parking en un servidor local para compradores que requieren operación sin conexión o residencia estricta de datos." },
+    { title: "Operación en plataforma cloud", body: "Ejecute la plataforma en la infraestructura cloud de Batum para un despliegue rápido en múltiples sitios sin mantener servidores locales." },
+    { title: "Integración de pagos globales", body: "Conecte pasarelas de pago específicas de cada país y métodos QR/tarjeta para parking sin boleto y desatendido." },
+    { title: "Interfaz multilingüe", body: "Las pantallas de operador y cliente pueden cambiar de idioma según el personal local y los conductores." },
+    { title: "Integración por API", body: "Las interfaces abiertas permiten a los integradores conectar la plataforma con sistemas existentes de propiedad, ERP o control de acceso." },
+    { title: "Informes de datos de parking", body: "Los informes de ocupación, ingresos y uso de carriles ayudan a los operadores a medir el rendimiento y planificar capacidad." }
+  ],
+  vi: [
+    { title: "Triển khai máy chủ nội bộ", body: "Cài đặt phần mềm bãi đỗ trên máy chủ tại chỗ cho khách hàng cần vận hành offline hoặc yêu cầu lưu trữ dữ liệu nghiêm ngặt." },
+    { title: "Vận hành trên nền tảng cloud", body: "Chạy phần mềm trên hạ tầng cloud của Batum để triển khai nhanh tại nhiều địa điểm mà không cần duy trì máy chủ nội bộ." },
+    { title: "Tích hợp thanh toán toàn cầu", body: "Kết nối cổng thanh toán theo từng quốc gia và phương thức QR/thẻ cho bãi đỗ không cần vé và không người trông." },
+    { title: "Giao diện đa ngôn ngữ", body: "Màn hình cho người vận hành và khách hàng có thể đổi ngôn ngữ phù hợp với nhân viên và lái xe địa phương." },
+    { title: "Tích hợp API", body: "Giao diện mở cho phép đơn vị tích hợp hệ thống kết nối phần mềm với hệ thống bất động sản, ERP hoặc kiểm soát ra vào hiện có." },
+    { title: "Báo cáo dữ liệu bãi đỗ", body: "Báo cáo tỷ lệ sử dụng, doanh thu và làn xe giúp đơn vị vận hành theo dõi hiệu suất và lập kế hoạch công suất." }
+  ],
+  ms: [
+    { title: "Pemasangan pelayan tempatan", body: "Pasang platform parkir pada pelayan di lokasi untuk pembeli yang memerlukan operasi luar talian atau keperluan kediaman data yang ketat." },
+    { title: "Operasi platform cloud", body: "Jalankan platform pada infrastruktur cloud Batum untuk pelancaran pantas merentasi pelbagai lokasi tanpa perlu menyelenggara pelayan tempatan." },
+    { title: "Integrasi bayaran global", body: "Sambungkan get bayaran mengikut negara dan kaedah QR/kad untuk parkir tanpa tiket dan tanpa pengawal." },
+    { title: "Antara muka pelbagai bahasa", body: "Skrin operator dan pelanggan boleh menukar bahasa mengikut kakitangan tempatan dan pemandu." },
+    { title: "Integrasi API", body: "Antara muka terbuka membolehkan pengintegrasi sistem menyambungkan platform dengan sistem hartanah, ERP atau kawalan akses sedia ada." },
+    { title: "Laporan data parkir", body: "Laporan kadar penggunaan, hasil dan penggunaan lorong membantu pengendali menjejaki prestasi dan merancang kapasiti." }
+  ],
+  th: [
+    { title: "การติดตั้งเซิร์ฟเวอร์ภายใน", body: "ติดตั้งซอฟต์แวร์ที่จอดรถบนเซิร์ฟเวอร์ภายในสถานที่ สำหรับผู้ซื้อที่ต้องการทำงานแบบออฟไลน์หรือมีข้อกำหนดด้านการเก็บข้อมูลที่เข้มงวด" },
+    { title: "การดำเนินงานบนคลาวด์", body: "รันซอฟต์แวร์บนโครงสร้างพื้นฐานคลาวด์ของ Batum เพื่อเปิดใช้งานได้รวดเร็วในหลายสถานที่โดยไม่ต้องดูแลเซิร์ฟเวอร์ภายใน" },
+    { title: "การเชื่อมต่อการชำระเงินทั่วโลก", body: "เชื่อมต่อเกตเวย์การชำระเงินตามแต่ละประเทศและวิธีการชำระผ่าน QR/บัตร สำหรับที่จอดรถแบบไม่ใช้ตั๋วและไม่มีเจ้าหน้าที่" },
+    { title: "อินเทอร์เฟซหลายภาษา", body: "หน้าจอสำหรับผู้ปฏิบัติงานและลูกค้าสามารถเปลี่ยนภาษาให้เหมาะกับพนักงานท้องถิ่นและผู้ขับขี่" },
+    { title: "การเชื่อมต่อ API", body: "อินเทอร์เฟซแบบเปิดให้ผู้รวมระบบเชื่อมต่อซอฟต์แวร์กับระบบอสังหาริมทรัพย์ ERP หรือระบบควบคุมทางเข้าที่มีอยู่" },
+    { title: "รายงานข้อมูลที่จอดรถ", body: "รายงานอัตราการใช้งาน รายได้ และการใช้ช่องทางช่วยให้ผู้ดำเนินงานติดตามประสิทธิภาพและวางแผนกำลังการรองรับ" }
+  ]
+};
+
+export const seoTopics: string[] = seoTopicsSeed;
 
 export const faqs: Record<LocaleKey, Array<{ q: string; a: string }>> = {
   en: [
