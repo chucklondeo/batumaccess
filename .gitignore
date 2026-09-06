@@ -12,6 +12,9 @@ out/
 build/
 dist/
 
+# packaged WordPress theme zip (built from wordpress-theme/batum-technology/, not source)
+wordpress-theme/*.zip
+
 # logs
 *.log
 npm-debug.log*
