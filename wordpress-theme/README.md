@@ -27,7 +27,18 @@ redeploy — WordPress saves straight to its database and the page updates immed
    zip, then **Activate**.
 3. Install and activate the **Polylang** plugin (Plugins → Add New → search
    "Polylang") for multi-language support.
-4. Install and activate **Contact Form 7** is *not* required — the Contact page
+4. Install and activate an SEO plugin — **Rank Math** (free, recommended) or
+   **Yoast SEO** (Plugins → Add New → search the name). Either one:
+   - generates and submits the XML sitemap (replaces the hand-written
+     `sitemap.ts` from the Next.js site)
+   - lets you set a custom SEO title/meta description per Product, Page, or
+     card, with a readability/keyword score while you write
+   - adds Organization/Product structured data automatically
+   - The theme doesn't print its own `<title>` or meta description tags (it
+     only calls `add_theme_support('title-tag')` and lets `wp_head()` do the
+     rest), so there's no conflict to clean up — the SEO plugin's output is
+     the only one that runs.
+5. Install and activate **Contact Form 7** is *not* required — the Contact page
    template posts straight to `sales@batumaccess.com` via FormSubmit.co, the same
    service the previous Next.js site used. The first submission after activating a
    new domain may need a confirmation click sent to that inbox — that's FormSubmit's
