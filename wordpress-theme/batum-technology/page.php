@@ -1,6 +1,6 @@
 <?php if (!defined('ABSPATH')) exit; get_header(); ?>
 
-<section class="section light-section">
+<section class="section">
   <div class="wrap">
     <?php while (have_posts()): the_post(); ?>
       <h1 class="page-title"><?php the_title(); ?></h1>

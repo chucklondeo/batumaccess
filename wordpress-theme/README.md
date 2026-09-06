@@ -1,105 +1,126 @@
-# Batum Technology WordPress theme
+# BATUM Technology WordPress site (v2)
 
-Replaces the earlier Next.js static site with a normal WordPress site, so staff can
-add products and content from `wp-admin` without touching code.
+Two pieces, per the "content survives a theme change" requirement:
+
+- **`batum-core`** (plugin) — all business logic: Products, Solutions,
+  Projects, Downloads, their taxonomies and fields, REST API support, and
+  Product/FAQ schema. Install this first.
+- **`batum-technology`** (theme) — presentation only. No page builder, no
+  ACF — every "no paid plugins" decision from Phase 1 is reflected here.
+
+See `docs/wordpress-migration/` in the repo root for the audit and
+architecture write-ups behind these decisions.
+
+## Install order
+
+1. **Plugin first**: zip the `batum-core` folder itself (so `batum-core.php`
+   sits at the zip's root), then in `wp-admin` → **Plugins → Add New Plugin
+   → Upload Plugin**, upload it, and **Activate**.
+2. **Theme second**: zip the `batum-technology` folder, then **Appearance →
+   Themes → Add New Theme → Upload Theme**, upload, **Activate**. (The theme
+   shows an admin notice if the plugin isn't active yet — activate the
+   plugin first to avoid it.)
+3. Install and activate **Polylang** (free) for multi-language support.
+4. Install and activate **Rank Math** (free) for SEO — sitemap, per-page SEO
+   title/description, Organization/Article schema, redirections, breadcrumbs.
+   The theme prints no title/meta tags of its own, so there's nothing to
+   conflict with.
+5. No page builder, no ACF, no Contact Form 7 needed — the Contact page
+   template posts straight to `sales@batumaccess.com` via FormSubmit.co (the
+   same service the original Next.js site used, chosen specifically because
+   this domain's `wp_mail()`/SMTP delivery was unreliable in the past — see
+   the Phase 1 audit).
 
 ## What's editable where
 
 | Content | Where in wp-admin |
 |---|---|
-| Products (name, description, specs, category, datasheet upload, photo) | **Products** menu → Add New Product |
-| Solutions cards | **Solutions** menu → Add New Solution |
-| Case study cards | **Cases** menu → Add New Case |
-| Software feature cards | **Software Features** menu → Add New Software Feature |
-| FAQ entries | **FAQ** menu → Add New FAQ Item |
-| About / Contact / SEO Hub page text | **Pages** — normal WordPress pages, edit like any page |
-| Company email shown in the footer / contact form target | `inc/theme-setup.php` → `BATUM_INQUIRY_EMAIL` constant (code change) |
+| Products (name, model, specs table, gallery, video, datasheet/manual/CAD, certifications, related products/solutions) | **Products** menu → Add New Product |
+| Solutions (challenge/approach/architecture/advantages, recommended products) | **Solutions** menu → Add New Solution |
+| Projects / case studies (country, customer, problem/solution/result, gallery) | **Projects** menu → Add New Project |
+| Downloads (any file + category + related product) | **Downloads** menu → Add New Download |
+| Blog / Technology Insights articles | **Posts** — native WordPress posts |
+| Home / About / Technology / Contact page text | **Pages** — edit like any normal page |
+| Product/Solution/Project/Download categories & Applications | Each CPT's own taxonomy screen (pre-seeded with the categories from the brief; add more anytime) |
+| SEO title, meta description, sitemap | Rank Math, per post/page |
+| Company inquiry email | `batum-core/batum-core.php` → `BATUM_INQUIRY_EMAIL` constant (code change) |
 
-Products, Solutions, Cases, Software Features and FAQ are **custom post types**: use
-**Add New** to create one, **Trash** to remove one. Nothing needs a code change or a
-redeploy — WordPress saves straight to its database and the page updates immediately.
+Every custom post type: **Add New** to create, **Trash** to remove — no code
+change or redeploy needed.
 
-## Install
+### The Specs table (the ACF-Pro-repeater replacement)
 
-1. Zip the `batum-technology` folder (the folder itself, so `style.css` sits at the
-   zip's root — not this `README.md`).
-2. In `wp-admin` → **Appearance → Themes → Add New Theme → Upload Theme**, upload the
-   zip, then **Activate**.
-3. Install and activate the **Polylang** plugin (Plugins → Add New → search
-   "Polylang") for multi-language support.
-4. Install and activate an SEO plugin — **Rank Math** (free, recommended) or
-   **Yoast SEO** (Plugins → Add New → search the name). Either one:
-   - generates and submits the XML sitemap (replaces the hand-written
-     `sitemap.ts` from the Next.js site)
-   - lets you set a custom SEO title/meta description per Product, Page, or
-     card, with a readability/keyword score while you write
-   - adds Organization/Product structured data automatically
-   - The theme doesn't print its own `<title>` or meta description tags (it
-     only calls `add_theme_support('title-tag')` and lets `wp_head()` do the
-     rest), so there's no conflict to clean up — the SEO plugin's output is
-     the only one that runs.
-5. Install and activate **Contact Form 7** is *not* required — the Contact page
-   template posts straight to `sales@batumaccess.com` via FormSubmit.co, the same
-   service the previous Next.js site used. The first submission after activating a
-   new domain may need a confirmation click sent to that inbox — that's FormSubmit's
-   normal one-time verification, not a bug.
+Each Product's "Technical Specifications" meta box is a free-form table:
+click **+ Add Row**, fill in Parameter / Value / Unit (e.g. `Rated Voltage |
+24 | VDC`), repeat as needed. This is `batum-core`'s hand-rolled equivalent
+of ACF Pro's repeater field — same editing experience, no license required.
 
 ### Create the pages
 
-Under **Pages → Add New**, create these pages. Set the **slug** (Permalink) exactly
-as shown, and pick the matching template under **Page Attributes → Template**:
+Under **Pages → Add New**:
 
 | Page title | Slug | Template |
 |---|---|---|
-| About | `about` | Default template |
+| About Batum | `about` | Default template |
+| Technology | `technology` | Technology |
 | Contact | `contact` | Contact |
-| Solutions | `solutions` | Solutions |
-| Cases | `cases` | Cases |
-| Software | `software` | Software |
-| FAQ | `faq` | FAQ |
-| SEO Hub | `seo-hub` | Default template |
 
-The homepage (`/`) is handled automatically by the theme (`front-page.php`) — no
-page needs to be created or set as the static homepage for it to work.
+**Do not** create Pages titled/slugged `products`, `solutions`, `projects`,
+or `downloads` — those URLs are already handled by the plugin's custom post
+type archives (`/products/`, `/solutions/`, `/projects/`, `/downloads/`);
+creating a Page with the same slug will conflict with it.
+
+The homepage (`/`) is handled automatically by the theme (`front-page.php`).
+The blog (`/blog/`) needs its "Posts page" set under **Settings → Reading**
+if you want a dedicated `/blog/` URL rather than the homepage showing posts.
 
 ### Set up the menu
 
-**Appearance → Menus** → create a menu, add the pages above plus a link to
-**Products** (the Products archive, listed under Custom Links as `/products/`), then
-assign it to the **Primary Menu** location.
+**Appearance → Menus** → build a menu with: Home, Products, Solutions,
+Technology, Applications *(optional — links to a taxonomy term, or skip)*,
+Projects, Downloads, Blog, About Batum, Contact. Assign it to **Primary
+Menu**. Until you do this, the theme shows a matching fallback menu
+automatically, so the site is navigable from the moment the theme activates.
 
-### Add the first products
+### Placeholder content
 
-**Products → Add New Product**:
-- Title = product name, Excerpt = short summary, main editor = full description
-- Pick a **Product Category** in the sidebar (Servo Barrier / Door Operator / Radar /
-  Accessories — pre-created by the theme)
-- Fill in **Specs** (one per line) and **SEO keywords** in the Product Details box
-- Click **Select or upload file** to attach the datasheet — this uses the real
-  WordPress media library, so the file persists and downloads correctly (unlike the
-  old Next.js admin panel's browser-only preview)
-- Set a **Featured Image** for the product photo
+**Tools → BATUM Seed Content** creates the 14 products named in the brief
+(24V Low Voltage Servo Controller, Fast Speed Barrier Gate, ETC Highway
+Barrier Gate, etc.) as **drafts** with placeholder descriptions and a couple
+of placeholder spec rows, in their correct categories — so every template
+(archive, single, homepage "Featured Products") can be reviewed end-to-end
+before real product content exists. Safe to click more than once — it skips
+any title that already exists. Replace the placeholder text, add real specs,
+photos, and datasheets, then publish each one for real.
 
 ### Multi-language content
 
-Polylang's model is one translated post per language, edited from its own `wp-admin`
-screen — it does not auto-translate. After activating Polylang and adding your
-languages (the previous site covered English, Traditional Chinese, Spanish,
-Vietnamese, Malay, Thai, Japanese and Korean), Polylang adds a language column to
-every post list and a "+" icon to create each language's version of a Product,
-Solution, Case, Software Feature, FAQ item, or Page. The theme has already
-registered these post types as translatable and pre-registered its button/form
-strings under **Languages → Translations** for you to fill in per language.
+Polylang's model is one translated post per language, edited from its own
+`wp-admin` screen — it does not auto-translate. `batum-core` and the theme
+both register their post types/taxonomies as Polylang-translatable and
+pre-register the theme's button/form strings under **Languages →
+Translations**. Start with English; add other languages in **Languages →
+Languages** whenever you're ready — nothing in the code assumes a fixed
+language list.
 
 ## Notes
 
-- The theme is plain PHP (no build step, no Node dependency) — this matches how
-  Hostinger's WordPress hosting normally works.
-- Visual styling reuses the previous site's dark "five-element" color palette
-  (`style.css`), but is a fresh, simpler implementation — animations and some finer
-  layout details from the Next.js site were not reproduced 1:1.
-- This theme was syntax-checked (`php -l`) on every file, but **has not been run
-  against a live WordPress install** — this sandbox has no outbound access to
-  wordpress.org to download WordPress core for a real test. Please do a pass through
-  every page after activating on your actual Hostinger WordPress site and report
-  anything that looks wrong.
+- Deliberately **no Bricks Builder, no ACF Pro, no Elementor** — every
+  custom field and repeater is hand-rolled in `batum-core`, per the "no paid
+  plugins, keep it universal" decision. See
+  `docs/wordpress-migration/phase-2-architecture.md` for the full plugin
+  stack and why.
+- Design direction: white/off-white base with graphite-black type, dark
+  navy sections for ~20–30% of each page, electric-blue accent — see
+  `batum-technology/style.css` for the token list (`--white`, `--navy`,
+  `--servo-blue`, etc).
+- Every PHP file in both the plugin and theme passes `php -l`, but **neither
+  has been run against a live WordPress install** — this sandbox has no
+  outbound access to wordpress.org to download WordPress core for an
+  end-to-end test. Please do a full pass (desktop + mobile, every page type,
+  the contact form, the seed-content button) on your actual Hostinger
+  WordPress site and report anything that looks wrong.
+- REST API is open by default for every custom post type
+  (`/wp-json/wp/v2/batum_product` etc.) for future automation, gated by
+  WordPress's normal authenticated-write / public-read behavior — nothing is
+  publicly writable without an application password.

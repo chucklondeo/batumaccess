@@ -20,7 +20,7 @@
           'theme_location' => 'primary',
           'container' => false,
           'items_wrap' => '<ul class="main-nav-list">%3$s</ul>',
-          'fallback_cb' => false
+          'fallback_cb' => 'batum_default_menu_fallback'
       ]);
       ?>
     </nav>
