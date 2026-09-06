@@ -24,7 +24,7 @@ export const websiteJsonLd = {
   "@type": "WebSite",
   name: "Batum Technology",
   url: "https://batumaccess.com",
-  inLanguage: ["en", "zh-Hant", "es", "vi", "ms", "th"]
+  inLanguage: ["en", "zh-Hant", "es", "vi", "ms", "th", "ja", "ko"]
 };
 
 export const faqJsonLd = {

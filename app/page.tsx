@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import { LandingPage } from "@/components/landing-page";
 import { organizationJsonLd, websiteJsonLd } from "@/data/seo";
+import { hreflangAlternates } from "@/data/site";
+
+export const metadata: Metadata = {
+  alternates: { languages: hreflangAlternates() }
+};
 
 export default function Home() {
   return (
