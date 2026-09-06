@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import seoTopicsSeed from "./seo-topics.json";
 
-export type LocaleKey = "en" | "zh-hant" | "es" | "vi" | "ms" | "th";
+export type LocaleKey = "en" | "zh-hant" | "es" | "vi" | "ms" | "th" | "ja" | "ko";
 export type PageSlug = "solutions" | "products" | "cases" | "software" | "about" | "contact" | "faq" | "seo-hub";
 
 export const defaultLocale: LocaleKey = "en";
@@ -27,8 +27,30 @@ export const locales: Array<{ key: LocaleKey; label: string; native: string; mar
   { key: "es", label: "Spanish", native: "Español", market: "Spain / LATAM" },
   { key: "vi", label: "Vietnamese", native: "Tiếng Việt", market: "Vietnam" },
   { key: "ms", label: "Malay", native: "Bahasa Melayu", market: "Malaysia" },
-  { key: "th", label: "Thai", native: "ไทย", market: "Thailand" }
+  { key: "th", label: "Thai", native: "ไทย", market: "Thailand" },
+  { key: "ja", label: "Japanese", native: "日本語", market: "Japan" },
+  { key: "ko", label: "Korean", native: "한국어", market: "South Korea" }
 ];
+
+const hreflangTag: Record<LocaleKey, string> = {
+  en: "en",
+  "zh-hant": "zh-Hant",
+  es: "es",
+  vi: "vi",
+  ms: "ms",
+  th: "th",
+  ja: "ja",
+  ko: "ko"
+};
+
+export function hreflangAlternates(slug?: PageSlug): Record<string, string> {
+  const entries: Record<string, string> = {};
+  for (const locale of locales) {
+    entries[hreflangTag[locale.key]] = localePath(locale.key, slug);
+  }
+  entries["x-default"] = localePath(defaultLocale, slug);
+  return entries;
+}
 
 export const pageSlugs: PageSlug[] = ["solutions", "products", "cases", "software", "about", "contact", "faq", "seo-hub"];
 
@@ -63,7 +85,9 @@ export const companyName: Record<LocaleKey, string> = {
   es: "Batum Technology",
   vi: "Batum Technology",
   ms: "Batum Technology",
-  th: "Batum Technology"
+  th: "Batum Technology",
+  ja: "Batum Technology",
+  ko: "Batum Technology"
 };
 
 export const aboutHighlights: Record<LocaleKey, string[]> = {
@@ -72,7 +96,9 @@ export const aboutHighlights: Record<LocaleKey, string[]> = {
   es: ["I+D en control de accionamiento", "Fabricación de hardware", "Sistemas servo de bajo voltaje", "Diseño de producto centrado en la seguridad"],
   vi: ["R&D điều khiển truyền động", "Sản xuất phần cứng", "Hệ thống servo điện áp thấp", "Thiết kế sản phẩm ưu tiên an toàn"],
   ms: ["R&D kawalan pemacu", "Pembuatan perkakasan", "Sistem servo voltan rendah", "Reka bentuk produk keutamaan keselamatan"],
-  th: ["วิจัยและพัฒนาระบบควบคุมไดรฟ์", "การผลิตฮาร์ดแวร์", "ระบบเซอร์โวแรงดันต่ำ", "ออกแบบผลิตภัณฑ์โดยเน้นความปลอดภัยเป็นหลัก"]
+  th: ["วิจัยและพัฒนาระบบควบคุมไดรฟ์", "การผลิตฮาร์ดแวร์", "ระบบเซอร์โวแรงดันต่ำ", "ออกแบบผลิตภัณฑ์โดยเน้นความปลอดภัยเป็นหลัก"],
+  ja: ["駆動制御の研究開発", "ハードウェア製造", "低電圧サーボシステム", "安全最優先の製品設計"],
+  ko: ["구동 제어 연구개발", "하드웨어 제조", "저전압 서보 시스템", "안전 최우선의 제품 설계"]
 };
 
 type Product = {
@@ -97,7 +123,9 @@ export const products: Product[] = [
       es: "Barrera vehicular servo de bajo voltaje",
       vi: "Barrier servo điện áp thấp",
       ms: "Palang servo voltan rendah",
-      th: "ไม้กั้นรถระบบเซอร์โวแรงดันต่ำ"
+      th: "ไม้กั้นรถระบบเซอร์โวแรงดันต่ำ",
+      ja: "低電圧サーボ式バリアゲート",
+      ko: "저전압 서보 차단기"
     },
     summary: {
       en: "Fast, stable and safety-focused parking lane barrier for commercial and public projects.",
@@ -105,7 +133,9 @@ export const products: Product[] = [
       es: "Barrera rápida y estable para carriles de estacionamiento comercial y público.",
       vi: "Barrier làn xe nhanh, ổn định và an toàn cho bãi đỗ thương mại và công cộng.",
       ms: "Palang parkir yang pantas, stabil dan selamat untuk projek komersial dan awam.",
-      th: "ไม้กั้นรถที่รวดเร็ว เสถียร และเน้นความปลอดภัยสำหรับลานจอดเชิงพาณิชย์และโครงการสาธารณะ"
+      th: "ไม้กั้นรถที่รวดเร็ว เสถียร และเน้นความปลอดภัยสำหรับลานจอดเชิงพาณิชย์และโครงการสาธารณะ",
+      ja: "商業施設・公共駐車場向けの高速・安定・安全性重視のレーンバリア。",
+      ko: "상업 및 공공 주차장을 위한 빠르고 안정적이며 안전 중심의 차선 차단기."
     },
     specs: {
       en: ["24V low-voltage servo control", "Smooth acceleration and braking", "Radar and loop detector ready"],
@@ -113,7 +143,9 @@ export const products: Product[] = [
       es: ["Control servo 24V", "Aceleración y frenado suaves", "Preparada para radar y lazo"],
       vi: ["Điều khiển servo 24V", "Tăng giảm tốc mượt", "Sẵn sàng kết nối radar và vòng từ"],
       ms: ["Kawalan servo 24V", "Pecutan dan brek lancar", "Sedia untuk radar dan loop detector"],
-      th: ["ควบคุมเซอร์โว 24V", "เร่งและเบรกนุ่มนวล", "รองรับเรดาร์และ loop detector"]
+      th: ["ควบคุมเซอร์โว 24V", "เร่งและเบรกนุ่มนวล", "รองรับเรดาร์และ loop detector"],
+      ja: ["24V低電圧サーボ制御", "スムーズな加減速", "レーダー・ループ検知器対応"],
+      ko: ["24V 저전압 서보 제어", "부드러운 가감속", "레이더 및 루프 감지기 지원"]
     },
     document: "/docs/servo-barrier-gate-datasheet.txt",
     keywords: ["servo barrier gate", "24V barrier gate", "parking barrier manufacturer"]
@@ -128,7 +160,9 @@ export const products: Product[] = [
       es: "Operador de puerta servo",
       vi: "Bộ mở cửa servo",
       ms: "Penggerak pintu servo",
-      th: "ชุดเปิดประตูเซอร์โว"
+      th: "ชุดเปิดประตูเซอร์โว",
+      ja: "サーボドアオペレーター",
+      ko: "서보 도어 오퍼레이터"
     },
     summary: {
       en: "Servo drive control for swing, sliding and pedestrian access door systems.",
@@ -136,7 +170,9 @@ export const products: Product[] = [
       es: "Control servo para puertas batientes, corredizas y accesos peatonales.",
       vi: "Điều khiển servo cho cửa mở quay, cửa trượt và lối đi bộ.",
       ms: "Kawalan servo untuk pintu ayun, gelangsar dan akses pejalan kaki.",
-      th: "ระบบควบคุมเซอร์โวสำหรับประตูบานสวิง บานเลื่อน และทางเดินคน"
+      th: "ระบบควบคุมเซอร์โวสำหรับประตูบานสวิง บานเลื่อน และทางเดินคน",
+      ja: "開き戸・引き戸・歩行者用ドアシステム向けのサーボ駆動制御。",
+      ko: "여닫이문, 미닫이문, 보행자 출입문 시스템을 위한 서보 구동 제어."
     },
     specs: {
       en: ["Low-noise movement", "Precise position control", "Access control integration"],
@@ -144,7 +180,9 @@ export const products: Product[] = [
       es: ["Movimiento silencioso", "Control preciso de posición", "Integración de control de acceso"],
       vi: ["Vận hành ít tiếng ồn", "Điều khiển vị trí chính xác", "Tích hợp kiểm soát ra vào"],
       ms: ["Pergerakan senyap", "Kawalan posisi tepat", "Integrasi kawalan akses"],
-      th: ["การทำงานเสียงต่ำ", "ควบคุมตำแหน่งแม่นยำ", "เชื่อมต่อระบบควบคุมทางเข้าออก"]
+      th: ["การทำงานเสียงต่ำ", "ควบคุมตำแหน่งแม่นยำ", "เชื่อมต่อระบบควบคุมทางเข้าออก"],
+      ja: ["低騒音動作", "高精度位置制御", "入退室管理システム連携"],
+      ko: ["저소음 작동", "정밀 위치 제어", "출입 통제 시스템 연동"]
     },
     document: "/docs/servo-door-operator-datasheet.txt",
     keywords: ["servo door operator", "automatic door control", "low voltage servo drive"]
@@ -159,7 +197,9 @@ export const products: Product[] = [
       es: "Radar de seguridad antiaplastamiento",
       vi: "Radar an toàn chống va chạm",
       ms: "Radar keselamatan anti-hentam",
-      th: "เรดาร์นิรภัยกันชนและกันหนีบ"
+      th: "เรดาร์นิรภัยกันชนและกันหนีบ",
+      ja: "衝突防止安全レーダー",
+      ko: "충돌·협착 방지 안전 레이더"
     },
     summary: {
       en: "Vehicle and pedestrian detection accessory for safer barrier and gate operation.",
@@ -167,7 +207,9 @@ export const products: Product[] = [
       es: "Accesorio de detección de vehículos y peatones para operaciones más seguras.",
       vi: "Phụ kiện phát hiện xe và người đi bộ, giúp vận hành an toàn hơn.",
       ms: "Aksesori pengesanan kenderaan dan pejalan kaki untuk operasi lebih selamat.",
-      th: "อุปกรณ์ตรวจจับรถและคนเดินเพื่อเพิ่มความปลอดภัยให้ไม้กั้นและประตู"
+      th: "อุปกรณ์ตรวจจับรถและคนเดินเพื่อเพิ่มความปลอดภัยให้ไม้กั้นและประตู",
+      ja: "バリアやゲートの安全な稼働のための車両・歩行者検知アクセサリー。",
+      ko: "바리케이드 및 게이트의 안전한 작동을 위한 차량·보행자 감지 액세서리."
     },
     specs: {
       en: ["Vehicle presence detection", "Anti-pinch safety logic", "Outdoor project ready"],
@@ -175,7 +217,9 @@ export const products: Product[] = [
       es: ["Detección de presencia vehicular", "Lógica anti-pinzamiento", "Lista para exterior"],
       vi: ["Phát hiện xe hiện diện", "Logic chống kẹt", "Phù hợp dự án ngoài trời"],
       ms: ["Pengesanan kehadiran kenderaan", "Logik anti-pinch", "Sesuai projek luar"],
-      th: ["ตรวจจับการมีอยู่ของรถ", "ตรรกะนิรภัยกันหนีบ", "พร้อมสำหรับโครงการกลางแจ้ง"]
+      th: ["ตรวจจับการมีอยู่ของรถ", "ตรรกะนิรภัยกันหนีบ", "พร้อมสำหรับโครงการกลางแจ้ง"],
+      ja: ["車両存在検知", "挟み込み防止安全ロジック", "屋外設置対応"],
+      ko: ["차량 감지", "협착 방지 안전 로직", "실외 프로젝트 지원"]
     },
     document: "/docs/safety-radar-datasheet.txt",
     keywords: ["barrier safety radar", "anti-smash radar", "anti-pinch radar"]
@@ -190,7 +234,9 @@ export const products: Product[] = [
       es: "Accesorios de control de acceso",
       vi: "Phụ kiện kiểm soát ra vào",
       ms: "Aksesori kawalan akses",
-      th: "อุปกรณ์เสริมควบคุมทางเข้าออก"
+      th: "อุปกรณ์เสริมควบคุมทางเข้าออก",
+      ja: "入退室管理アクセサリー",
+      ko: "출입 통제 액세서리"
     },
     summary: {
       en: "Controllers, sensors, wiring modules and integration parts for parking and access projects.",
@@ -198,7 +244,9 @@ export const products: Product[] = [
       es: "Controladores, sensores, cableado y piezas de integración para proyectos de acceso.",
       vi: "Bộ điều khiển, cảm biến, module dây và linh kiện tích hợp cho dự án.",
       ms: "Pengawal, sensor, modul pendawaian dan komponen integrasi projek.",
-      th: "คอนโทรลเลอร์ เซนเซอร์ โมดูลสายไฟ และชิ้นส่วนสำหรับรวมระบบ"
+      th: "คอนโทรลเลอร์ เซนเซอร์ โมดูลสายไฟ และชิ้นส่วนสำหรับรวมระบบ",
+      ja: "駐車場・入退室プロジェクト向けのコントローラー、センサー、配線モジュール、統合部品。",
+      ko: "주차 및 출입 통제 프로젝트를 위한 컨트롤러, 센서, 배선 모듈 및 통합 부품."
     },
     specs: {
       en: ["Modular wiring", "API and dry-contact support", "Project replacement parts"],
@@ -206,7 +254,9 @@ export const products: Product[] = [
       es: ["Cableado modular", "API y contacto seco", "Repuestos de proyecto"],
       vi: ["Đấu dây module", "Hỗ trợ API và tiếp điểm khô", "Linh kiện thay thế"],
       ms: ["Pendawaian modular", "Sokongan API dan dry contact", "Alat ganti projek"],
-      th: ["การเดินสายแบบโมดูล", "รองรับ API และ dry contact", "อะไหล่สำหรับโครงการ"]
+      th: ["การเดินสายแบบโมดูล", "รองรับ API และ dry contact", "อะไหล่สำหรับโครงการ"],
+      ja: ["モジュール式配線", "APIおよびドライ接点対応", "プロジェクト用交換部品"],
+      ko: ["모듈식 배선", "API 및 드라이 접점 지원", "프로젝트 교체 부품"]
     },
     document: "/docs/access-control-accessories.txt",
     keywords: ["access control accessories", "gate controller", "parking control parts"]
@@ -368,6 +418,52 @@ export const messages: Record<LocaleKey, Copy> = {
     contactIntro: "โปรดระบุประเทศ จำนวนเลน สินค้า และรูปแบบติดตั้งซอฟต์แวร์",
     firstSubmitNote: "คำถามจะถูกส่งไปที่ sales@batumaccess.com การใช้ FormSubmit ครั้งแรกอาจต้องยืนยันอีเมล",
     form: { name: "ชื่อ", company: "บริษัท", email: "Email", whatsapp: "WhatsApp", country: "ประเทศ", product: "สินค้า", message: "ข้อมูลโครงการ", submit: "ส่งคำถาม" }
+  },
+  ja: {
+    nav: { home: "ホーム", solutions: "ソリューション", products: "製品", cases: "導入事例", software: "ソフトウェア", about: "会社概要", contact: "お問い合わせ", faq: "よくある質問", "seo-hub": "インサイト", admin: "コンテンツ管理" },
+    heroTitle: "グローバルスマート駐車場・入退室管理技術",
+    heroBody: "国際的な駐車場、ゲート、交通プロジェクト向けの低電圧サーボハードウェア、安全レーダーアクセサリー、駐車場ソフトウェア。",
+    primaryCta: "お問い合わせ",
+    secondaryCta: "製品を見る",
+    homeKicker: companyName.ja,
+    sections: {
+      solutions: { kicker: "ソリューション", title: "車両・歩行者・交通アクセスのための統合システム", body: "サーボ制御、入退室ロジック、レーダー安全機能、ソフトウェア統合を組み合わせたモジュール型ソリューション。" },
+      products: { kicker: "製品", title: "サーボバリア、ドアオペレーター、レーダー、アクセサリーのカテゴリー", body: "各製品モジュールは資料、キーワード、今後のアップロード管理に対応した構成になっています。" },
+      cases: { kicker: "導入事例", title: "駐車場、商業施設、鉄道交通、ETCレーン向けの活用ページ", body: "業界別ページにより、実際のプロジェクトにおけるハードウェアとソフトウェアの適用方法を理解しやすくなります。" },
+      software: { kicker: "ソフトウェア", title: "ローカルサーバー、クラウドプラットフォーム、グローバル決済統合", body: "駐車場ソフトウェアはローカル展開、クラウド運用、多言語対応、各国の決済方法に対応可能です。" },
+      about: { kicker: "Batumについて", title: "低電圧サーボ入退室管理に特化した研究開発・製造企業", body: "Batumは入退室管理の駆動制御において高い研究開発力を持ち、総合的なハードウェア製造能力を備えた企業です。当社の製品は車両・歩行者の入退室管理の両方をカバーしており、高速バリアゲート、直動式歩行者ゲート、プラットフォームスクリーンドア、ドアオペレーターなど、すべて低電圧サーボソリューションとして構築されています。安全性が当社の第一の設計目標です。" },
+      contact: { kicker: "お問い合わせ", title: "Batum Technologyにプロジェクト要件をお送りください", body: "お問い合わせフォームの内容は sales@batumaccess.com に送信されます。" },
+      faq: { kicker: "よくある質問", title: "プロジェクトに関するよくある質問", body: "駐車場ハードウェア、入退室管理製品、ソフトウェア導入方法を比較検討中の購入者向けの明確な回答。" },
+      "seo-hub": { kicker: "インサイト", title: "検索流入拡大のための構造化コンテンツページ", body: "このセクションは製品知識、カテゴリー記事、市場別コンテンツを今後拡充していくために使用します。" }
+    },
+    productCategories: { "servo-barrier": "サーボバリア", "door-operator": "ドアオペレーター", radar: "レーダー", accessory: "アクセサリー" },
+    download: "資料をダウンロード",
+    contactIntro: "国、レーン数、必要な製品、ソフトウェアの導入方式をお知らせください。",
+    firstSubmitNote: "お問い合わせは sales@batumaccess.com に送信されます。初回のFormSubmit利用時はメールでの確認が必要な場合があります。",
+    form: { name: "お名前", company: "会社名", email: "メールアドレス", whatsapp: "WhatsApp", country: "国", product: "興味のある製品", message: "プロジェクト要件", submit: "お問い合わせを送信" }
+  },
+  ko: {
+    nav: { home: "홈", solutions: "솔루션", products: "제품", cases: "사례", software: "소프트웨어", about: "회사 소개", contact: "문의하기", faq: "자주 묻는 질문", "seo-hub": "인사이트", admin: "콘텐츠 관리" },
+    heroTitle: "글로벌 스마트 주차 및 출입 통제 기술",
+    heroBody: "국제 주차, 게이트, 교통 프로젝트를 위한 저전압 서보 하드웨어, 안전 레이더 액세서리, 주차 소프트웨어.",
+    primaryCta: "문의하기",
+    secondaryCta: "제품 보기",
+    homeKicker: companyName.ko,
+    sections: {
+      solutions: { kicker: "솔루션", title: "차량, 보행자 및 교통 출입을 위한 통합 시스템", body: "서보 제어, 출입 로직, 레이더 안전 기능, 소프트웨어 통합을 결합한 모듈형 솔루션." },
+      products: { kicker: "제품", title: "서보 바리케이드, 도어 오퍼레이터, 레이더 및 액세서리 카테고리", body: "각 제품 모듈은 데이터시트, 프로젝트 키워드, 향후 업로드 관리를 위해 구성되어 있습니다." },
+      cases: { kicker: "사례", title: "주차장, 건물, 철도 교통 및 ETC 차로를 위한 활용 페이지", body: "산업별 페이지는 구매자가 실제 프로젝트에서 하드웨어와 소프트웨어가 어떻게 적용되는지 이해하는 데 도움을 줍니다." },
+      software: { kicker: "소프트웨어", title: "로컬 서버, 클라우드 플랫폼 및 글로벌 결제 통합", body: "주차 소프트웨어는 로컬 배포, 클라우드 운영, 다국어 지원 및 국가별 결제 방식을 지원할 수 있습니다." },
+      about: { kicker: "Batum 소개", title: "저전압 서보 출입 통제에 집중하는 연구개발 및 제조 기업", body: "Batum은 출입 통제 구동 제어 분야에서 강력한 연구개발 역량과 종합적인 하드웨어 제조 역량을 갖춘 기업입니다. 당사의 제품은 차량 및 보행자 출입 통제를 모두 아우르며, 고속 바리케이드 게이트, 직동식 보행자 게이트, 플랫폼 스크린도어, 도어 오퍼레이터 등 모두 저전압 서보 솔루션으로 구성되어 있습니다. 안전은 저희의 최우선 설계 목표입니다." },
+      contact: { kicker: "문의하기", title: "Batum Technology에 프로젝트 요구사항을 보내주세요", body: "문의 양식의 내용은 sales@batumaccess.com 으로 전송됩니다." },
+      faq: { kicker: "자주 묻는 질문", title: "프로젝트 관련 자주 묻는 질문", body: "주차 하드웨어, 출입 통제 제품, 소프트웨어 배포 방식을 비교 중인 구매자를 위한 명확한 답변." },
+      "seo-hub": { kicker: "인사이트", title: "검색 유입 성장을 위한 구조화된 콘텐츠 페이지", body: "이 섹션은 제품 지식, 카테고리별 콘텐츠, 시장별 콘텐츠를 지속적으로 확장하는 데 사용됩니다." }
+    },
+    productCategories: { "servo-barrier": "서보 바리케이드", "door-operator": "도어 오퍼레이터", radar: "레이더", accessory: "액세서리" },
+    download: "데이터시트 다운로드",
+    contactIntro: "국가, 차로 수, 필요한 제품 및 소프트웨어 배포 방식을 알려주세요.",
+    firstSubmitNote: "문의 내용은 sales@batumaccess.com 으로 전송됩니다. FormSubmit 최초 사용 시 이메일 확인이 필요할 수 있습니다.",
+    form: { name: "이름", company: "회사명", email: "이메일", whatsapp: "WhatsApp", country: "국가", product: "관심 제품", message: "프로젝트 요구사항", submit: "문의 보내기" }
   }
 };
 
@@ -409,6 +505,18 @@ export const solutionCards: Record<LocaleKey, CardItem[]> = {
     { icon: "transit", title: "การเข้าถึงระบบขนส่งทางราง", body: "ประตู AFC การควบคุมประตูกั้นชานชาลา และการเชื่อมต่อระบบเข้าออกสถานี" },
     { icon: "operator", title: "การควบคุมชุดเปิดประตู", body: "ตรรกะการขับเคลื่อนเซอร์โวแรงดันต่ำสำหรับการเคลื่อนที่ของประตูและไม้กั้นอัตโนมัติ" },
     { icon: "safety", title: "เรดาร์นิรภัย", body: "การตรวจจับป้องกันการชนและหนีบเพื่อความปลอดภัยของรถและคนเดิน" }
+  ],
+  ja: [
+    { icon: "parking", title: "スマート駐車場", body: "ナンバープレート認識、バリア制御、レーダー保護、駐車料金決済のワークフロー。" },
+    { icon: "transit", title: "鉄道交通アクセス", body: "AFCゲート、プラットフォームスクリーンドア制御、駅構内アクセス統合。" },
+    { icon: "operator", title: "ドアオペレーター制御", body: "自動ドア・ゲート動作のための低電圧サーボ駆動ロジック。" },
+    { icon: "safety", title: "安全レーダー", body: "車両・歩行者の安全のための衝突・挟み込み防止検知。" }
+  ],
+  ko: [
+    { icon: "parking", title: "스마트 주차", body: "번호판 인식, 차단기 제어, 레이더 보호, 주차 결제 워크플로우." },
+    { icon: "transit", title: "철도 교통 출입", body: "AFC 게이트, 플랫폼 스크린도어 제어, 역사 출입 통합." },
+    { icon: "operator", title: "도어 오퍼레이터 제어", body: "자동문 및 게이트 작동을 위한 저전압 서보 구동 로직." },
+    { icon: "safety", title: "안전 레이더", body: "차량 및 보행자 안전을 위한 충돌·협착 방지 감지." }
   ]
 };
 
@@ -448,6 +556,18 @@ export const caseCards: Record<LocaleKey, CardItem[]> = {
     { icon: "building", title: "อาคารพาณิชย์", body: "ควบคุมทางเข้าสำหรับสำนักงาน โรงแรม ห้างสรรพสินค้า และที่พักอาศัยแบบผสมผสาน" },
     { icon: "transit", title: "ระบบขนส่งทางราง", body: "ระบบ AFC ประตูกั้นชานชาลา และควบคุมการเข้าออกของผู้โดยสาร" },
     { icon: "fast", title: "ETC บนทางหลวง", body: "ควบคุมช่องทางความเร็วสูงและเชื่อมต่อกับระบบระบุตัวตน" }
+  ],
+  ja: [
+    { icon: "parking", title: "駐車場", body: "チケットレス入場、出場時決済、車両アクセス管理。" },
+    { icon: "building", title: "商業施設", body: "オフィス、ホテル、モール、住宅複合施設の入口管理。" },
+    { icon: "transit", title: "鉄道交通", body: "AFC、プラットフォームスクリーンドア、旅客動線アクセスシステム。" },
+    { icon: "fast", title: "高速道路ETC", body: "高速車線制御と識別システムとの統合。" }
+  ],
+  ko: [
+    { icon: "parking", title: "주차장", body: "무티켓 입차, 출차 시 결제, 차량 출입 관리." },
+    { icon: "building", title: "상업용 건물", body: "오피스, 호텔, 몰, 주거 복합시설의 출입 통제." },
+    { icon: "transit", title: "철도 교통", body: "AFC, 플랫폼 스크린도어, 승객 동선 출입 시스템." },
+    { icon: "fast", title: "고속도로 ETC", body: "고속 차로 제어 및 식별 시스템 통합." }
   ]
 };
 
@@ -499,6 +619,22 @@ export const softwareFeatures: Record<LocaleKey, Array<{ title: string; body: st
     { title: "อินเทอร์เฟซหลายภาษา", body: "หน้าจอสำหรับผู้ปฏิบัติงานและลูกค้าสามารถเปลี่ยนภาษาให้เหมาะกับพนักงานท้องถิ่นและผู้ขับขี่" },
     { title: "การเชื่อมต่อ API", body: "อินเทอร์เฟซแบบเปิดให้ผู้รวมระบบเชื่อมต่อซอฟต์แวร์กับระบบอสังหาริมทรัพย์ ERP หรือระบบควบคุมทางเข้าที่มีอยู่" },
     { title: "รายงานข้อมูลที่จอดรถ", body: "รายงานอัตราการใช้งาน รายได้ และการใช้ช่องทางช่วยให้ผู้ดำเนินงานติดตามประสิทธิภาพและวางแผนกำลังการรองรับ" }
+  ],
+  ja: [
+    { title: "ローカルサーバー展開", body: "オフライン運用や厳格なデータ保管要件が必要な購入者向けに、駐車場プラットフォームをオンサイトサーバーに設置します。" },
+    { title: "クラウドプラットフォーム運用", body: "Batumのクラウドインフラ上でプラットフォームを稼働し、ローカルサーバーの保守なしで複数拠点への迅速な展開を実現します。" },
+    { title: "グローバル決済統合", body: "国別の決済ゲートウェイやQR/カード決済を接続し、チケットレス・無人駐車を実現します。" },
+    { title: "多言語UI", body: "オペレーター画面・顧客向け画面は、現地スタッフやドライバーに合わせて言語を切り替えられます。" },
+    { title: "API統合", body: "オープンなインターフェースにより、システムインテグレーターが既存の物件管理・ERP・入退室管理システムとプラットフォームを連携できます。" },
+    { title: "駐車データレポート", body: "稼働率、収益、車線利用状況のレポートにより、運営者はパフォーマンスの把握と容量計画を行えます。" }
+  ],
+  ko: [
+    { title: "로컬 서버 배포", body: "오프라인 운영이나 엄격한 데이터 보관 요건이 필요한 구매자를 위해 주차 플랫폼을 현장 서버에 설치합니다." },
+    { title: "클라우드 플랫폼 운영", body: "Batum의 클라우드 인프라에서 플랫폼을 운영하여 로컬 서버 유지보수 없이 여러 사이트에 신속하게 배포할 수 있습니다." },
+    { title: "글로벌 결제 통합", body: "국가별 결제 게이트웨이와 QR/카드 결제 방식을 연동하여 무티켓·무인 주차를 지원합니다." },
+    { title: "다국어 UI", body: "운영자 및 고객 화면은 현지 직원과 운전자에 맞게 언어를 전환할 수 있습니다." },
+    { title: "API 통합", body: "개방형 인터페이스를 통해 시스템 통합업체가 기존 부동산, ERP 또는 출입 통제 시스템과 플랫폼을 연동할 수 있습니다." },
+    { title: "주차 데이터 리포트", body: "점유율, 수익, 차로 이용 현황 리포트를 통해 운영자가 성과를 추적하고 용량을 계획할 수 있습니다." }
   ]
 };
 
@@ -534,6 +670,16 @@ export const faqs: Record<LocaleKey, Array<{ q: string; a: string }>> = {
     { q: "ซอฟต์แวร์ติดตั้งภายในได้หรือไม่?", a: "ได้ สามารถวางแผนเป็นเซิร์ฟเวอร์ภายในหรือแพลตฟอร์ม cloud ตามเงื่อนไขโครงการ" },
     { q: "มีหมวดสินค้าใดบ้าง?", a: "ไม้กั้นเซอร์โว ชุดเปิดประตูเซอร์โว เรดาร์นิรภัย และอุปกรณ์ควบคุมทางเข้าออก" },
     { q: "สินค้ามีเอกสารดาวน์โหลดได้หรือไม่?", a: "ได้ การ์ดสินค้ารองรับลิงก์ดาวน์โหลดเอกสารทางเทคนิค" }
+  ],
+  ja: [
+    { q: "Batumの駐車場ソフトウェアはローカル展開できますか？", a: "はい。プロジェクトのネットワークや運用要件に応じて、ローカルサーバー展開またはクラウドプラットフォーム運用を計画できます。" },
+    { q: "どのような製品カテゴリーがありますか？", a: "現在のカテゴリーには、低電圧サーボバリアゲート、サーボドアオペレーター、安全レーダーセンサー、入退室管理アクセサリーが含まれます。" },
+    { q: "製品にはダウンロード可能な資料がありますか？", a: "はい。製品カードは資料ダウンロードリンクに対応しており、コンテンツ管理画面で資料名やリンクの下書きを記録できます。" }
+  ],
+  ko: [
+    { q: "Batum 주차 소프트웨어를 로컬로 배포할 수 있나요?", a: "네. 프로젝트 네트워크와 운영 요구사항에 따라 로컬 서버 배포 또는 클라우드 플랫폼 운영으로 계획할 수 있습니다." },
+    { q: "어떤 제품 카테고리가 있나요?", a: "현재 카테고리에는 저전압 서보 바리케이드, 서보 도어 오퍼레이터, 안전 레이더 센서, 출입 통제 액세서리가 포함됩니다." },
+    { q: "제품에 다운로드 가능한 문서가 포함되나요?", a: "네. 제품 카드는 데이터시트 다운로드 링크를 지원하며, 콘텐츠 관리 화면에서 문서명과 초안 링크를 기록할 수 있습니다." }
   ]
 };
 
