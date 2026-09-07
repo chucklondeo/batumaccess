@@ -4,28 +4,43 @@ Two pieces, per the "content survives a theme change" requirement:
 
 - **`batum-core`** (plugin) — all business logic: Products, Solutions,
   Projects, Downloads, their taxonomies and fields, REST API support, and
-  Product/FAQ schema. Install this first.
-- **`batum-technology`** (theme) — presentation only. No page builder, no
-  ACF — every "no paid plugins" decision from Phase 1 is reflected here.
+  Product/FAQ schema. Install this first, always, regardless of which theme
+  option below you use.
+- **Theme — pick one:**
+  - **`batum-astra-child`** (recommended) — a child theme of the free
+    **Astra** theme. Astra (from the official WordPress.org theme
+    directory) provides the header, footer, nav menu and general theme
+    reliability; the child theme only overrides the Product/Solution/
+    Project/Download templates and layers on the brand palette. Use this
+    one — it's what fixed the "Your theme does not support navigation
+    menus" error the standalone theme hit on the first live install.
+  - **`batum-technology`** (standalone, kept for reference) — the original
+    from-scratch theme, no parent theme dependency. Hit a bug where
+    `register_nav_menus()` wasn't taking effect on at least one real
+    WordPress install; root cause not yet confirmed. Prefer the Astra
+    child theme above unless you specifically want to debug this one.
 
 See `docs/wordpress-migration/` in the repo root for the audit and
 architecture write-ups behind these decisions.
 
-## Install order
+## Install order (Astra child theme — recommended)
 
 1. **Plugin first**: zip the `batum-core` folder itself (so `batum-core.php`
    sits at the zip's root), then in `wp-admin` → **Plugins → Add New Plugin
    → Upload Plugin**, upload it, and **Activate**.
-2. **Theme second**: zip the `batum-technology` folder, then **Appearance →
-   Themes → Add New Theme → Upload Theme**, upload, **Activate**. (The theme
-   shows an admin notice if the plugin isn't active yet — activate the
-   plugin first to avoid it.)
-3. Install and activate **Polylang** (free) for multi-language support.
-4. Install and activate **Rank Math** (free) for SEO — sitemap, per-page SEO
+2. **Astra (parent theme)**: **Appearance → Themes → Add New Theme**, search
+   "Astra", **Install**. You don't need to Activate it — the child theme
+   pulls it in automatically as its template.
+3. **`batum-astra-child` (child theme)**: zip the `batum-astra-child` folder,
+   then **Appearance → Themes → Add New Theme → Upload Theme**, upload, and
+   **Activate**. (Shows an admin notice if `batum-core` isn't active yet —
+   activate the plugin first to avoid it.)
+4. Install and activate **Polylang** (free) for multi-language support.
+5. Install and activate **Rank Math** (free) for SEO — sitemap, per-page SEO
    title/description, Organization/Article schema, redirections, breadcrumbs.
    The theme prints no title/meta tags of its own, so there's nothing to
    conflict with.
-5. No page builder, no ACF, no Contact Form 7 needed — the Contact page
+6. No page builder, no ACF, no Contact Form 7 needed — the Contact page
    template posts straight to `sales@batumaccess.com` via FormSubmit.co (the
    same service the original Next.js site used, chosen specifically because
    this domain's `wp_mail()`/SMTP delivery was unreliable in the past — see
@@ -76,11 +91,11 @@ if you want a dedicated `/blog/` URL rather than the homepage showing posts.
 
 ### Set up the menu
 
-**Appearance → Menus** → build a menu with: Home, Products, Solutions,
-Technology, Applications *(optional — links to a taxonomy term, or skip)*,
-Projects, Downloads, Blog, About Batum, Contact. Assign it to **Primary
-Menu**. Until you do this, the theme shows a matching fallback menu
-automatically, so the site is navigable from the moment the theme activates.
+**Appearance → Menus** (this screen only appears once a theme that supports
+menus is active — the Astra child theme does, inheriting it from Astra) →
+build a menu with: Home, Products, Solutions, Technology, Applications
+*(optional — links to a taxonomy term, or skip)*, Projects, Downloads, Blog,
+About Batum, Contact. Assign it to Astra's **Primary Menu** location.
 
 ### Placeholder content
 
