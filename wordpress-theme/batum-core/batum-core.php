@@ -22,6 +22,7 @@ require BATUM_CORE_PATH . 'includes/cpt-download.php';
 require BATUM_CORE_PATH . 'includes/schema.php';
 require BATUM_CORE_PATH . 'includes/polylang.php';
 require BATUM_CORE_PATH . 'includes/admin-dashboard.php';
+require BATUM_CORE_PATH . 'includes/site-content.php';
 require BATUM_CORE_PATH . 'includes/seed-content.php';
 
 function batum_core_flush_rewrite() {
