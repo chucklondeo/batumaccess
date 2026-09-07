@@ -51,31 +51,32 @@ function batum_render_gallery_field($field_id, $label, $post_id) {
 }
 
 /**
- * Repeater field: rows of {parameter, value, unit}. Stored as JSON in post meta.
- * This is the free replacement for ACF Pro's repeater field, per the "no paid
- * plugins" decision.
+ * Generic repeater field: arbitrary text columns, stored as a JSON array of
+ * {column => value} rows in post meta. This is the free replacement for ACF
+ * Pro's repeater field, per the "no paid plugins" decision. $columns is an
+ * associative array of column key => column label, e.g.
+ * ['parameter' => 'Parameter', 'value' => 'Value', 'unit' => 'Unit'].
  */
-function batum_render_specs_repeater($field_id, $label, $post_id) {
+function batum_render_repeater($field_id, $label, $post_id, $columns) {
     $raw = get_post_meta($post_id, $field_id, true);
     $rows = $raw ? json_decode($raw, true) : [];
     if (!is_array($rows)) $rows = [];
+    $column_keys = array_keys($columns);
     ?>
     <p><strong><?php echo esc_html($label); ?></strong></p>
-    <table class="batum-repeater widefat" data-field="<?php echo esc_attr($field_id); ?>">
+    <table class="batum-repeater widefat" data-field="<?php echo esc_attr($field_id); ?>" data-columns="<?php echo esc_attr(implode(',', $column_keys)); ?>">
         <thead>
             <tr>
-                <th><?php _e('Parameter', 'batum-core'); ?></th>
-                <th><?php _e('Value', 'batum-core'); ?></th>
-                <th><?php _e('Unit', 'batum-core'); ?></th>
+                <?php foreach ($columns as $column_label): ?><th><?php echo esc_html($column_label); ?></th><?php endforeach; ?>
                 <th></th>
             </tr>
         </thead>
         <tbody class="batum-repeater-rows">
             <?php if ($rows): foreach ($rows as $row): ?>
                 <tr>
-                    <td><input type="text" class="widefat" data-key="parameter" value="<?php echo esc_attr($row['parameter'] ?? ''); ?>"></td>
-                    <td><input type="text" class="widefat" data-key="value" value="<?php echo esc_attr($row['value'] ?? ''); ?>"></td>
-                    <td><input type="text" class="widefat" data-key="unit" value="<?php echo esc_attr($row['unit'] ?? ''); ?>"></td>
+                    <?php foreach ($column_keys as $key): ?>
+                        <td><input type="text" class="widefat" data-key="<?php echo esc_attr($key); ?>" value="<?php echo esc_attr($row[$key] ?? ''); ?>"></td>
+                    <?php endforeach; ?>
                     <td><button type="button" class="button batum-repeater-remove">&times;</button></td>
                 </tr>
             <?php endforeach; endif; ?>
@@ -86,18 +87,37 @@ function batum_render_specs_repeater($field_id, $label, $post_id) {
     <?php
 }
 
-/** Serialize repeater rows from $_POST (built by assets/js/repeater.js) back to JSON before save. */
+/** Technical Specifications repeater: Parameter / Value / Unit columns. */
+function batum_render_specs_repeater($field_id, $label, $post_id) {
+    batum_render_repeater($field_id, $label, $post_id, [
+        'parameter' => __('Parameter', 'batum-core'),
+        'value' => __('Value', 'batum-core'),
+        'unit' => __('Unit', 'batum-core')
+    ]);
+}
+
+/** Key Features repeater: Title / Description / Icon columns. */
+function batum_render_features_repeater($field_id, $label, $post_id) {
+    batum_render_repeater($field_id, $label, $post_id, [
+        'title' => __('Feature Title', 'batum-core'),
+        'description' => __('Feature Description', 'batum-core'),
+        'icon' => __('Icon (dashicon slug, e.g. dashicons-shield)', 'batum-core')
+    ]);
+}
+
+/** Serialize repeater rows from $_POST (built by assets/js/repeater.js) back to JSON before save. Works for any column set. */
 function batum_save_specs_repeater($post_id, $field_id) {
     if (!isset($_POST[$field_id . '_json'])) return;
     $decoded = json_decode(stripslashes($_POST[$field_id . '_json']), true);
     if (!is_array($decoded)) $decoded = [];
     $clean = [];
     foreach ($decoded as $row) {
-        $clean[] = [
-            'parameter' => sanitize_text_field($row['parameter'] ?? ''),
-            'value' => sanitize_text_field($row['value'] ?? ''),
-            'unit' => sanitize_text_field($row['unit'] ?? '')
-        ];
+        if (!is_array($row)) continue;
+        $clean_row = [];
+        foreach ($row as $key => $value) {
+            $clean_row[sanitize_key($key)] = sanitize_text_field($value);
+        }
+        if (array_filter($clean_row, function ($value) { return $value !== ''; })) $clean[] = $clean_row;
     }
     update_post_meta($post_id, $field_id, wp_json_encode($clean));
 }

@@ -12,7 +12,7 @@ function batum_register_solution_cpt() {
         'has_archive' => 'solutions',
         'rewrite' => ['slug' => 'solutions'],
         'menu_icon' => 'dashicons-networking',
-        'menu_position' => 6,
+        'show_in_menu' => 'batum-cms',
         'supports' => ['title', 'editor', 'excerpt', 'thumbnail', 'revisions'],
         'show_in_rest' => true
     ]);
@@ -21,16 +21,19 @@ add_action('init', 'batum_register_solution_cpt');
 
 function batum_solution_meta_boxes() {
     add_meta_box('batum_solution_fields', __('Solution Details', 'batum-core'), 'batum_render_solution_box', 'batum_solution', 'normal', 'high');
+    add_meta_box('batum_solution_gallery', __('Project Photos', 'batum-core'), 'batum_render_solution_gallery_box', 'batum_solution', 'normal', 'default');
     add_meta_box('batum_solution_related', __('Recommended Products', 'batum-core'), 'batum_render_solution_related_box', 'batum_solution', 'side', 'default');
+    add_meta_box('batum_solution_faq', __('FAQ', 'batum-core'), 'batum_render_solution_faq_box', 'batum_solution', 'side', 'default');
+    add_meta_box('batum_solution_cta', __('Call To Action', 'batum-core'), 'batum_render_solution_cta_box', 'batum_solution', 'side', 'low');
 }
 add_action('add_meta_boxes', 'batum_solution_meta_boxes');
 
 function batum_render_solution_box($post) {
     wp_nonce_field('batum_solution_save', 'batum_solution_nonce');
     $fields = [
-        'batum_challenge' => __('The Challenge', 'batum-core'),
+        'batum_challenge' => __('Customer Pain Points', 'batum-core'),
         'batum_approach' => __('The BATUM Solution', 'batum-core'),
-        'batum_architecture' => __('System Architecture (describe or paste an image shortcode)', 'batum-core'),
+        'batum_architecture' => __('Solution Architecture (describe or paste an image shortcode)', 'batum-core'),
         'batum_advantages' => __('Advantages (one per line)', 'batum-core')
     ];
     foreach ($fields as $key => $label) {
@@ -38,11 +41,23 @@ function batum_render_solution_box($post) {
         echo '<p><label for="' . esc_attr($key) . '"><strong>' . esc_html($label) . '</strong></label><br>';
         echo '<textarea id="' . esc_attr($key) . '" name="' . esc_attr($key) . '" rows="3" class="widefat">' . esc_textarea($value) . '</textarea></p>';
     }
-    echo '<p class="description">' . esc_html__('The excerpt field above is used for the solution card summary shown on the Solutions listing page.', 'batum-core') . '</p>';
+    echo '<p class="description">' . esc_html__('The excerpt field above is the Introduction, used for the solution card summary on the Solutions listing page. Application Scenario is set via the Applications box on the right.', 'batum-core') . '</p>';
+}
+
+function batum_render_solution_gallery_box($post) {
+    batum_render_gallery_field('_batum_gallery', __('Project Photos', 'batum-core'), $post->ID);
 }
 
 function batum_render_solution_related_box($post) {
     batum_render_relation_field('_batum_related_products', __('Recommended Products', 'batum-core'), $post->ID, 'batum_product', $post->ID);
+}
+
+function batum_render_solution_faq_box($post) {
+    batum_render_relation_field('_batum_related_faqs', __('FAQ shown on this solution page', 'batum-core'), $post->ID, 'batum_faq', $post->ID);
+}
+
+function batum_render_solution_cta_box($post) {
+    batum_render_cta_select('_batum_cta', $post->ID);
 }
 
 function batum_save_solution_meta($post_id) {
@@ -51,6 +66,9 @@ function batum_save_solution_meta($post_id) {
     foreach (['batum_challenge', 'batum_approach', 'batum_architecture', 'batum_advantages'] as $key) {
         if (isset($_POST[$key])) update_post_meta($post_id, "_$key", sanitize_textarea_field($_POST[$key]));
     }
+    if (isset($_POST['_batum_gallery'])) update_post_meta($post_id, '_batum_gallery', sanitize_text_field($_POST['_batum_gallery']));
+    if (isset($_POST['_batum_cta'])) update_post_meta($post_id, '_batum_cta', sanitize_key($_POST['_batum_cta']));
     batum_save_relation_field($post_id, '_batum_related_products');
+    batum_save_relation_field($post_id, '_batum_related_faqs');
 }
 add_action('save_post_batum_solution', 'batum_save_solution_meta');
