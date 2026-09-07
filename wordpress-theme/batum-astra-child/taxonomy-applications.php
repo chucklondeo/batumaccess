@@ -1,7 +1,7 @@
 <?php if (!defined('ABSPATH')) exit; get_header();
 $term = get_queried_object();
 ?>
-
+<div class="batum-page">
 <section class="section section-off-white">
   <div class="wrap">
     <p class="kicker"><?php echo esc_html(batum_str('Applications')); ?></p>
@@ -20,4 +20,5 @@ $term = get_queried_object();
   </div>
 </section>
 
+</div>
 <?php get_footer(); ?>

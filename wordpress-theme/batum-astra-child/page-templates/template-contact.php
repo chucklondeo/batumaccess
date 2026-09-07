@@ -3,7 +3,7 @@
 if (!defined('ABSPATH')) exit; get_header();
 $requested_product = isset($_GET['product']) ? sanitize_text_field($_GET['product']) : '';
 ?>
-
+<div class="batum-page">
 <section class="section section-off-white">
   <div class="wrap" style="display:grid;gap:32px;grid-template-columns:1fr;max-width:900px;">
     <div>
@@ -53,4 +53,5 @@ $requested_product = isset($_GET['product']) ? sanitize_text_field($_GET['produc
   </div>
 </section>
 
+</div>
 <?php get_footer(); ?>

@@ -1,4 +1,5 @@
 <?php if (!defined('ABSPATH')) exit; get_header(); ?>
+<div class="batum-page">
 
 <section class="section">
   <div class="wrap">
@@ -15,4 +16,5 @@
   </div>
 </section>
 
+</div>
 <?php get_footer(); ?>
