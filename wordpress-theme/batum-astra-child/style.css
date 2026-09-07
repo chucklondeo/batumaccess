@@ -38,6 +38,25 @@ Text Domain: batum
 .batum-page { display: block; width: 100%; max-width: 100%; }
 .batum-page > * { width: 100%; }
 
+/* Language switcher (appended to the primary menu by functions.php) */
+.batum-lang-switcher { position: relative; }
+.batum-lang-switcher > a.batum-lang-current::after { content: " \25BE"; font-size: 10px; }
+.batum-lang-dropdown {
+  display: none; position: absolute; top: 100%; right: 0; z-index: 100;
+  min-width: 160px; margin: 0; padding: 6px; list-style: none;
+  background: var(--white); border: 1px solid var(--line); border-radius: 10px;
+  box-shadow: 0 12px 30px rgba(15,23,42,0.12);
+}
+.batum-lang-switcher:hover .batum-lang-dropdown,
+.batum-lang-switcher:focus-within .batum-lang-dropdown { display: block; }
+.batum-lang-dropdown li { list-style: none; margin: 0; }
+.batum-lang-dropdown a {
+  display: block; padding: 8px 12px; font-size: 13px; color: var(--graphite);
+  border-radius: 6px; white-space: nowrap;
+}
+.batum-lang-dropdown a:hover { background: var(--off-white); color: var(--servo-blue); }
+.batum-lang-dropdown li.lang-item-current a { color: var(--servo-blue); font-weight: 700; }
+
 /* Buttons */
 .btn {
   display: inline-flex; align-items: center; gap: 8px;
