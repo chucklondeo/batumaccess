@@ -3,7 +3,7 @@
 $current_term = get_query_var('download_category');
 $terms = get_terms(['taxonomy' => 'download_category', 'hide_empty' => false]);
 ?>
-
+<div class="batum-page">
 <section class="section">
   <div class="wrap">
     <p class="kicker"><?php echo esc_html(batum_str('Downloads')); ?></p>
@@ -37,4 +37,5 @@ $terms = get_terms(['taxonomy' => 'download_category', 'hide_empty' => false]);
   </div>
 </section>
 
+</div>
 <?php get_footer(); ?>

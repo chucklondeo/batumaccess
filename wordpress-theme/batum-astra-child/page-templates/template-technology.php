@@ -2,6 +2,7 @@
 /* Template Name: Technology */
 if (!defined('ABSPATH')) exit; get_header();
 ?>
+<div class="batum-page">
 
 <section class="section">
   <div class="wrap">
@@ -25,4 +26,5 @@ if (!defined('ABSPATH')) exit; get_header();
   </div>
 </section>
 
+</div>
 <?php get_footer(); ?>

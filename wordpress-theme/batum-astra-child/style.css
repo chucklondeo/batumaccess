@@ -27,6 +27,17 @@ Text Domain: batum
 
 .wrap { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
 
+/*
+ * Astra's content container uses flexbox for its content+sidebar layout.
+ * Every template in this theme outputs a single .batum-page wrapper as the
+ * only child of that container specifically so it isn't laid out as a flex
+ * item next to anything else — this just makes sure that one child fills
+ * the row and its own children (our <section> elements) stack normally via
+ * ordinary block flow, regardless of what the parent container does.
+ */
+.batum-page { display: block; width: 100%; max-width: 100%; }
+.batum-page > * { width: 100%; }
+
 /* Buttons */
 .btn {
   display: inline-flex; align-items: center; gap: 8px;
