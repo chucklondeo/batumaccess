@@ -12,7 +12,7 @@ function batum_register_project_cpt() {
         'has_archive' => 'projects',
         'rewrite' => ['slug' => 'projects'],
         'menu_icon' => 'dashicons-location-alt',
-        'menu_position' => 7,
+        'show_in_menu' => 'batum-cms',
         'supports' => ['title', 'editor', 'thumbnail', 'revisions'],
         'show_in_rest' => true
     ]);

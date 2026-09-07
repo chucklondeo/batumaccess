@@ -12,7 +12,7 @@ function batum_register_download_cpt() {
         'has_archive' => 'downloads',
         'rewrite' => ['slug' => 'downloads'],
         'menu_icon' => 'dashicons-media-document',
-        'menu_position' => 8,
+        'show_in_menu' => 'batum-cms',
         'supports' => ['title', 'editor', 'revisions'],
         'show_in_rest' => true
     ]);

@@ -42,20 +42,20 @@ jQuery(function ($) {
     frame.open();
   });
 
-  // --- Specs repeater ---
-  function rowTemplate() {
-    return '<tr>' +
-      '<td><input type="text" class="widefat" data-key="parameter"></td>' +
-      '<td><input type="text" class="widefat" data-key="value"></td>' +
-      '<td><input type="text" class="widefat" data-key="unit"></td>' +
-      '<td><button type="button" class="button batum-repeater-remove">&times;</button></td>' +
-      '</tr>';
+  // --- Generic repeater (columns come from the table's data-columns attribute) ---
+  function rowTemplate(columns) {
+    var cells = columns.map(function (key) {
+      return '<td><input type="text" class="widefat" data-key="' + key + '"></td>';
+    }).join('');
+    return '<tr>' + cells + '<td><button type="button" class="button batum-repeater-remove">&times;</button></td></tr>';
   }
 
   $(document).on('click', '.batum-repeater-add', function (e) {
     e.preventDefault();
     var field = $(this).data('field');
-    $('table.batum-repeater[data-field="' + field + '"] .batum-repeater-rows').append(rowTemplate());
+    var table = $('table.batum-repeater[data-field="' + field + '"]');
+    var columns = (table.data('columns') || '').toString().split(',').filter(Boolean);
+    table.find('.batum-repeater-rows').append(rowTemplate(columns));
   });
 
   $(document).on('click', '.batum-repeater-remove', function (e) {
@@ -63,17 +63,20 @@ jQuery(function ($) {
     $(this).closest('tr').remove();
   });
 
-  // Serialize every repeater table into its hidden JSON input right before WP saves the post.
-  $('#post').on('submit', function () {
-    $('table.batum-repeater').each(function () {
+  // Serialize every repeater table on the form into its hidden JSON input right before it submits.
+  $(document).on('submit', 'form', function () {
+    $(this).find('table.batum-repeater').each(function () {
       var field = $(this).data('field');
       var rows = [];
       $(this).find('tbody tr').each(function () {
         var row = {};
+        var hasValue = false;
         $(this).find('input').each(function () {
-          row[$(this).data('key')] = $(this).val();
+          var val = $(this).val();
+          row[$(this).data('key')] = val;
+          if (val) hasValue = true;
         });
-        if (row.parameter || row.value || row.unit) rows.push(row);
+        if (hasValue) rows.push(row);
       });
       $('#' + field + '_json').val(JSON.stringify(rows));
     });

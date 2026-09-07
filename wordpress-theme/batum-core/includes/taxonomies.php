@@ -33,8 +33,60 @@ function batum_register_taxonomies() {
         'rewrite' => ['slug' => 'downloads/category'],
         'show_in_rest' => true
     ]);
+
+    register_taxonomy('industries', ['batum_product', 'batum_solution', 'batum_project'], [
+        'labels' => ['name' => __('Industries', 'batum-core'), 'singular_name' => __('Industry', 'batum-core')],
+        'public' => true,
+        'hierarchical' => true,
+        'rewrite' => ['slug' => 'industries'],
+        'show_in_rest' => true
+    ]);
+
+    register_taxonomy('content_cluster', ['post', 'batum_product', 'batum_solution'], [
+        'labels' => ['name' => __('Content Clusters', 'batum-core'), 'singular_name' => __('Content Cluster', 'batum-core')],
+        'public' => true,
+        'hierarchical' => false,
+        'rewrite' => ['slug' => 'topic'],
+        'show_in_rest' => true
+    ]);
 }
 add_action('init', 'batum_register_taxonomies', 5);
+
+/** Content Cluster term meta: which page is the pillar page for that cluster, so SEO automation can find it. */
+function batum_register_content_cluster_term_meta() {
+    register_term_meta('content_cluster', 'pillar_page_id', ['type' => 'integer', 'single' => true, 'show_in_rest' => true]);
+}
+add_action('init', 'batum_register_content_cluster_term_meta');
+
+function batum_content_cluster_pillar_field($term) {
+    $pillar_id = $term instanceof WP_Term ? get_term_meta($term->term_id, 'pillar_page_id', true) : '';
+    $pillar_url = $pillar_id ? get_permalink($pillar_id) : '';
+    ?>
+    <tr class="form-field">
+        <th scope="row"><label for="batum_pillar_page_id"><?php _e('Pillar Page ID', 'batum-core'); ?></label></th>
+        <td>
+            <input type="number" name="batum_pillar_page_id" id="batum_pillar_page_id" value="<?php echo esc_attr($pillar_id); ?>">
+            <p class="description">
+                <?php _e('Post/Page ID of this cluster\'s pillar page.', 'batum-core'); ?>
+                <?php if ($pillar_url): ?><br><a href="<?php echo esc_url($pillar_url); ?>" target="_blank"><?php echo esc_html($pillar_url); ?></a><?php endif; ?>
+            </p>
+        </td>
+    </tr>
+    <?php
+}
+add_action('content_cluster_edit_form_fields', 'batum_content_cluster_pillar_field');
+add_action('content_cluster_add_form_fields', function () {
+    echo '<div class="form-field"><label for="batum_pillar_page_id">' . esc_html__('Pillar Page ID', 'batum-core') . '</label>';
+    echo '<input type="number" name="batum_pillar_page_id" id="batum_pillar_page_id" value=""></div>';
+});
+
+function batum_save_content_cluster_pillar($term_id) {
+    if (isset($_POST['batum_pillar_page_id'])) {
+        update_term_meta($term_id, 'pillar_page_id', absint($_POST['batum_pillar_page_id']));
+    }
+}
+add_action('created_content_cluster', 'batum_save_content_cluster_pillar');
+add_action('edited_content_cluster', 'batum_save_content_cluster_pillar');
 
 function batum_seed_taxonomy_terms() {
     $product_categories = [
@@ -82,6 +134,20 @@ function batum_seed_taxonomy_terms() {
     ];
     foreach ($download_categories as $slug => $name) {
         if (!term_exists($slug, 'download_category')) wp_insert_term($name, 'download_category', ['slug' => $slug]);
+    }
+
+    $industries = [
+        'highway' => 'Highway',
+        'railway' => 'Railway',
+        'metro' => 'Metro',
+        'airport' => 'Airport',
+        'smart-parking-industry' => 'Smart Parking',
+        'commercial-building-industry' => 'Commercial Building',
+        'industrial-automation-industry' => 'Industrial Automation',
+        'transportation' => 'Transportation'
+    ];
+    foreach ($industries as $slug => $name) {
+        if (!term_exists($slug, 'industries')) wp_insert_term($name, 'industries', ['slug' => $slug]);
     }
 }
 add_action('init', 'batum_seed_taxonomy_terms', 20);

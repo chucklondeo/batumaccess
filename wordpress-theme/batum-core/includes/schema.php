@@ -40,6 +40,37 @@ function batum_output_product_schema() {
 add_action('wp_head', 'batum_output_product_schema');
 
 /**
+ * FAQPage schema sourced from the "FAQ" box on the current Product,
+ * Solution or Article's own edit screen (_batum_related_faqs). Separate
+ * from the [batum_faq]/[batum_faq_group] shortcode schema above, which
+ * still works for FAQs written directly into page content instead of the
+ * dedicated CPT.
+ */
+function batum_output_related_faq_schema() {
+    if (!function_exists('batum_get_related_faqs')) return;
+    if (!is_singular(['batum_product', 'batum_solution', 'post'])) return;
+    $post_id = get_the_ID();
+    if (!$post_id) return;
+
+    $faqs = batum_get_related_faqs($post_id);
+    if (!$faqs) return;
+
+    $schema = [
+        '@context' => 'https://schema.org',
+        '@type' => 'FAQPage',
+        'mainEntity' => array_map(function ($faq) {
+            return [
+                '@type' => 'Question',
+                'name' => get_the_title($faq),
+                'acceptedAnswer' => ['@type' => 'Answer', 'text' => wp_strip_all_tags(get_post_meta($faq->ID, '_batum_faq_answer', true))]
+            ];
+        }, $faqs)
+    ];
+    echo '<script type="application/ld+json">' . wp_json_encode($schema) . '</script>' . "\n";
+}
+add_action('wp_head', 'batum_output_related_faq_schema');
+
+/**
  * FAQ schema shortcode: [batum_faq q="Question" a="Answer text"] — wrap a
  * group in [batum_faq_group]...[/batum_faq_group] to emit one FAQPage block
  * covering every question inside it.
