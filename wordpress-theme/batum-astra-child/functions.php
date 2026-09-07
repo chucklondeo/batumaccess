@@ -72,3 +72,32 @@ add_action('init', 'batum_register_polylang_strings');
 function batum_str($text) {
     return function_exists('pll__') ? pll__($text) : $text;
 }
+
+/**
+ * Append a language switcher to the end of the primary nav menu, so it shows
+ * up automatically once Polylang has 2+ languages configured — no manual
+ * menu editing needed. Renders nothing if Polylang isn't active yet or only
+ * one language is configured.
+ */
+function batum_add_language_switcher_to_menu($items, $args) {
+    if (empty($args->theme_location) || $args->theme_location !== 'primary') return $items;
+    if (!function_exists('pll_the_languages')) return $items;
+
+    $languages = pll_the_languages([
+        'echo' => 0,
+        'hide_if_empty' => 1,
+        'show_flags' => 0,
+        'show_names' => 1,
+        'display_names_as' => 'name'
+    ]);
+    if (!$languages) return $items;
+
+    $current = function_exists('pll_current_language') ? pll_current_language('name') : '';
+    $switcher = '<li class="menu-item menu-item-has-children batum-lang-switcher">'
+        . '<a href="#" class="batum-lang-current">' . esc_html($current) . '</a>'
+        . '<ul class="sub-menu batum-lang-dropdown">' . $languages . '</ul>'
+        . '</li>';
+
+    return $items . $switcher;
+}
+add_filter('wp_nav_menu_items', 'batum_add_language_switcher_to_menu', 10, 2);
