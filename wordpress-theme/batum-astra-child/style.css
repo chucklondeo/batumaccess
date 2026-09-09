@@ -4,7 +4,7 @@ Theme URI: https://batumaccess.com
 Template: astra
 Author: Batum Technology
 Description: Astra child theme for Batum Technology. Astra (the parent theme, install and activate it first) provides the header, footer, nav menu and general theme chrome — this child theme only overrides the custom post type templates (Products/Solutions/Projects/Downloads, from the batum-core plugin) and layers on the brand's color palette and components. Requires the Astra parent theme and the batum-core plugin.
-Version: 1.2.0
+Version: 1.3.0
 Requires at least: 6.0
 Requires PHP: 7.4
 Text Domain: batum
@@ -79,10 +79,18 @@ Text Domain: batum
 
 /* Hero */
 .hero { padding: 90px 0 70px; }
-.hero-grid { display: grid; gap: 48px; align-items: center; }
+.hero-grid { display: grid; gap: 48px; align-items: start; }
 @media (min-width: 960px) { .hero-grid { grid-template-columns: 1.1fr 0.9fr; } }
-/* With only 1-3 products, the preview box must not stretch to match the (taller) headline column's height. */
-.hero-card-preview { align-self: start !important; }
+@media (min-width: 960px) { .hero-grid > *:first-child { padding-top: 6px; } }
+/*
+ * With only 1-3 products, the preview box must never stretch to match the
+ * (much taller) headline column's row height. align-items:start on the
+ * parent is the primary fix; height:fit-content on the box itself is a
+ * second, independent guarantee that holds even if something else forces
+ * this element to stretch — auto-sizing an explicit height value always
+ * wins over stretch sizing, whereas align-self alone does not.
+ */
+.hero-card-preview { align-self: start !important; height: fit-content !important; }
 .kicker { margin: 0 0 18px; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.22em; color: var(--servo-blue); }
 .hero h1 { font-size: clamp(38px, 5.2vw, 68px); font-weight: 700; letter-spacing: -0.035em; margin: 0 0 22px; color: var(--graphite); }
 .hero p.lede { max-width: 560px; font-size: 18px; line-height: 1.7; color: #4c5462; margin: 0 0 30px; }
