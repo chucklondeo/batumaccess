@@ -4,7 +4,7 @@ Theme URI: https://batumaccess.com
 Template: astra
 Author: Batum Technology
 Description: Astra child theme for Batum Technology. Astra (the parent theme, install and activate it first) provides the header, footer, nav menu and general theme chrome — this child theme only overrides the custom post type templates (Products/Solutions/Projects/Downloads, from the batum-core plugin) and layers on the brand's color palette and components. Requires the Astra parent theme and the batum-core plugin.
-Version: 1.1.0
+Version: 1.2.0
 Requires at least: 6.0
 Requires PHP: 7.4
 Text Domain: batum
@@ -81,6 +81,8 @@ Text Domain: batum
 .hero { padding: 90px 0 70px; }
 .hero-grid { display: grid; gap: 48px; align-items: center; }
 @media (min-width: 960px) { .hero-grid { grid-template-columns: 1.1fr 0.9fr; } }
+/* With only 1-3 products, the preview box must not stretch to match the (taller) headline column's height. */
+.hero-card-preview { align-self: start !important; }
 .kicker { margin: 0 0 18px; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.22em; color: var(--servo-blue); }
 .hero h1 { font-size: clamp(38px, 5.2vw, 68px); font-weight: 700; letter-spacing: -0.035em; margin: 0 0 22px; color: var(--graphite); }
 .hero p.lede { max-width: 560px; font-size: 18px; line-height: 1.7; color: #4c5462; margin: 0 0 30px; }

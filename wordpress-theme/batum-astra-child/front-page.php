@@ -13,18 +13,18 @@
         <a class="btn btn-secondary" href="<?php echo esc_url(home_url('/technology/')); ?>"><?php echo esc_html(batum_str('Discover Technology')); ?></a>
       </div>
     </div>
-    <div class="glass-card">
-      <div class="card-grid" style="grid-template-columns:repeat(2,1fr);">
-        <?php
-        $featured = new WP_Query(['post_type' => 'batum_product', 'posts_per_page' => 4]);
-        while ($featured->have_posts()): $featured->the_post();
-        ?>
-          <a class="glass-card" style="padding:18px;" href="<?php the_permalink(); ?>">
-            <h3 style="font-size:15px;"><?php the_title(); ?></h3>
-          </a>
-        <?php endwhile; wp_reset_postdata(); ?>
+    <?php $featured = new WP_Query(['post_type' => 'batum_product', 'posts_per_page' => 4]); ?>
+    <?php if ($featured->have_posts()): ?>
+      <div class="glass-card hero-card-preview">
+        <div class="card-grid" style="grid-template-columns:repeat(auto-fit,minmax(120px,1fr));align-content:start;">
+          <?php while ($featured->have_posts()): $featured->the_post(); ?>
+            <a class="glass-card" style="padding:18px;" href="<?php the_permalink(); ?>">
+              <h3 style="font-size:15px;"><?php the_title(); ?></h3>
+            </a>
+          <?php endwhile; wp_reset_postdata(); ?>
+        </div>
       </div>
-    </div>
+    <?php endif; ?>
   </div>
 </section>
 
